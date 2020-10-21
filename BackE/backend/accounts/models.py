@@ -6,13 +6,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     first_name = None
     last_name = None
-    username = None
-    email = models.EmailField('이메일', unique=True)
+    username = models.EmailField(unique=True)
+    # email = models.EmailField('이메일', unique=True)
     user_type = models.CharField(max_length=20, default='default') 
     profile_img = models.TextField()
     nickname = models.CharField(max_length=20)
-    is_active = models.BooleanField(default=False)
-
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    is_active = models.BooleanField(default=True)

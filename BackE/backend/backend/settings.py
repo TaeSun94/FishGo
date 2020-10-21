@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'geu!0x0(pyfx+h)nz$hx#uu7ii=l91m+a6hp8a9+chi)&2#f5l'
+SECRET_KEY = my_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -124,32 +124,16 @@ AUTH_PASSWORD_VALIDATORS = [
 SITE_ID = 1
 
 # EMAIL
-# EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']
-# EMAIL_USE_TLS = my_settings.EMAIL['EMAIL_USE_TLS']
-# EMAIL_PORT = my_settings.EMAIL['EMAIL_PORT']
-# EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
-# EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
-# EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS = my_settings.EMAIL['EMAIL_USE_TLS']
+EMAIL_PORT = my_settings.EMAIL['EMAIL_PORT']
+EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+SERVER_EMAIL = my_settings.EMAIL['SERVER_EMAIL']
 
 ####  로그아웃  ####
 ACCOUNT_LOGOUT_ON_GET = True
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/account/registration/confirm_email/?verification=1'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/account/registration/confirm_email/?verification=1'
-# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-# LOGIN_REDIRECT_URL = "/"
-# ACCOUNT_AUTHENTICATED_LOGOUT_REDIRECTS = True
-# ACCOUNT_LOGOUT_REDIRECT_URL = "/"
-# OLD_PASSWORD_FIELD_ENABLED = True
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
