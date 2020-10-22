@@ -3,7 +3,7 @@ SECRET_KEY = {
     'algorithm': 'HS256'
 }
 
-
+ 
 EMAIL = {
 'EMAIL_BACKEND' : 'django.core.mail.backends.smtp.EmailBackend',
 'EMAIL_USE_TLS' : True,
