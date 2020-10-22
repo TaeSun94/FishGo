@@ -1,7 +1,9 @@
-from django.conf.urls import url
-from rest_framework.routers import DefaultRouter
+from django.urls import path, include
+
 from api import views
 
 
-router = DefaultRouter(trailing_slash=False)
-urlpatterns = router.urls
+urlpatterns = [
+    path('fishes/', views.FishListAPIView.as_view()),
+    path('fishes/<int:pk>/', views.FishDetailAPIView.as_view()),
+]
