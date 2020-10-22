@@ -46,12 +46,9 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     'allauth.socialaccount.providers.kakao',
-    "django_filters",
 
     # CORS
     "corsheaders",
-
-
 
     'api',
     'accounts',
@@ -61,6 +58,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", # CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -140,9 +138,9 @@ ACCOUNT_LOGOUT_ON_GET = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -155,3 +153,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        "rest_framework.authentication.TokenAuthentication"
+    ],
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
