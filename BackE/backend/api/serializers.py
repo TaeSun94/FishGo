@@ -26,7 +26,6 @@ class FishSerializer(serializers.ModelSerializer):
 
 
 class UserFishSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True, many=False)
     fish = FishSerializer(read_only=True, many=False)
     class Meta:
         model = User_Fish

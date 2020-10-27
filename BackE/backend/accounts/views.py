@@ -36,12 +36,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import update_last_login
 from .serializers import CreateUserSerializer, LoginUserSerializer, UserSerializer
 from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
 
-
-
-class UserListView(generics.ListAPIView):
-    queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializer
 
 
 # 이메일 인증부
@@ -141,6 +137,27 @@ class LoginAPI(generics.GenericAPIView):
                         user, context=self.get_serializer_context()
                     ).data,
                 }
+            },
+            status=200
+        )
+
+
+class LogoutAPIView(APIView):
+    def post(self, request, format=None):
+        if request.user.is_anonymous:
+            return Response(
+                {
+                    "status": 401,
+                    "message": "Unauthorized",
+                },
+                status=401
+            )
+
+        request.user.auth_token.delete()
+        return Response(
+            {
+                "status": 200,
+                "message": "OK",
             },
             status=200
         )
