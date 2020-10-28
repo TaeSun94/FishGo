@@ -11,4 +11,4 @@ urlpatterns = [
     path('users/<int:pk>/catches', views.UserFishHistory.as_view()),
     path('fishes/<int:pk>/catches', views.UserFishListAPIView.as_view()),
     path('fishes/<int:pk>/catch', views.UserFishAPIView.as_view()),
-]
+] 

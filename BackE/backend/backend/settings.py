@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import my_settings
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -152,7 +153,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
@@ -163,4 +164,14 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+##CORS
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDENTIALS = True
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

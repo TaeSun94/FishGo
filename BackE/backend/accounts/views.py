@@ -120,7 +120,6 @@ class LoginAPI(generics.GenericAPIView):
                 {
                     "status": 400,
                     "message": "",
-                    "data": {}
                 },
                 status=400
             )
@@ -202,6 +201,26 @@ def get_token(request):
         update_last_login(None, user_now)
         
     return Response({'key': token.key}) 
+
+
+# 아이디 중복확인
+@api_view(['GET'])
+def check_username(request):
+    temp_name = request.GET.get('temp_name', None)
+    check = ""
+    if User.objects.filter(username=temp_name):
+        check = "exist"
+    else:
+        check = "notexist"
+
+    return Response(
+        {
+            "status": 200,
+            "message": "OK",
+            "check": check
+        },
+        status=200
+    )
 
 
 

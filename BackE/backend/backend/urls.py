@@ -6,6 +6,10 @@ from accounts import views
 # 이메일 인증
 from allauth.account.views import confirm_email as allauthemailconfirmation
 
+# 이미지 파일
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -24,4 +28,6 @@ urlpatterns = [
     # 카카오 로그인
     path('account/login/kakao/callback/', views.get_token, name='get_token'),
 
-]
+    # 아이디 중복체크
+    path('auth/check/', views.check_username, name='check_username'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

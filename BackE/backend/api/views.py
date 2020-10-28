@@ -192,6 +192,7 @@ class UserFishListAPIView(APIView):
 
 # 낚시하기(CRUD)
 class UserFishAPIView(APIView):
+    serializer_class = UserFishSerializer
     def get_user(self, request):
         if request.user.is_anonymous:
             raise NotAuthenticated()
@@ -228,10 +229,13 @@ class UserFishAPIView(APIView):
     def post(self, request, pk):
         try:
             user = self.get_user(request)   
+            # user = User.objects.filter(pk=1)[0]
             fish = get_object_or_404(Fish, pk=pk)
 
-            # 진짜 값으로 수정 필요
-            user_fishing = User_Fish(user=user, fish=fish, lat=128, lng=36, length=10)
+            if request.data.get('length'):
+                user_fishing = User_Fish(user=user, fish=fish, lat=request.data.get('lat'), lng=request.data.get('lng'), length=request.data.get('length'), img=request.FILES['img'])
+            else:
+                user_fishing = User_Fish(user=user, fish=fish, lat=request.data.get('lat'), lng=request.data.get('lng'), img=request.FILES['img'])
             user_fishing.save()
             serializer = UserFishSerializer(user_fishing)
             result = {
@@ -270,8 +274,10 @@ class UserFishAPIView(APIView):
         try:
             user = self.get_user(request)
             fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
-            
-            fish.length = float(request.data.get('length'))
+            if request.data.get('length'):
+                fish.length = float(request.data.get('length'))
+            else:
+                fish.length = None
             fish.save()
             serializer = UserFishSerializer(fish)
             result = {
