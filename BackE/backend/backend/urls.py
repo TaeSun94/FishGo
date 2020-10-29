@@ -26,7 +26,7 @@ urlpatterns = [
     path("auth/logout/", LogoutAPIView.as_view()),
 
     # 카카오 로그인
-    path('account/login/kakao/callback/', views.get_token, name='get_token'),
+    path('auth/callback/', views.get_token, name='get_token'),
 
     # 아이디 중복체크
     path('auth/check/', views.check_username, name='check_username'),

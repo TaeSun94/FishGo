@@ -66,11 +66,10 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 6 or len(request.data["password"]) < 4:
+        if len(request.data["username"]) < 8 or len(request.data["password"]) < 4:
             body = {
                 "status": 422,
-                "message": "short field",
-                "data": {}
+                "message": "Unprocessable Entity",
             }
             return Response(body, status=422)
 
@@ -118,10 +117,10 @@ class LoginAPI(generics.GenericAPIView):
         except:
             return Response(
                 {
-                    "status": 400,
-                    "message": "",
+                    "status": 404,
+                    "message": "Not Found",
                 },
-                status=400
+                status=404
             )
 
         user = serializer.validated_data
@@ -163,9 +162,9 @@ class LogoutAPIView(APIView):
 
 
 # 카카오 로그인
-@api_view(['GET'])
+@api_view(['POST'])
 def get_token(request):
-    access_token = request.GET.get('access_token', None)
+    access_token = request.data.get('access_token', None)
 
     # 유저정보 갖고오기
     url = 'https://kapi.kakao.com/v2/user/me'
@@ -204,14 +203,14 @@ def get_token(request):
 
 
 # 아이디 중복확인
-@api_view(['GET'])
+@api_view(['POST'])
 def check_username(request):
-    temp_name = request.GET.get('temp_name', None)
-    check = ""
+    temp_name = request.data.get('temp_name', None)
+    check = True
     if User.objects.filter(username=temp_name):
-        check = "exist"
+        check = True
     else:
-        check = "notexist"
+        check = False
 
     return Response(
         {

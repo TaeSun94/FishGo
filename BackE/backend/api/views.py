@@ -66,6 +66,12 @@ class FishListAPIView(APIView):
                 "data": { "fish" : serializer.data },
             }
             return Response(result, status=201)
+        else:
+            result = {
+                "status": 400,
+                "message": "Bad Request",
+            }
+            return Response(result, status=400)
 
 
 class FishDetailAPIView(APIView):
@@ -94,11 +100,11 @@ class FishDetailAPIView(APIView):
                         fish_list.append(record.fish_id)
 
                 # 로그인 한 유저가 해당 물고기 잡은 적 있는지
-                record = ""
+                record = True
                 if fish.id in fish_list:
-                    record = "yes"
+                    record = True
                 else:
-                    record = "no"
+                    record = False
 
                 serializer = FishSerializer(fish)
                 result = {
@@ -228,8 +234,8 @@ class UserFishAPIView(APIView):
 
     def post(self, request, pk):
         try:
-            user = self.get_user(request)   
-            # user = User.objects.filter(pk=1)[0]
+            # user = self.get_user(request)   
+            user = User.objects.filter(pk=1)[0]
             fish = get_object_or_404(Fish, pk=pk)
 
             if request.data.get('length'):

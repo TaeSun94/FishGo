@@ -12,7 +12,7 @@ from django.contrib.auth.models import update_last_login
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ["id", "username", "user_type", "profile_img"]
+        fields = ["id", "username", "user_type", "profile_img", "is_active"]
 
 
 # 회원가입
