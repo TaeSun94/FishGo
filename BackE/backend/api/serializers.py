@@ -26,8 +26,9 @@ class FishSerializer(serializers.ModelSerializer):
 
 
 class UserFishSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True, many=False)
     fish = FishSerializer(read_only=True, many=False)
+    img = serializers.ImageField(use_url=True)
+
     class Meta:
         model = User_Fish
         fields = [
@@ -37,6 +38,7 @@ class UserFishSerializer(serializers.ModelSerializer):
             "length",
             "lat",
             "lng",
+            "img",
             "date",
         ]
 

@@ -10,6 +10,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import generics
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -57,35 +59,311 @@ class FishListAPIView(APIView):
     def post(self, request):
         serializer = FishSerializer(data=request.data)
         if serializer.is_valid():
-            if serializer.is_valid():
-                serializer.save()
-                result = {
-                    "status": 201,
-                    "message": "Created",
-                    "data": { "fish" : serializer.data },
-                }
-                return Response(result, status=201)
+            serializer.save()
+            result = {
+                "status": 201,
+                "message": "Created",
+                "data": { "fish" : serializer.data },
+            }
+            return Response(result, status=201)
+        else:
+            result = {
+                "status": 400,
+                "message": "Bad Request",
+            }
+            return Response(result, status=400)
 
 
-# 유저가 잡은 물고기인지 확인하는 부분 추가 필요?
 class FishDetailAPIView(APIView):
     def get_object(self, pk):
         try:
             return Fish.objects.get(pk=pk)
         except Fish.DoesNotExist:
-            raise Http404
+            raise NotFound()
 
 
     def get(self, request, pk):
-        fish = self.get_object(pk)
-        serializer = FishSerializer(fish)
+        if request.user.is_anonymous:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        else:
+            try:
+                fish = self.get_object(pk)
+                catched = User_Fish.objects.filter(user_id=request.user.id)
+
+                fish_list = []
+                for record in catched:
+                    if record.fish_id not in fish_list:
+                        fish_list.append(record.fish_id)
+
+                # 로그인 한 유저가 해당 물고기 잡은 적 있는지
+                record = True
+                if fish.id in fish_list:
+                    record = True
+                else:
+                    record = False
+
+                serializer = FishSerializer(fish)
+                result = {
+                    "status": 200,
+                    "message": "OK",
+                    "data": { "fish" : serializer.data, "record": record },
+                }
+                return Response(result, status=200)
+            except NotFound:
+                result = {
+                    "status": 404,
+                    "message": "Not Found",
+                }
+                return Response(result, status=404)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
         result = {
             "status": 200,
             "message": "OK",
-            "data": { "fish" : serializer.data },
+            "data": { "users" : serializer.data },
         }
         return Response(result, status=200)
 
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.all()
+        try:
+            user = get_object_or_404(queryset, pk=pk)
+            serializer = UserSerializer(user)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "user" : serializer.data },
+            }
+            return Response(result, status=200)
+        except:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404)
+
+# 물고기별 낚시리스트
+class UserFishListAPIView(APIView):
+    def get_user(self, request):
+        if request.user.is_anonymous:
+            raise NotAuthenticated()
+        else:
+            user = request.user
+            return user
+            
+    def get(self, request, pk):
+        try:
+            user = self.get_user(request) 
+            fish = get_object_or_404(Fish, pk=pk)
+            catched = User_Fish.objects.filter(user_id=user.id, fish_id=fish.id)
+            serializer = UserFishSerializer(catched, many=True)
+            if serializer.data:                
+                result = {
+                    "status": 200,
+                    "message": "OK",
+                    "data": { "fishes" : serializer.data },
+                }
+                return Response(result, status=200)    
+
+            else:
+                result = {
+                    "status": 200,
+                    "message": "No Record",
+                }
+                return Response(result)   
+
+        except NotAuthenticated:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
+
+# 낚시하기(CRUD)
+class UserFishAPIView(APIView):
+    serializer_class = UserFishSerializer
+    def get_user(self, request):
+        if request.user.is_anonymous:
+            raise NotAuthenticated()
+        else:
+            user = request.user
+            return user
+    
+    def get(self, request, pk):
+        try:
+            user = self.get_user(request)
+            fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
+            serializer = UserFishSerializer(fish)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "fish" : serializer.data },
+            }
+            return Response(result, status=200)   
+
+        except NotAuthenticated:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404)        
 
 
+    def post(self, request, pk):
+        try:
+            # user = self.get_user(request)   
+            user = User.objects.filter(pk=1)[0]
+            fish = get_object_or_404(Fish, pk=pk)
 
+            if request.data.get('length'):
+                user_fishing = User_Fish(user=user, fish=fish, lat=request.data.get('lat'), lng=request.data.get('lng'), length=request.data.get('length'), img=request.FILES['img'])
+            else:
+                user_fishing = User_Fish(user=user, fish=fish, lat=request.data.get('lat'), lng=request.data.get('lng'), img=request.FILES['img'])
+            user_fishing.save()
+            serializer = UserFishSerializer(user_fishing)
+            result = {
+                "status": 201,
+                "message": "Created",
+                "data": { "user_fish" : serializer.data },
+            }
+            return Response(result, status=201) 
+
+            serializer = UserFishSerializer(data=request.data)
+            if serializer.is_valid():
+                if serializer.is_valid():
+                    serializer.save()
+                    result = {
+                        "status": 201,
+                        "message": "Created",
+                        "data": { "fish" : serializer.data },
+                    }
+                    return Response(result, status=201)
+
+        except NotAuthenticated:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
+
+    # length만 수정 가능?
+    def put(self, request, pk):
+        try:
+            user = self.get_user(request)
+            fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
+            if request.data.get('length'):
+                fish.length = float(request.data.get('length'))
+            else:
+                fish.length = None
+            fish.save()
+            serializer = UserFishSerializer(fish)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "fish" : serializer.data },
+            }
+            return Response(result, status=200)   
+
+            serializer = UserFishSerializer(data=request.data)
+            if serializer.is_valid():
+                if serializer.is_valid():
+                    serializer.save()
+                    result = {
+                        "status": 201,
+                        "message": "Created",
+                        "data": { "fish" : serializer.data },
+                    }
+                    return Response(result, status=201)
+
+        except NotAuthenticated:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
+
+
+    def delete(self, request, pk):    
+        try:
+            user = self.get_user(request)
+            fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
+            fish.delete()
+            result = {
+                "status": 200,
+                "message": "OK",
+            }
+            return Response(result, status=200) 
+
+        except NotAuthenticated:
+            result = {
+                "status": 401,
+                "message": "Unauthorized",
+            }
+            return Response(result, status=401) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
+
+
+# 유저가 낚시한 물고기 번호만(낚시 히스토리 아이콘 색칠 용)
+class UserFishHistory(APIView):
+    def get(self, request, pk):
+        # if request.user.is_anonymous:
+        #     result = {
+        #         "status": 401,
+        #         "message": "Unauthorized",
+        #     }
+        #     return Response(result, status=401) 
+        # else:
+        user = User.objects.get(pk=pk)
+        catched = User_Fish.objects.filter(user_id=user.id)
+
+        fish_list = []
+        for record in catched:
+            if record.fish_id not in fish_list:
+                fish_list.append(record.fish_id)
+
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": { "fishes" : fish_list },
+        }
+        return Response(result, status=200)                       
