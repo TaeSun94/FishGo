@@ -36,12 +36,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import update_last_login
 from .serializers import CreateUserSerializer, LoginUserSerializer, UserSerializer
 from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
 
-
-
-class UserListView(generics.ListAPIView):
-    queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializer
 
 
 # 이메일 인증부
@@ -70,11 +66,10 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 6 or len(request.data["password"]) < 4:
+        if len(request.data["username"]) < 8 or len(request.data["password"]) < 4:
             body = {
                 "status": 422,
-                "message": "short field",
-                "data": {}
+                "message": "Unprocessable Entity",
             }
             return Response(body, status=422)
 
@@ -122,11 +117,10 @@ class LoginAPI(generics.GenericAPIView):
         except:
             return Response(
                 {
-                    "status": 400,
-                    "message": "",
-                    "data": {}
+                    "status": 404,
+                    "message": "Not Found",
                 },
-                status=400
+                status=404
             )
 
         user = serializer.validated_data
@@ -146,10 +140,31 @@ class LoginAPI(generics.GenericAPIView):
         )
 
 
+class LogoutAPIView(APIView):
+    def post(self, request, format=None):
+        if request.user.is_anonymous:
+            return Response(
+                {
+                    "status": 401,
+                    "message": "Unauthorized",
+                },
+                status=401
+            )
+
+        request.user.auth_token.delete()
+        return Response(
+            {
+                "status": 200,
+                "message": "OK",
+            },
+            status=200
+        )
+
+
 # 카카오 로그인
-@api_view(['GET'])
+@api_view(['POST'])
 def get_token(request):
-    access_token = request.GET.get('access_token', None)
+    access_token = request.data.get('access_token', None)
 
     # 유저정보 갖고오기
     url = 'https://kapi.kakao.com/v2/user/me'
@@ -185,6 +200,26 @@ def get_token(request):
         update_last_login(None, user_now)
         
     return Response({'key': token.key}) 
+
+
+# 아이디 중복확인
+@api_view(['POST'])
+def check_username(request):
+    temp_name = request.data.get('temp_name', None)
+    check = True
+    if User.objects.filter(username=temp_name):
+        check = True
+    else:
+        check = False
+
+    return Response(
+        {
+            "status": 200,
+            "message": "OK",
+            "check": check
+        },
+        status=200
+    )
 
 
 
