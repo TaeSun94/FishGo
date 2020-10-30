@@ -88,7 +88,11 @@ class LoginScreen extends Component {
                         width:"100%",
                         padding:5,
                     }}>
-                        <Button title='회원가입'/>
+                        <Button title='회원가입'
+                            onPress={()=>{
+                                this.props.navigation.navigate('Signup')
+                            }}
+                        />
                     </View>
                     <View style={{
                         width:"100%",
