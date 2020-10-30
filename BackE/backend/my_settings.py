@@ -12,5 +12,5 @@ EMAIL = {
 'EMAIL_HOST_USER' : 'happy@likelion.org',                    
 'EMAIL_HOST_PASSWORD' : 'happy2564852!!',
 'SERVER_EMAIL' : 'GMAIL ID',
-'REDIRECT_PAGE' : 'http://127.0.0.1:8000/auth/login/'
+'REDIRECT_PAGE' : 'http://k3c206.p.ssafy.io:8000/auth/login/'
 }
