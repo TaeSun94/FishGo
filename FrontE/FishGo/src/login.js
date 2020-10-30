@@ -30,8 +30,7 @@ class LoginScreen extends Component {
                 height:'100%'
             }}>
                 <View style={{
-                    flex: 2,
-                    padding:30,
+                    margin: 30,
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
@@ -41,14 +40,13 @@ class LoginScreen extends Component {
                     }}>Fish~ Go!</Text>
                 </View>
                 <View style={{
-                    flex: 3,
-                    padding: 10,
+                    margin:30,
                     alignItems: 'center',
                     justifyContent:'center'
                 }}>
                     <View style={{
                         padding: 10,
-                        width:'75%'
+                        width:'100%'
                     }}>
                         <TextInput
                             style={{
@@ -64,7 +62,7 @@ class LoginScreen extends Component {
                     </View>
                     <View style={{
                         padding: 10,
-                        width:'75%'
+                        width:'100%'
                     }}>
                         <TextInput 
                             style={{
@@ -78,20 +76,22 @@ class LoginScreen extends Component {
                         />
                     </View>
                     <View style={{
-                        padding: 10,
-                        width:'60%',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
+                        width:"100%",
+                        padding:5,
                     }}>
-                        <Button title='로그인'
-                            onPress={()=>{
-                                this.props.navigation.navigate('Home')
-                            }}
-                        />
+                    <Button title='로그인'
+                        onPress={()=>{
+                            this.props.navigation.navigate('Home')
+                    }}/>
+                    </View>
+                    <View style={{
+                        width:"100%",
+                        padding:5,
+                    }}>
                         <Button title='회원가입'/>
                     </View>
                     <View style={{
-                        width:"60%",
+                        width:"100%",
                         padding:5,
                     }}>
                         <Button title='카카오 로그인'/>
