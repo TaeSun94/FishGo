@@ -15,7 +15,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/home';
-// import SignUpScreen from './src/signup';
+import SignUpScreen from './src/signup';
 import LoginScreen from './src/login';
 const Stack = createStackNavigator();
 
@@ -25,7 +25,7 @@ class App extends Component{
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Home" component={HomeScreen}/>
-          {/* <Stack.Screen name="Signup" component={SignUpScreen}/> */}
+          <Stack.Screen name="Signup" component={SignUpScreen}/>
           <Stack.Screen name="Login" component={LoginScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
