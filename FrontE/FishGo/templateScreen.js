@@ -9,15 +9,22 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
-  Text
+  Text,
+  SafeAreaView
 } from 'react-native';
 
 class ScreenTemplate extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Hello world</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.mainView}>
+          <Text style={styles.mainText}>Fish~ Go!</Text>
+        </View>
+        <View>
+
+
+        </View>
+      </SafeAreaView>
     )
   }
 }
@@ -28,6 +35,14 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mainView: {
+    padding:20,
+    alignItems: 'center',
+  },
+  mainText: {
+    fontWeight: 'bold',
+    fontSize:40,
   }
 });
 
