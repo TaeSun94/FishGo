@@ -47,7 +47,11 @@ class HomeScreen extends Component {
             marginRight: 50,
             alignItems:'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={()=>{
+            this.props.navigation.navigate('Collection')
+          }}
+          >
             <Text style={styles.btn}>내 도감 보러가기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
@@ -57,7 +61,11 @@ class HomeScreen extends Component {
             borderWidth:2,
             alignItems:'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={()=>{
+            this.props.navigation.navigate('Collection_insert')
+          }}
+          >
             <Text style={styles.btn}>물고기 판별</Text>
           </TouchableOpacity>
         </View>
