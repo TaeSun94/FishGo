@@ -12,12 +12,15 @@ import {
   Text,
   Button,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 
 class SignUpScreen extends Component {
     render() {
         return (
+            <SafeAreaView>
+                <ScrollView>
             <View style={{
                 // backgroundColor: '#2fa9ff',
                 width:'100%',
@@ -67,8 +70,16 @@ class SignUpScreen extends Component {
                         <Text>길이</Text>
                     </View>
                     
-                </View>        
+                </View>
+                <Button
+                    title="목록으로"
+                    onPress={()=>{
+                        this.props.navigation.navigate('Collection')
+                    }}
+                />
             </View>
+            </ScrollView>
+            </SafeAreaView>
         )
     }
 }
