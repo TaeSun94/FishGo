@@ -19,7 +19,7 @@ import {
 /*
 이름, 타입, 서식지, 먹이, 어획 금지 정보, 이미지, 먹을 수 있는지, 조리법
 */
-class CollectionInsert extends Component {
+class CollectionInsertScreen extends Component {
   renderRow(num) {
     return (
       <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
@@ -36,6 +36,7 @@ class CollectionInsert extends Component {
   }
   render() {
     const state =[1,2,3,4,5];
+    const {params} = this.props.route;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.mainView}>
@@ -44,13 +45,63 @@ class CollectionInsert extends Component {
         <ScrollView
           style={styles.scrollView}
         >
-          <View style={styles.subView}>
-            <Text>물고기 정보</Text>
-            {/* {
-                state.map((num) => { // This will render a row for each data element.
-                    return this.renderRow(num);
-                })
-            } */}
+          <View style={styles.mainContentView}>
+            <View style={styles.subcontentView}>
+              <View>
+                <Text style={{ fontSize: 30 }}>{params.fish_name}</Text>
+              </View>
+              <View style={{ paddingTop: 20, paddingLeft: 40 }}>
+                <Text>{params.uf_date}</Text>
+              </View>
+            </View>
+            <View style={styles.subcontentView}>
+              <View style={{
+                flexDirection: "column",
+                alignItems: 'center',
+              }}>
+                <Text>어종 타입</Text>
+                <Text>{params.fish_type}</Text>
+              </View>
+              <View style={{
+                flexDirection: "column",
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20
+              }}>
+                <Text>서식지</Text>
+                <Text>{params.fish_home}</Text>
+              </View>
+              <View style={{
+                flexDirection: "column",
+                alignItems: 'center'
+              }}>
+                <Text>길이</Text>
+                <Text>{params.uf_length}</Text>
+              </View>
+            </View>
+            <View style={styles.sub2ContentView}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start'
+              }}>
+                <Text>먹이 : </Text>
+                <Text>{params.fish_feed}</Text>
+              </View>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start'
+              }}>
+                <Text>포획 금지 조건 : </Text>
+                <Text>{params.fish_prohibition}</Text>
+              </View>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start'
+              }}>
+                <Text>조리법 : </Text>
+                <Text>{params.fish_receipe}</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.subView}>
             <Text>추가 정보</Text>
@@ -103,7 +154,23 @@ const styles = StyleSheet.create({
   },
   subView: {
     margin:10,
-  }
+  },
+  mainContentView:{
+    elevation: 8,
+    backgroundColor: '#fff',
+    flex: 1,
+    margin: 20,
+    padding:10,
+    width:'90%',
+    height: '100%',
+    alignItems:'center',
+    borderRadius: 15,
+  },
+  subcontentView:{
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
-export default CollectionInsert;
+export default CollectionInsertScreen;
