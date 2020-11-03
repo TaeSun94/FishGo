@@ -13,8 +13,25 @@ import {
   TouchableOpacity,
   Button
 } from 'react-native';
-
+import ImagePicker from 'react-native-image-picker';
 class HomeScreen extends Component {
+  state = {
+    avatar: ''
+  }
+  addImage = () => {
+    ImagePicker.showImagePicker({
+      title: '',
+      takePhotoButtonTitle: '사진 찍기',
+      chooseFromLibraryButtonTitle: '사진첩에서 불러오기',
+      cancelButtonTitle: '돌아가기'
+    }, response=> {
+      this.setState({
+        avatar: response.uri
+      })
+      this.props.navigation.navigate('Descrimination',{pic: this.state.avatar})
+    })
+    
+  }
   render() {
     return (
       <View style={{
@@ -47,7 +64,11 @@ class HomeScreen extends Component {
             marginRight: 50,
             alignItems:'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={()=>{
+            this.props.navigation.navigate('Collection')
+          }}
+          >
             <Text style={styles.btn}>내 도감 보러가기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{
@@ -57,7 +78,9 @@ class HomeScreen extends Component {
             borderWidth:2,
             alignItems:'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={()=>this.addImage()}
+          >
             <Text style={styles.btn}>물고기 판별</Text>
           </TouchableOpacity>
         </View>

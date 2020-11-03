@@ -10,20 +10,21 @@ import {
   StyleSheet,
   View,
   Text,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 
-class ScreenTemplate extends Component {
+class CollectionModify extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.mainView}>
           <Text style={styles.mainText}>Fish~ Go!</Text>
         </View>
-        <View>
+        <ScrollView>
+        
 
-
-        </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -46,4 +47,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ScreenTemplate;
+export default CollectionModify;
