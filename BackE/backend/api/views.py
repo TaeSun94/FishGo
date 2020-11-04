@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Fish, User_Fish
+from .models import Fish, User_Fish, Spot
 from accounts.models import User
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from .serializers import FishSerializer, UserFishSerializer, UserSerializer
+from .serializers import FishSerializer, UserFishSerializer, UserSerializer, SpotSerializer, SpotDetailSerializer
 from rest_framework import filters
 from rest_framework.exceptions import NotAuthenticated, NotFound, ValidationError
 from rest_framework.pagination import PageNumberPagination
@@ -41,6 +41,7 @@ class SmallPagination(PageNumberPagination):
 
 
 class FishListAPIView(APIView):
+    serializer_class = FishSerializer
     def get(self, request):
         keyword = self.request.query_params.get('keyword', None)
 
@@ -72,6 +73,54 @@ class FishListAPIView(APIView):
                 "message": "Bad Request",
             }
             return Response(result, status=400)
+
+    def put(self, request):
+        try:
+            fish = get_object_or_404(Fish, pk=request.data.get('fish_id'))
+            if request.data.get('fish_type'):
+                fish.fish_type = request.data.get('fish_type')
+            if request.data.get('habitat'):
+                fish.habitat = request.data.get('habitat')
+            if request.data.get('feed'):
+                fish.feed = request.data.get('feed')
+            if request.data.get('prohibition'):
+                fish.prohibition = request.data.get('prohibition')
+            if request.data.get('edibility'):
+                fish.edibility = request.data.get('edibility')
+            if request.data.get('recipe'):
+                fish.recipe = request.data.get('recipe')
+          
+            fish.save()
+            serializer = FishSerializer(fish)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "fish" : serializer.data },
+            }
+            return Response(result, status=200) 
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404)
+
+    def delete(self, request):    
+        try:
+            fish = get_object_or_404(Fish, pk=request.data.get('fish_id'))
+            fish.delete()
+            result = {
+                "status": 200,
+                "message": "OK",
+            }
+            return Response(result, status=200) 
+
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
 
 
 class FishDetailAPIView(APIView):
@@ -234,8 +283,8 @@ class UserFishAPIView(APIView):
 
     def post(self, request, pk):
         try:
-            # user = self.get_user(request)   
-            user = User.objects.filter(pk=1)[0]
+            user = self.get_user(request)   
+            # user = User.objects.filter(pk=1)[0]
             fish = get_object_or_404(Fish, pk=pk)
 
             if request.data.get('length'):
@@ -367,3 +416,58 @@ class UserFishHistory(APIView):
             "data": { "fishes" : fish_list },
         }
         return Response(result, status=200)                       
+
+
+# 낚시터-피쉬 점으로만
+class SpotFishAPIView(APIView):
+    def get(self, request):
+        keyword = self.request.query_params.get('keyword', None)
+
+        # 쭈꾸미 예외처리 필요
+        if keyword == '주꾸미' or keyword == '쭈꾸미':
+            fish1 = get_object_or_404(Fish, name='주꾸미')
+            fish2 = get_object_or_404(Fish, name='쭈꾸미')
+            # 여기 뭔가 이상
+            spots = Spot.objects.filter(fishes__in=[fish1.id, fish2.id])
+            serializer = SpotSerializer(spots, many=True)
+
+        elif keyword:
+            try:
+                fish = get_object_or_404(Fish, name=keyword)
+                spots = Spot.objects.filter(fishes__in=[fish.id])
+                serializer = SpotSerializer(spots, many=True)
+            except Http404:
+                result = {
+                    "status": 404,
+                    "message": "Not Found",
+                }
+                return Response(result, status=404) 
+        else:
+            serializer = SpotSerializer(Spot.objects.all(), many=True)
+
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": { "spots" : serializer.data },
+        }
+        return Response(result, status=200)
+
+
+class SpotDetailAPIView(APIView):
+    def get(self, request, pk):
+        try:
+            spot = get_object_or_404(Spot, pk=pk)
+            serializer = SpotDetailSerializer(spot)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "spot" : serializer.data },
+            }
+            return Response(result, status=200)
+
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 

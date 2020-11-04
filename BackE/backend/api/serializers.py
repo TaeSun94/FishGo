@@ -1,4 +1,4 @@
-from .models import Fish, User_Fish
+from .models import Fish, User_Fish, Spot
 from rest_framework import serializers
 
 
@@ -43,4 +43,25 @@ class UserFishSerializer(serializers.ModelSerializer):
         ]
 
 
+class SpotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Spot
+        fields = [
+            "id",
+            "lat",
+            "lng",
+        ]
 
+class SpotDetailSerializer(serializers.ModelSerializer):
+    fishes = FishSerializer(read_only=True, many=True)
+    class Meta:
+        model = Spot
+        fields = [
+            "id",
+            "name",
+            "lat",
+            "lng",
+            "tide",
+            "depth",
+            "fishes",
+        ]

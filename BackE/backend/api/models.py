@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.conf import settings
+import os
 
 class Fish(models.Model):
     name = models.CharField(max_length=20, null=False)
@@ -8,7 +9,7 @@ class Fish(models.Model):
     habitat = models.CharField(max_length=20, null=True)
     feed = models.CharField(max_length=50, null=True)
     prohibition = models.CharField(max_length=50, null=True)
-    image = models.TextField(null=True)  
+    image = models.ImageField(upload_to="statics") 
     edibility = models.CharField(max_length=50, null=True) 
     recipe = models.CharField(max_length=50, null=True) 
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='User_Fish', related_name="fish_users", through_fields=('fish', 'user'))
