@@ -12,6 +12,13 @@ import {
   View,
   Text,
 } from 'react-native';
+
+//상태관리
+import { Provider }from 'mobx-react';
+import stores from './store/index';
+
+
+//네비게이션
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/home';
@@ -26,22 +33,24 @@ const Stack = createStackNavigator();
 class App extends Component{
   render (){
     return (
-      <NavigationContainer>
-        <Stack.Navigator 
-          initialRouteName="Login"
-          screenOptions={{
-            headerShown:false
-          }}
-        >
-          <Stack.Screen name="Home" component={HomeScreen}/>
-          <Stack.Screen name="Signup" component={SignUpScreen}/>
-          <Stack.Screen name="Login" component={LoginScreen}/>
-          <Stack.Screen name="Collection_detail" component={CollectionDetailScreen}/>
-          <Stack.Screen name="Collection" component={CollectionScreen}/>
-          <Stack.Screen name="Collection_insert" component={CollectionInsertScreen}/>
-          <Stack.Screen name="Descrimination" component={DescriminationScreen}/>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider {...stores}>
+        <NavigationContainer>
+          <Stack.Navigator 
+            initialRouteName="Login"
+            screenOptions={{
+              headerShown:false
+            }}
+          >
+            <Stack.Screen name="Home" component={HomeScreen}/>
+            <Stack.Screen name="Signup" component={SignUpScreen}/>
+            <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="Collection_detail" component={CollectionDetailScreen}/>
+            <Stack.Screen name="Collection" component={CollectionScreen}/>
+            <Stack.Screen name="Collection_insert" component={CollectionInsertScreen}/>
+            <Stack.Screen name="Descrimination" component={DescriminationScreen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     )
   }
 };
