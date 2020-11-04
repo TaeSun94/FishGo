@@ -28,7 +28,12 @@ class HomeScreen extends Component {
       this.setState({
         avatar: response.uri
       })
-      this.props.navigation.navigate('Descrimination',{pic: this.state.avatar})
+      if(response !== null){
+        this.props.navigation.navigate('Descrimination',{pic: this.state.avatar})
+      }
+      else{
+        this.props.navigation.navigate('Home');
+      }
     })
     
   }
