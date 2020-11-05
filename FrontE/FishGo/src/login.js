@@ -5,6 +5,7 @@
  * @format
  * @flow
  */
+import { inject, observer } from 'mobx-react';
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -14,15 +15,24 @@ import {
   TextInput,
 } from 'react-native';
 
-class LoginScreen extends Component {
-    // const [text, setText] = useState('');
+@inject('userStore')
+@observer
+export default class LoginScreen extends Component {
     state = {
-        text: ""
+        id:'',
+        pw:''
     }
-    setText = (txt) => {
-        this.setState({text: txt});
+
+    setId = (id) => {
+        this.setState({id: id});
     }
+
+    setPw = (pw) => {
+        this.setState({pw:pw});
+    }
+    
     render() {
+        const{userStore} = this.props;
         return (
             <View style={{
                 backgroundColor: '#2fa9ff',
@@ -56,8 +66,7 @@ class LoginScreen extends Component {
                                 backgroundColor:'white'
                             }}
                             placeholder=" 아이디"
-                            onChangeText={this.setText}
-                            
+                            onChangeText={this.setId}
                         />
                     </View>
                     <View style={{
@@ -72,7 +81,7 @@ class LoginScreen extends Component {
                                 backgroundColor:'white'
                             }}
                             placeholder=" 비밀번호"
-                            onChangeText={this.setText}
+                            onChangeText={this.setPw}
                         />
                     </View>
                     <View style={{
@@ -81,7 +90,11 @@ class LoginScreen extends Component {
                     }}>
                     <Button title='로그인'
                         onPress={()=>{
-                            this.props.navigation.navigate('Home')
+                            userStore.logInUser(this.state);
+                            const info = userStore.getUserInfo();
+                            if(info.token !== null)
+                                this.props.navigation.navigate('Home');
+                            
                     }}/>
                     </View>
                     <View style={{
@@ -114,4 +127,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
+// export default LoginScreen;
