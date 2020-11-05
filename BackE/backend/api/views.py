@@ -433,15 +433,7 @@ class SpotFishAPIView(APIView):
     def get(self, request):
         keyword = self.request.query_params.get('keyword', None)
 
-        # 쭈꾸미 예외처리 필요
-        if keyword == '주꾸미' or keyword == '쭈꾸미':
-            fish1 = get_object_or_404(Fish, name='주꾸미')
-            fish2 = get_object_or_404(Fish, name='쭈꾸미')
-            # 여기 뭔가 이상
-            spots = Spot.objects.filter(fishes__in=[fish1.id, fish2.id])
-            serializer = SpotSerializer(spots, many=True)
-
-        elif keyword:
+        if keyword:
             try:
                 fish = get_object_or_404(Fish, name=keyword)
                 spots = Spot.objects.filter(fishes__in=[fish.id])

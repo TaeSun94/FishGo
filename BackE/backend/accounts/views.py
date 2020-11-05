@@ -37,7 +37,8 @@ from django.contrib.auth.models import update_last_login
 from .serializers import CreateUserSerializer, LoginUserSerializer, UserSerializer
 from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
-
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 
 # 이메일 인증부
@@ -228,6 +229,26 @@ def check_username(request):
         },
         status=200
     )
+
+
+@api_view(['DELETE'])
+def delete_user(request):
+    try: 
+        username = request.data.get('username', None)
+        user = get_object_or_404(User, username=username)
+        user.delete()
+        result = {
+            "status": 200,
+            "message": "OK",
+        }
+        return Response(result, status=200) 
+
+    except Http404:
+        result = {
+            "status": 404,
+            "message": "Not Found",
+        }
+        return Response(result, status=404)         
 
 
 
