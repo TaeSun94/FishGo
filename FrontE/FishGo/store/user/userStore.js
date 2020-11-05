@@ -11,26 +11,35 @@ class UserStore {
         token: null,
         user: {}
     };
-
-    @computed get userInfo() { return this.userInfos};
     
     //vuex의 mutation 부분
     @action
-    setUserInfo = (data) => { this.userInfos = data.data};
+    setUserInfo = (data) => { 
+        this.userInfo = data;
+        // return this.userInfo;
+    };
 
+    @action
+    getUserInfo() {
+        return this.userInfo;
+    }
+    
     //vuex의 action 부분
     @action
     logInUser(params){
         const URL = this.baseURL+'/login/';
-        return http.post(`${URL}`,{
+        http.post(`${URL}`,{
             "username": params.id,
             "password": params.pw
+        }).then((res) =>{
+            console.log(res);
+            if(res.status === 200){
+                this.setUserInfo(res.data.data);
+            }
+        })
+        .catch(()=>{
+            alert('아이디 또는 비밀번호를 다시 확인해주세요.');
         });
-        // .then(res => {
-        //     if(res.status === 200){
-        //         this.setUserInfo(res.data);
-        //     }
-        // });
     }
 
     @action
@@ -40,8 +49,24 @@ class UserStore {
             "username": params.id,
             "password": params.pw
         });
+        // .then((res) =>{
+        //     console.log(res);
+        //     if(res.status === 200){
+                // alert('이메일 인증 후 로그인 해주시기 바랍니다.');
+        //         return true;
+        //     }
+        // })
+        // .catch(()=>{
+            // alert('아이디 또는 비밀번호를 다시 확인해주세요.');
+        //     return false;
+        // });
+        // return http.post(`${URL}`,{
+        //     "username": params.id,
+        //     "password": params.pw
+        // });
     }
 
+    @action
     logOutUser(params){
         const URL = this.baseURL+'/logout/';
         return http.post(`${URL}`,{params});
@@ -52,6 +77,7 @@ class UserStore {
         const URL = this.baseURL+'/check/';
         return http.post(`${URL}`,{temp_name});
     }
+
     //kakao 로그인
     // kakaoLoginUser(params){
     //     URL = this.baseURL+'/signup';
