@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "rest_auth.registration",
     "allauth",
     "allauth.account",
-    'allauth.socialaccount.providers.kakao',
+    # 'allauth.socialaccount.providers.kakao',
 
     # CORS
     "corsheaders",

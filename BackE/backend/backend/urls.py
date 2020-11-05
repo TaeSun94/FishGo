@@ -30,4 +30,7 @@ urlpatterns = [
 
     # 아이디 중복체크
     path('auth/check/', views.check_username, name='check_username'),
+
+    # 유저 지우기
+    path('api/user/', views.delete_user, name='delete_user'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
