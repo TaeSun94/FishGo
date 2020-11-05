@@ -72,10 +72,18 @@ class RegistrationAPI(generics.GenericAPIView):
                 "message": "Unprocessable Entity",
             }
             return Response(body, status=422)
+        
 
         # 아이디 중복이라면
         if User.objects.filter(username=request.data["username"]).exists():
-            return Response({"message": "EXISTS_EMAIL"}, status=400)
+            return Response(
+                {
+                    "status": 400,
+                    "message": "Bad Request"
+                }, 
+                
+                status=400
+                )
         
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
