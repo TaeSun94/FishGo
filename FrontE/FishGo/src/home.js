@@ -5,6 +5,7 @@
  * @format
  * @flow
  */
+import { inject, observer } from 'mobx-react';
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -14,6 +15,9 @@ import {
   Button
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+
+@inject('userStore','fishStore')
+@observer
 class HomeScreen extends Component {
   state = {
     avatar: ''
@@ -112,7 +116,11 @@ class HomeScreen extends Component {
             borderWidth:2,
             alignItems:'center',
             justifyContent: 'center',
-          }}>
+          }}
+          onPress={()=>{
+            this.props.navigation.navigate('Search')
+          }}
+          >
             <Text style={styles.btn}>물고기 정보 검색</Text>
           </TouchableOpacity>
         </View>
