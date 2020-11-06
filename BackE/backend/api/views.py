@@ -3,7 +3,7 @@ from .models import Fish, User_Fish, Spot
 from accounts.models import User
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from .serializers import FishSerializer, UserFishSerializer, UserSerializer, SpotSerializer, SpotDetailSerializer
+from .serializers import FishSerializer, UserFishSerializer, UserSerializer, SpotSerializer, SpotDetailSerializer, UserFishSimpleSerializer
 from rest_framework import filters
 from rest_framework.exceptions import NotAuthenticated, NotFound, ValidationError
 from rest_framework.pagination import PageNumberPagination
@@ -283,8 +283,8 @@ class UserFishAPIView(APIView):
 
     def post(self, request, pk):
         try:
-            user = self.get_user(request)   
-            # user = User.objects.filter(pk=2)[0]
+            # user = self.get_user(request)   
+            user = User.objects.filter(pk=2)[0]
             fish = get_object_or_404(Fish, pk=pk)
 
             if request.data.get('length'):
@@ -464,6 +464,53 @@ class SpotDetailAPIView(APIView):
                 "status": 200,
                 "message": "OK",
                 "data": { "spot" : serializer.data },
+            }
+            return Response(result, status=200)
+
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
+            }
+            return Response(result, status=404) 
+
+
+# 유저-피쉬 점으로만
+class UserAllFishAPIView(APIView):
+    def get(self, request):
+        keyword = self.request.query_params.get('keyword', None)
+
+        if keyword:
+            try:
+                fish = get_object_or_404(Fish, name=keyword)
+                user_fishes = User_Fish.objects.filter(fish=fish.id)
+                serializer = UserFishSimpleSerializer(user_fishes, many=True)
+            except Http404:
+                result = {
+                    "status": 404,
+                    "message": "Not Found",
+                }
+                return Response(result, status=404) 
+        else:
+            serializer = UserFishSimpleSerializer(User_Fish.objects.all(), many=True)
+
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": { "userfishes" : serializer.data },
+        }
+        return Response(result, status=200)
+
+
+class UserAllFishDetail(APIView):
+    def get(self, request, pk):
+        try:
+            user_fish = get_object_or_404(User_Fish, pk=pk)
+            serializer = UserFishSerializer(user_fish)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "userfish" : serializer.data },
             }
             return Response(result, status=200)
 

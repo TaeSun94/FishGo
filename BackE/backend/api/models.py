@@ -13,6 +13,9 @@ class Fish(models.Model):
     recipe = models.BooleanField() 
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='User_Fish', related_name="fish_users", through_fields=('fish', 'user'))
 
+    def __str__ (self): 
+        return self.name
+
 
 class User_Fish(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,4 +36,5 @@ class Spot(models.Model):
     depth = models.CharField(max_length=20, null=True)
     fishes = models.ManyToManyField(Fish, related_name='spot_fishes')
 
-
+    def __str__ (self): 
+        return self.name

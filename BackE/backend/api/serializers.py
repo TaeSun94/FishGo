@@ -64,3 +64,12 @@ class SpotDetailSerializer(serializers.ModelSerializer):
             "depth",
             "fishes",
         ]
+
+class UserFishSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Fish
+        fields = [
+            "id",
+            "lat",
+            "lng",
+        ]
