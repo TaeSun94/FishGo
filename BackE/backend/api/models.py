@@ -9,7 +9,7 @@ class Fish(models.Model):
     habitat = models.CharField(max_length=20, null=True)
     feed = models.CharField(max_length=50, null=True)
     prohibition = models.CharField(max_length=50, null=True)
-    image = models.ImageField(upload_to="statics") 
+    image = models.TextField() 
     recipe = models.BooleanField() 
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='User_Fish', related_name="fish_users", through_fields=('fish', 'user'))
 
