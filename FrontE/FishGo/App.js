@@ -12,6 +12,13 @@ import {
   View,
   Text,
 } from 'react-native';
+
+//상태관리
+import { Provider }from 'mobx-react';
+import stores from './store/index';
+
+
+//네비게이션
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/home';

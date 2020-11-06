@@ -1,0 +1,561 @@
+[{
+        "model": "api.fish",
+        "pk": 1,
+        "fields": {
+            "name": "노래미",
+            "fish_type": 1,
+            "habitat": "사질, 암초지 등",
+            "feed": "게, 새우, 갯지렁이, 어류",
+            "prohibition": "20cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/노래미.jpg",
+            "recipe": "True"
+
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 2,
+        "fields": {
+            "name": "고등어",
+            "fish_type": 1,
+            "habitat": "바다",
+            "feed": "요각류, 갑각류, 어류, 오징어류",
+            "prohibition": "21cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/고등어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 3,
+        "fields": {
+            "name": "벵에돔",
+            "fish_type": 1,
+            "habitat": "연안의 해초가 무성한 곳",
+            "feed": "해조류, 갯지렁이, 게, 새우",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/벵에돔.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 4,
+        "fields": {
+            "name": "숭어",
+            "fish_type": 1,
+            "habitat": "연안",
+            "feed": "저서생물, 단각류, 유기성 잔류물",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/숭어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 5,
+        "fields": {
+            "name": "감성돔",
+            "fish_type": 1,
+            "habitat": "서, 남해 모래질, 암초로 된 수심 50m",
+            "feed": "조개, 갯지렁이",
+            "prohibition": "25cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/감성돔.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 6,
+        "fields": {
+            "name": "참돔",
+            "fish_type": 1,
+            "habitat": "암반 해역 연안",
+            "feed": "새우, 갯지렁이, 어류",
+            "prohibition": "24cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/참돔.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 7,
+        "fields": {
+            "name": "부시리",
+            "fish_type": 1,
+            "habitat": "연안의 수면 가까이",
+            "feed": "작은 어류, 오징어, 새우",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/부시리.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 8,
+        "fields": {
+            "name": "학꽁치",
+            "fish_type": 1,
+            "habitat": "수심 50m 이내의 내만",
+            "feed": "동물성 플랑크톤, 새우, 게",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/학꽁치.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 9,
+        "fields": {
+            "name": "볼락",
+            "fish_type": 1,
+            "habitat": "동, 남해, 암초가 많은 연안 해역",
+            "feed": "갑각류, 다모류, 작은 어류",
+            "prohibition": "15cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/볼락.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 10,
+        "fields": {
+            "name": "전갱이",
+            "fish_type": 1,
+            "habitat": "연안",
+            "feed": "동물성 플랑크톤, 갑각류, 오징어",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/전갱이.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 11,
+        "fields": {
+            "name": "도다리",
+            "fish_type": 1,
+            "habitat": "수심 200m의 해저",
+            "feed": "갯지렁이, 조개, 단각류, 새우, 게",
+            "prohibition": "15cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/도다리.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 12,
+        "fields": {
+            "name": "농어",
+            "fish_type": 1,
+            "habitat": "서,남해 연안",
+            "feed": "작은 어류, 갑각류, 갯지렁이",
+            "prohibition": "30cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/농어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 13,
+        "fields": {
+            "name": "전어",
+            "fish_type": 1,
+            "habitat": "수심 30m 이내의 연안",
+            "feed": "플랑크톤, 바닥의 유기물",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/전어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 14,
+        "fields": {
+            "name": "자리돔",
+            "fish_type": 1,
+            "habitat": "산호초와 암초가 있는 연안",
+            "feed": "동물성 플랑크톤",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/자리돔.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 15,
+        "fields": {
+            "name": "우럭",
+            "fish_type": 1,
+            "habitat": "수심 10~100m 암초지",
+            "feed": "게, 새우, 곤쟁이 및 갑각류 유생",
+            "prohibition": "23cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/우럭.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 16,
+        "fields": {
+            "name": "붕장어",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 17,
+        "fields": {
+            "name": "무늬오징어",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 18,
+        "fields": {
+            "name": "망상어",
+            "fish_type": 1,
+            "habitat": "수심 30m 정도의 얕은 바다",
+            "feed": "동물성 플랑크톤, 갯지렁이, 새우, 조개",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/망상어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 19,
+        "fields": {
+            "name": "갑오징어",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 20,
+        "fields": {
+            "name": "넙치",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 21,
+        "fields": {
+            "name": "돌돔",
+            "fish_type": 1,
+            "habitat": "연안 암초지역",
+            "feed": "동물성 플랑크톤, 갑각류, 성게류",
+            "prohibition": "24cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/돌돔.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 22,
+        "fields": {
+            "name": "보리멸",
+            "fish_type": 1,
+            "habitat": "연안 모래 바닥",
+            "feed": "작은 어류, 새우, 게, 갯지렁이, 오징어",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/보리멸.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 23,
+        "fields": {
+            "name": "살오징어",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 24,
+        "fields": {
+            "name": "쥐치",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 25,
+        "fields": {
+            "name": "주꾸미",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 26,
+        "fields": {
+            "name": "광어",
+            "fish_type": 1,
+            "habitat": "바다 속 모래 바닥",
+            "feed": "갑각류, 연체동물, 작은어류",
+            "prohibition": "35cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/광어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 27,
+        "fields": {
+            "name": "망둥어",
+            "fish_type": 1,
+            "habitat": "얕은 연안",
+            "feed": "저서성 무척추동물, 플랑크톤",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/망둥어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 28,
+        "fields": {
+            "name": "한치",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 29,
+        "fields": {
+            "name": "독가시치",
+            "fish_type": 1,
+            "habitat": "연안의 얕은 암초 지역",
+            "feed": "동물성 플랑크톤, 조류, 동물성 먹이",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/독가시치.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 30,
+        "fields": {
+            "name": "짱뚱어",
+            "fish_type": 1,
+            "habitat": "조간대",
+            "feed": "플랑크톤, 돌말류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/짱뚱어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 31,
+        "fields": {
+            "name": "삼치",
+            "fish_type": 1,
+            "habitat": "연근해의 아표층",
+            "feed": "갑각류, 멸치, 까나리",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/삼치.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 32,
+        "fields": {
+            "name": "문어",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 33,
+        "fields": {
+            "name": "쏨벵이",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 34,
+        "fields": {
+            "name": "양태",
+            "fish_type": 1,
+            "habitat": "바닥이 모래와 진흙으로 된 연안",
+            "feed": "갑각류, 오징어류, 낙지류, 작은 어류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/양태.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 35,
+        "fields": {
+            "name": "백조기",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 36,
+        "fields": {
+            "name": "벤자리",
+            "fish_type": 1,
+            "habitat": "연안 깊은 곳",
+            "feed": "갑각류, 작은 어류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/벤자리.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 37,
+        "fields": {
+            "name": "방어",
+            "fish_type": 1,
+            "habitat": "연안의 중 하층",
+            "feed": "작은 어류, 오징어",
+            "prohibition": "30cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/방어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 38,
+        "fields": {
+            "name": "다금바리",
+            "fish_type": 1,
+            "habitat": "수심 100~200m의 연안 암초지대",
+            "feed": "오징어, 갑각류, 작은 어류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/다금바리.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 39,
+        "fields": {
+            "name": "민어",
+            "fish_type": 1,
+            "habitat": "육지 근처의 연안",
+            "feed": "새우류, 게류, 작은 어류",
+            "prohibition": "33cm 이하 금지",
+            "image": "http://k3c206.p.ssafy.io/images/민어.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 40,
+        "fields": {
+            "name": "간재미",
+            "fish_type": 1,
+            "habitat": "얕은 바다",
+            "feed": "갑각류, 갯지렁이, 작은 어류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/간재미.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 41,
+        "fields": {
+            "name": "부세",
+            "fish_type": 1,
+            "habitat": "바다",
+            "feed": "요각류, 새우, 게",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/부세.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 42,
+        "fields": {
+            "name": "보구치",
+            "fish_type": 1,
+            "habitat": "바닥이 모래나 뻘로 된 근해",
+            "feed": "새우, 게, 갯가재, 오징어, 작은 어류",
+            "prohibition": "",
+            "image": "http://k3c206.p.ssafy.io/images/보구치.jpg",
+            "recipe": "True"
+        }
+    },
+    {
+        "model": "api.fish",
+        "pk": 43,
+        "fields": {
+            "name": "쏨뱅이",
+            "fish_type": 1,
+            "habitat": "",
+            "feed": "",
+            "prohibition": "",
+            "image": "",
+            "recipe": "True"
+        }
+    }
+]
