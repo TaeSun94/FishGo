@@ -407,6 +407,7 @@ class UserFishHistory(APIView):
         #     return Response(result, status=401) 
         # else:
 
+        keyword = self.request.query_params.get('keyword', None)
         pk = request.data.get('user_id')
         user = User.objects.get(pk=pk)
         catched = User_Fish.objects.filter(user_id=user.id)
@@ -417,7 +418,11 @@ class UserFishHistory(APIView):
             if record.fish_id not in fish_list:
                 fish_list.append(record.fish_id)
 
-        all_fishes = Fish.objects.all()
+        if keyword:
+            all_fishes = Fish.objects.filter(name__contains=keyword)
+        else:
+            all_fishes = Fish.objects.all()
+
         # 이부분 사진 수정 필요
         for fish in all_fishes:
             if fish.id in fish_list:
