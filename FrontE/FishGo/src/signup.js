@@ -21,7 +21,8 @@ import {
 class SignUpScreen extends Component {
   state = {
     id:'',
-    pw:''
+    pw:'',
+    isCorrect: '비밀번호와 다릅니다.',
   }
 
   setId = (id) => {
@@ -31,7 +32,13 @@ class SignUpScreen extends Component {
   setPw = (pw) => {
     this.setState({pw:pw});
   }
-    
+  
+  setIsCorrectPW = (pwd) => {
+    if(this.state.pw===pwd){
+      this.setState({isCorrect:'비밀번호와 일치합니다.'});
+    }
+  }
+
   render() {
     const{userStore} = this.props;
     return (
@@ -86,6 +93,8 @@ class SignUpScreen extends Component {
                 borderWidth: 1,
                 backgroundColor:'white'
               }}
+              visible-password
+              secureTextEntry
               placeholder=" 비밀번호"
               onChangeText={this.setPw}
             />
@@ -101,9 +110,11 @@ class SignUpScreen extends Component {
                 borderWidth: 1,
                 backgroundColor:'white'
               }}
+              secureTextEntry
               placeholder=" 비밀번호 확인"
-              // onChangeText={this.setText}
+              onChangeText={this.setIsCorrectPW}
             />
+            <Text>{this.state.isCorrect}</Text>
           </View>
           <View style={{
             width:"100%",
