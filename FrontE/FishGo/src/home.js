@@ -116,7 +116,11 @@ class HomeScreen extends Component {
             marginRight: 50,
             alignItems: 'center',
             justifyContent: 'center',
-          }}>
+          }}
+            onPress={() => {
+              this.props.navigation.navigate('Map')
+            }}
+          >
             <Text style={styles.btn}>지도 검색</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{

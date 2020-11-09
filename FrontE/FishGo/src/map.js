@@ -5,7 +5,7 @@ import {PermissionsAndroid, Platform, Text, TouchableOpacity, View, SafeAreaView
 // import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack";
-import { SearchBar } from 'react-native-elements';
+import { SearchBar,ButtonGroup } from 'react-native-elements';
 
 
 
@@ -19,17 +19,48 @@ const Stack = createStackNavigator();
 
 
 class map extends Component{
-    
-    
+    state = {
+        search: '',
+    };
+
+    constructor () {
+        super()
+        this.state = {
+          selectedIndex: 0
+        }
+        this.updateIndex = this.updateIndex.bind(this)
+    }
+
+    updateIndex (selectedIndex) {
+        this.setState({selectedIndex})
+    }
+
+    updateSearch = (search) => {
+        this.setState({ search });
+        alert("test");
+    };
+
     render(){
-        // const { search } = this.state;
+        const { search } = this.state;
+        const buttons = ['낚시 포인트', '물고기'];
+        const { selectedIndex } = this.state;
+
 
         return(
-            // <SafeAreaView>
-            //     
-            // </SafeAreaView>
-                <HomeScreen/>
-                
+            <View>    
+                <SearchBar
+                    placeholder="물고기 이름을 검색!"
+                    onChangeText={this.updateSearch}
+                    value={search}
+                />
+                <MapViewScreen/>
+                <ButtonGroup
+                    onPress={this.updateIndex}
+                    selectedIndex={selectedIndex}
+                    buttons={buttons}
+                    containerStyle={{height: 55}}
+                />
+            </View>     
         )
     }
     // <Stack.Navigator>
@@ -53,54 +84,53 @@ const HomeScreen = () =>
 const TextScreen = () => {
     return <Text>text</Text>
 }
-class MapViewScreen extends Component{
-    state = {
-        search: '',
-    };
-    updateSearch = (search) => {
-        this.setState({ search });
-    };
-    // constructor(){
-    //     useEffect(() => {
-    //         requestLocationPermission();
-    //     },[]);
-    // }
-    render(){
-        const { search } = this.state;
-        return(
-            <>
-            <SearchBar
-                placeholder="Type Here..."
-                onChangeText={this.updateSearch}
-                value={search}
-            />
-            <NaverMapView style={{width: '100%', height: '90%'}}
-                        showsMyLocationButton={true}
-                        center={{...P0, zoom: 5}}
-                        //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-                        //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-                        //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
-                        useTextureView>
-                <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-                <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
-                <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
-                <Marker coordinate={P4} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>
-                <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
-                <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
-                <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
-                <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
-            </NaverMapView>
-            {/* <TouchableOpacity style={{position: 'absolute', bottom: '10%', right: 8}} onPress={() => navigation.navigate('stack')}>
-                <View style={{backgroundColor: 'gray', padding: 4}}>
-                    <Text style={{color: 'white'}}>open stack</Text>
-                </View>
-            </TouchableOpacity> */}
-            {/* <Text style={{position: 'absolute', top: '95%', width: '100%', textAlign: 'center'}}>Icon made by Pixel perfect from www.flaticon.com</Text> */}
-        </>
-        )
-    }
+
+
+
+// class MapViewScreen extends Component{
+//     state = {
+//         search: '',
+//     };
+//     updateSearch = (search) => {
+//         this.setState({ search });
+//     };
+//     render(){
+//         const { search } = this.state;
+        
+//         return(
+//             <>
+//             <SearchBar
+//                 placeholder="Type Here..."
+//                 onChangeText={this.updateSearch}
+//                 value={search}
+//             />
+//             <NaverMapView style={{width: '100%', height: '90%'}}
+//                         showsMyLocationButton={true}
+//                         center={{...P0, zoom: 5}}
+//                         //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
+//                         //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
+//                         //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
+//                         useTextureView>
+//                 <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
+//                 <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
+//                 <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
+//                 <Marker coordinate={P4} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>
+//                 <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
+//                 <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
+//                 <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
+//                 <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
+//             </NaverMapView>
+//             {/* <TouchableOpacity style={{position: 'absolute', bottom: '10%', right: 8}} onPress={() => navigation.navigate('stack')}>
+//                 <View style={{backgroundColor: 'gray', padding: 4}}>
+//                     <Text style={{color: 'white'}}>open stack</Text>
+//                 </View>
+//             </TouchableOpacity> */}
+//             {/* <Text style={{position: 'absolute', top: '95%', width: '100%', textAlign: 'center'}}>Icon made by Pixel perfect from www.flaticon.com</Text> */}
+//         </>
+//         )
+//     }
     
-};
+// };
 
 // updateSearch = (search) => {
 //     // this.setState({ search });
@@ -112,43 +142,37 @@ class MapViewScreen extends Component{
 
 // const { search } = state;
 
-// const MapViewScreen = ({navigation}) => {
-//     useEffect(() => {
-//         requestLocationPermission();
-//     }, []);
-//     // 
-    
-    
-//     return <>
-//         <SearchBar
-//                 placeholder="Type Here..."
-//                 onChangeText={updateSearch}
-//                 value={state.search}
-//         /> 
-//         <NaverMapView style={{width: '100%', height: '90%'}}
-//                       showsMyLocationButton={true}
-//                       center={{...P0, zoom: 5}}
-//                     //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-//                     //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-//                     //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
-//                       useTextureView>
-//             <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-//             <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
-//             <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
-//             <Marker coordinate={P4} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>
-//             <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
-//             <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
-//             <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
-//             <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
-//         </NaverMapView>
-//         {/* <TouchableOpacity style={{position: 'absolute', bottom: '10%', right: 8}} onPress={() => navigation.navigate('stack')}>
-//             <View style={{backgroundColor: 'gray', padding: 4}}>
-//                 <Text style={{color: 'white'}}>open stack</Text>
-//             </View>
-//         </TouchableOpacity> */}
-//         {/* <Text style={{position: 'absolute', top: '95%', width: '100%', textAlign: 'center'}}>Icon made by Pixel perfect from www.flaticon.com</Text> */}
-//     </>
-// };
+const MapViewScreen = ({navigation}) => {
+    useEffect(() => {
+        requestLocationPermission();
+    }, []);
+    // 
+    return <>
+        
+        <NaverMapView style={{width: '100%', height: '80%'}}
+                      showsMyLocationButton={true}
+                      center={{...P0, zoom: 5}}
+                    //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
+                    //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
+                    //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
+                      useTextureView>
+            <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
+            <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
+            <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
+            <Marker coordinate={P4} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>
+            <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
+            <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
+            <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
+            <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
+        </NaverMapView>
+        {/* <TouchableOpacity style={{position: 'absolute', bottom: '10%', right: 8}} onPress={() => navigation.navigate('stack')}>
+            <View style={{backgroundColor: 'gray', padding: 4}}>
+                <Text style={{color: 'white'}}>open stack</Text>
+            </View>
+        </TouchableOpacity> */}
+        {/* <Text style={{position: 'absolute', top: '95%', width: '100%', textAlign: 'center'}}>Icon made by Pixel perfect from www.flaticon.com</Text> */}
+    </>
+};
 
 async function requestLocationPermission() {
     if (Platform.OS !== 'android') return;
