@@ -80,6 +80,7 @@ export default class LoginScreen extends Component {
                                 borderWidth: 1,
                                 backgroundColor:'white'
                             }}
+                            secureTextEntry
                             placeholder=" 비밀번호"
                             onChangeText={this.setPw}
                         />
