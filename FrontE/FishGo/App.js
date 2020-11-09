@@ -29,6 +29,7 @@ import CollectionScreen from './src/Collection/collection';
 import Map from './src/map';
 import CollectionInsertScreen from './src/Collection/collection_insert';
 import DescriminationScreen from './src/Discrimination/discrimination';
+import SearchScreen from './src/Search/search';
 const Stack = createStackNavigator();
 
 class App extends Component{
@@ -50,6 +51,7 @@ class App extends Component{
             <Stack.Screen name="Collection" component={CollectionScreen}/>
             <Stack.Screen name="Collection_insert" component={CollectionInsertScreen}/>
             <Stack.Screen name="Descrimination" component={DescriminationScreen}/>
+            <Stack.Screen name="Search" component={SearchScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
