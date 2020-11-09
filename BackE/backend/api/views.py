@@ -13,6 +13,10 @@ from rest_framework import generics
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
+# 판별
+from imageai.Prediction.Custom import CustomImagePrediction
+import os
+
 
 # Create your views here.
 #이메일 인증 기능
@@ -283,8 +287,8 @@ class UserFishAPIView(APIView):
 
     def post(self, request, pk):
         try:
-            # user = self.get_user(request)   
-            user = User.objects.filter(pk=2)[0]
+            user = self.get_user(request)   
+            # user = User.objects.filter(pk=2)[0]
             fish = get_object_or_404(Fish, pk=pk)
 
             if request.data.get('length'):
@@ -414,11 +418,12 @@ class UserFishHistory(APIView):
                 fish_list.append(record.fish_id)
 
         all_fishes = Fish.objects.all()
+        # 이부분 사진 수정 필요
         for fish in all_fishes:
             if fish.id in fish_list:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "catched": True})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image, "catched": True})
             else:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "catched": False})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": "", "catched": False})
 
         result = {
             "status": 200,
@@ -525,5 +530,27 @@ class UserAllFishDetail(APIView):
 # 물고기 판별
 class FishDiscrimination(APIView):
     def get(self, request):
-        pass
+        execution_path = os.getcwd() + '/api/fixtures/'
+        prediction = CustomImagePrediction()
+        prediction.setModelTypeAsResNet()
+        prediction.setModelPath(
+        os.path.join(execution_path, "model_ex-029_acc-0.609756.h5"))
+        prediction.setJsonPath(
+        os.path.join(execution_path, "model_class.json"))
+        prediction.loadModel(num_objects=4)
 
+        predictions, probabilities = prediction.predictImage(
+        request.FILES['img'], result_count=4)
+
+        data = {}
+        for eachPrediction, eachProbability in zip(predictions, probabilities):
+            data[eachPrediction] = eachProbability
+
+        
+        # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": { "predictions" : data },
+        }
+        return Response(result, status=200)

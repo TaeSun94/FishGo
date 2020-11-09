@@ -76,7 +76,7 @@ class RegistrationAPI(generics.GenericAPIView):
         
 
         # 아이디 중복이라면
-        if User.objects.filter(username=request.data["username"]).exists():
+        if User.objects.filter(username=request.data["username"].lower()).exists():
             return Response(
                 {
                     "status": 400,
