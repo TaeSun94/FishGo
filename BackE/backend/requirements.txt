@@ -44,12 +44,10 @@ rsa==4.6
 scipy==1.5.4
 six==1.15.0
 sqlparse==0.4.1
-tensorboard==2.3.0
-tensorboard-plugin-wit==1.7.0
-tensorflow==1.4.0
-tensorflow-estimator==2.3.0
-tensorflow-tensorboard==0.4.0
 termcolor==1.1.0
+tensorflow==1.15.2
+opencv_python
+matplotlib
 urllib3==1.25.11
 Werkzeug==1.0.1
 wrapt==1.12.1

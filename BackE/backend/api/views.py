@@ -16,7 +16,9 @@ from django.shortcuts import get_object_or_404
 # 판별
 from imageai.Prediction.Custom import CustomImagePrediction
 import os
-
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import glob
 
 # Create your views here.
 #이메일 인증 기능
@@ -535,27 +537,43 @@ class UserAllFishDetail(APIView):
 # 물고기 판별
 class FishDiscrimination(APIView):
     def get(self, request):
+        FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
+                    "redsnapper": 6,
+                    "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
+                    "ridgedeyflounder": 11, "bass": 12,
+                    "dottedgizzardshad": 13, "demoiselle": 14, "rockfish": 15, "붕장어": 16, "무늬오징어": 17,
+                    "embiotocidae": 18,
+                    "갑오징어": 19, "넙치": 20, "stripedbeakperch": 21, "northernwhiting": 22, "살오징어": 23, "쥐치": 24,
+                    "주꾸미": 25, "fluke": 26, "goby": 27, "한치(오징어류)": 28, "rabbitfish": 29, "bluespottedmudhopper": 30,
+                    "spanishmackerel": 31, "문어": 32, "쏨벵이": 33, "platycephalusindicus": 34, "백조기(보구치?)": 35,
+                    "parapristipoma": 36,
+                    "yellowtai": 37, "longtoothgrouper": 38, "croaker": 39, "redstingray": 40, "largeyellowcroaker": 41,
+                    "whitecroaker": 42, "쏨뱅이": 43}
         execution_path = os.getcwd() + '/api/fixtures/'
         prediction = CustomImagePrediction()
         prediction.setModelTypeAsResNet()
         prediction.setModelPath(
-        os.path.join(execution_path, "model_ex-029_acc-0.609756.h5"))
+        os.path.join(execution_path, "model_ex-100_acc-0.406250.h5"))
         prediction.setJsonPath(
         os.path.join(execution_path, "model_class.json"))
         prediction.loadModel(num_objects=4)
 
-        predictions, probabilities = prediction.predictImage(
-        request.FILES['img'], result_count=4)
-
+        # predictions, probabilities = prediction.predictImage(request.FILES['img'], result_count=5)
+        predictions, probabilities = prediction.predictImage(execution_path+'img14.jpg', result_count=5)
         data = {}
         for eachPrediction, eachProbability in zip(predictions, probabilities):
-            data[eachPrediction] = eachProbability
-
-        
+            fish_pk = FISH_MAP[eachPrediction]
+            print(fish_pk.__class__)
+            # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
+            FDA = FishDetailAPIView()
+            fish = FDA.get_object(fish_pk)
+            fish_name = fish.name
+            data[fish_name] = eachProbability
+            print(fish_name, eachProbability)
         # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
         result = {
             "status": 200,
             "message": "OK",
-            "data": { "predictions" : data },
+            "data": {"predictions": data},
         }
         return Response(result, status=200)
