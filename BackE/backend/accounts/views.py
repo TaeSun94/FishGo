@@ -37,7 +37,8 @@ from django.contrib.auth.models import update_last_login
 from .serializers import CreateUserSerializer, LoginUserSerializer, UserSerializer
 from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
-
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 
 # 이메일 인증부
@@ -72,10 +73,18 @@ class RegistrationAPI(generics.GenericAPIView):
                 "message": "Unprocessable Entity",
             }
             return Response(body, status=422)
+        
 
         # 아이디 중복이라면
         if User.objects.filter(username=request.data["username"]).exists():
-            return Response({"message": "EXISTS_EMAIL"}, status=400)
+            return Response(
+                {
+                    "status": 400,
+                    "message": "Bad Request"
+                }, 
+                
+                status=400
+                )
         
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -220,6 +229,26 @@ def check_username(request):
         },
         status=200
     )
+
+
+@api_view(['DELETE'])
+def delete_user(request):
+    try: 
+        username = request.data.get('username', None)
+        user = get_object_or_404(User, username=username)
+        user.delete()
+        result = {
+            "status": 200,
+            "message": "OK",
+        }
+        return Response(result, status=200) 
+
+    except Http404:
+        result = {
+            "status": 404,
+            "message": "Not Found",
+        }
+        return Response(result, status=404)         
 
 
 
