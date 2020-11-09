@@ -29,7 +29,11 @@
     this.setState({
       avatar: response.uri
     })
-    if(response !== null){
+    if (response.didCancel) {
+      console.log("돌아가기")
+    }
+      
+    else if(response !== null){
       this.props.navigation.navigate('Descrimination',{pic: this.state.avatar})
     }
     else{
