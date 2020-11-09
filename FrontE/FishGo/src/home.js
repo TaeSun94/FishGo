@@ -41,11 +41,8 @@ class HomeScreen extends Component {
       if (response.didCancel) {
         console.log("돌아가기")
       }
-      else if (response !== null) {
-        this.props.navigation.navigate('Descrimination', { pic: this.state.avatar })
-      }
       else {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Descrimination', { pic: this.state.avatar })
       }
     })
   }
