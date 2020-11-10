@@ -17,7 +17,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -51,7 +51,7 @@ class Activate(View):
             if account_activation_token.check_token(user, token):
                 user.is_active = True
                 user.save()
-                return redirect(EMAIL['REDIRECT_PAGE'])
+                return render(request, 'accounts/auth.html')
 
             return Response({"message": "AUTH_FAIL"}, status=400)
 
