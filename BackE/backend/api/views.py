@@ -450,10 +450,10 @@ class SpotFishAPIView(APIView):
                 serializer = SpotSerializer(spots, many=True)
             except Http404:
                 result = {
-                    "status": 404,
-                    "message": "Not Found",
+                    "status": 200,
+                    "message": "No Record",
                 }
-                return Response(result, status=404) 
+                return Response(result, status=200) 
         else:
             serializer = SpotSerializer(Spot.objects.all(), many=True)
 
@@ -481,6 +481,7 @@ class SpotDetailAPIView(APIView):
             result = {
                 "status": 404,
                 "message": "Not Found",
+                "data": {},
             }
             return Response(result, status=404) 
 
@@ -497,10 +498,11 @@ class UserAllFishAPIView(APIView):
                 serializer = UserFishSimpleSerializer(user_fishes, many=True)
             except Http404:
                 result = {
-                    "status": 404,
-                    "message": "Not Found",
+                    "status": 200,
+                    "message": "No Record",
+                    "data": {},
                 }
-                return Response(result, status=404) 
+                return Response(result, status=200) 
         else:
             serializer = UserFishSimpleSerializer(User_Fish.objects.all(), many=True)
 
