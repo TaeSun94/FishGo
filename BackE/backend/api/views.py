@@ -20,6 +20,11 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import glob
 
+# 테스트
+import matplotlib.image as test
+import matplotlib.pyplot as pp
+import cv2
+from PIL import Image
 # Create your views here.
 #이메일 인증 기능
 # class EmaiActivate(View):
@@ -537,6 +542,10 @@ class UserAllFishDetail(APIView):
 # 물고기 판별
 class FishDiscrimination(APIView):
     def get(self, request):
+        print("request ==========", request.FILES)
+        print("img ===========", request.FILES['img'])
+        print("------------------------------------------------------------------------------------------")
+        
         FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
                     "redsnapper": 6,
                     "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
@@ -549,6 +558,7 @@ class FishDiscrimination(APIView):
                     "parapristipoma": 36,
                     "yellowtai": 37, "longtoothgrouper": 38, "croaker": 39, "redstingray": 40, "largeyellowcroaker": 41,
                     "whitecroaker": 42, "쏨뱅이": 43}
+        
         execution_path = os.getcwd() + '/api/fixtures/'
         prediction = CustomImagePrediction()
         prediction.setModelTypeAsResNet()
@@ -557,19 +567,26 @@ class FishDiscrimination(APIView):
         prediction.setJsonPath(
         os.path.join(execution_path, "model_class.json"))
         prediction.loadModel(num_objects=4)
+        img = request.FILES['img']
+        image = Image.open(img)
+        image.show()
+        print("sdfqoehgopqehryopehpqroyhqeoprhyope -----------------------------------------------------",type(img))
+        # cv2.imwrite(execution_path+'test.txt', img)
+        # cv2.waitKey(0) 
+        # cv2.destroyAllWindows()
 
         # predictions, probabilities = prediction.predictImage(request.FILES['img'], result_count=5)
-        predictions, probabilities = prediction.predictImage(execution_path+'img14.jpg', result_count=5)
-        data = {}
-        for eachPrediction, eachProbability in zip(predictions, probabilities):
-            fish_pk = FISH_MAP[eachPrediction]
-            print(fish_pk.__class__)
-            # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
-            FDA = FishDetailAPIView()
-            fish = FDA.get_object(fish_pk)
-            fish_name = fish.name
-            data[fish_name] = eachProbability
-            print(fish_name, eachProbability)
+        # # predictions, probabilities = prediction.predictImage(execution_path+'img14.jpg', result_count=5)
+        # data = {}
+        # for eachPrediction, eachProbability in zip(predictions, probabilities):
+        #     fish_pk = FISH_MAP[eachPrediction]
+        #     print(fish_pk.__class__)
+        #     # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
+        #     FDA = FishDetailAPIView()
+        #     fish = FDA.get_object(fish_pk)
+        #     fish_name = fish.name
+        #     data[fish_name] = eachProbability
+        #     print(fish_name, eachProbability)
         # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
         result = {
             "status": 200,
