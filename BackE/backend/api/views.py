@@ -537,7 +537,8 @@ class UserAllFishDetail(APIView):
 # 물고기 판별
 class FishDiscrimination(APIView):
     def get(self, request):
-        execution_path = os.getcwd() + '/api/fixtures/'
+        # execution_path = os.getcwd() + '/api/fixtures/'
+        execution_path = 'http://k3c206.p.ssafy.io/s03p31c206/BackE/backend/api/fixtures/'
         prediction = CustomImagePrediction()
         prediction.setModelTypeAsResNet()
         prediction.setModelPath(
