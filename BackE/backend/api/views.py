@@ -402,7 +402,7 @@ class UserFishAPIView(APIView):
             return Response(result, status=404) 
 
 
-# 유저가 낚시한 물고기 번호만(낚시 히스토리 아이콘 색칠 용)
+# 유저가 낚시한 물고기(낚시 히스토리 아이콘 색칠 용)
 class UserFishHistory(APIView):
     def get(self, request):
         # if request.user.is_anonymous:
@@ -429,12 +429,11 @@ class UserFishHistory(APIView):
         else:
             all_fishes = Fish.objects.all()
 
-        # 이부분 사진 수정 필요
         for fish in all_fishes:
             if fish.id in fish_list:
                 fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image, "catched": True})
             else:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": "", "catched": False})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image2, "catched": False})
 
         result = {
             "status": 200,

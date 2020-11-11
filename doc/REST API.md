@@ -4,14 +4,15 @@
 
 #### 인증 API
 
-| 리소스                | POST                                  | GET  | PUT  | DELETE      |
-| --------------------- | ------------------------------------- | ---- | ---- | ----------- |
-| auth/signup/          | 회원가입<br />& 이메일 인증           | X    | X    | X           |
-| auth/login/           | 로그인<br />반환: 토큰                | X    | X    | X           |
-| auth/logout/          | 로그아웃                              | X    | X    | X           |
-| auth/check/           | 아이디 중복체크<br />반환: True/False | X    | X    | X           |
-| auth/callback/        | 카카오 로그인                         | X    | X    | X           |
-| api/user/  (관리자용) | X                                     | X    | X    | 유저 지우기 |
+| 리소스                    | POST                                  | GET  | PUT  | DELETE      |
+| ------------------------- | ------------------------------------- | ---- | ---- | ----------- |
+| auth/signup/              | 회원가입<br />& 이메일 인증           | X    | X    | X           |
+| auth/login/               | 로그인<br />반환: 토큰                | X    | X    | X           |
+| auth/logout/              | 로그아웃                              | X    | X    | X           |
+| auth/check/               | 아이디 중복체크<br />반환: True/False | X    | X    | X           |
+| auth/callback/            | 카카오 로그인                         | X    | X    | X           |
+| api/user/  (관리자용)     | X                                     | X    | X    | 유저 지우기 |
+| rest-auth/password/reset/ | 이메일로 비밀번호 변경 url 보내기     | X    | X    | X           |
 
 
 
@@ -198,4 +199,12 @@
 
 ​	
 
-​	
+ 13. rest-auth/password/reset/
+
+     - 해당 이메일로 패스워드 초기화 링크 전송
+
+     ![image-20201111121446229](REST%20API.assets/image-20201111121446229.png)
+
+     - 디자인 수정 필요
+
+     ![image-20201111121623533](REST%20API.assets/image-20201111121623533.png)
