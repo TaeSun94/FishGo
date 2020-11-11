@@ -545,7 +545,7 @@ class UserAllFishDetail(APIView):
 
 # 물고기 판별
 class FishDiscrimination(APIView):
-    def get(self, request):
+    def post(self, request):
         FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
                     "redsnapper": 6,
                     "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
@@ -568,7 +568,7 @@ class FishDiscrimination(APIView):
         os.path.join(execution_path, "model_class.json"))
         prediction.loadModel(num_objects=4)
 
-        img = request.FILES['img']
+        img = request.data['img']
         image = Image.open(img)
         image = image.resize((256, 256))
         image.save(execution_path+'image.jpg')
