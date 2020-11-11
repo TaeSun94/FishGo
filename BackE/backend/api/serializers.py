@@ -20,6 +20,7 @@ class FishSerializer(serializers.ModelSerializer):
             "feed",
             "prohibition",
             "image",
+            "image2",
             "recipe",
         ]
 
@@ -63,4 +64,13 @@ class SpotDetailSerializer(serializers.ModelSerializer):
             "tide",
             "depth",
             "fishes",
+        ]
+
+class UserFishSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Fish
+        fields = [
+            "id",
+            "lat",
+            "lng",
         ]

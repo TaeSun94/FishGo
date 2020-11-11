@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from accounts.views import LoginAPI, RegistrationAPI, LogoutAPIView
+from accounts.views import LoginAPI, RegistrationAPI, LogoutAPIView, UserPasswordResetConfirmView, UserPasswordResetCompleteView, PasswordResetDoneView, PasswordResetView
 from accounts import views
 
 # 이메일 인증
@@ -17,7 +17,12 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("account/", include("allauth.urls")),
     
-    # path('rest-auth/', include('rest_auth.urls')),
+    # 비밀번호 재설정
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/password/reset/confirm/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('rest-auth/password/change_complete/', UserPasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    # path('rest-auth/password/reset_done/', PasswordResetDoneView.as_view(), name="password_reset_done"),
+    # path('password_reset/', PasswordResetView.as_view(), name="password_reset"),
     # path('rest-auth/signup/', include('rest_auth.registration.urls')),
 
     # 커스텀 회원가입, 로그인, 로그아웃
@@ -33,4 +38,5 @@ urlpatterns = [
 
     # 유저 지우기
     path('api/user/', views.delete_user, name='delete_user'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

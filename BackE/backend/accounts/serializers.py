@@ -21,7 +21,7 @@ class CreateUserSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data["username"], None, validated_data["password"])
+        user = User.objects.create_user(validated_data["username"].lower(), validated_data["username"].lower(), validated_data["password"])
         user.is_active = False
         user.save()
         return user
@@ -33,6 +33,7 @@ class LoginUserSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate(self, data):
+        data["username"] = data["username"].lower()
         user = authenticate(**data)
         if user and user.is_active:
             return user

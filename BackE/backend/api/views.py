@@ -3,7 +3,7 @@ from .models import Fish, User_Fish, Spot
 from accounts.models import User
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from .serializers import FishSerializer, UserFishSerializer, UserSerializer, SpotSerializer, SpotDetailSerializer
+from .serializers import FishSerializer, UserFishSerializer, UserSerializer, SpotSerializer, SpotDetailSerializer, UserFishSimpleSerializer
 from rest_framework import filters
 from rest_framework.exceptions import NotAuthenticated, NotFound, ValidationError
 from rest_framework.pagination import PageNumberPagination
@@ -12,6 +12,18 @@ from django.http import Http404
 from rest_framework import generics
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
+
+# 판별
+from imageai.Prediction.Custom import CustomImagePrediction
+import os
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import glob
+
+# 테스트
+from PIL import Image
+
+import random
 
 
 # Create your views here.
@@ -392,9 +404,9 @@ class UserFishAPIView(APIView):
             return Response(result, status=404) 
 
 
-# 유저가 낚시한 물고기 번호만(낚시 히스토리 아이콘 색칠 용)
+# 유저가 낚시한 물고기(낚시 히스토리 아이콘 색칠 용)
 class UserFishHistory(APIView):
-    def get(self, request):
+    def post(self, request):
         # if request.user.is_anonymous:
         #     result = {
         #         "status": 401,
@@ -403,6 +415,7 @@ class UserFishHistory(APIView):
         #     return Response(result, status=401) 
         # else:
 
+        keyword = self.request.query_params.get('keyword', None)
         pk = request.data.get('user_id')
         user = User.objects.get(pk=pk)
         catched = User_Fish.objects.filter(user_id=user.id)
@@ -413,12 +426,16 @@ class UserFishHistory(APIView):
             if record.fish_id not in fish_list:
                 fish_list.append(record.fish_id)
 
-        all_fishes = Fish.objects.all()
+        if keyword:
+            all_fishes = Fish.objects.filter(name__contains=keyword)
+        else:
+            all_fishes = Fish.objects.all()
+
         for fish in all_fishes:
             if fish.id in fish_list:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "catched": True})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image, "catched": True})
             else:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "catched": False})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image2, "catched": False})
 
         result = {
             "status": 200,
@@ -437,15 +454,19 @@ class SpotFishAPIView(APIView):
             try:
                 fish = get_object_or_404(Fish, name=keyword)
                 spots = Spot.objects.filter(fishes__in=[fish.id])
+                if spots.count() >= 500:
+                    spots = random.sample(list(spots), 500)
                 serializer = SpotSerializer(spots, many=True)
             except Http404:
                 result = {
-                    "status": 404,
-                    "message": "Not Found",
+                    "status": 200,
+                    "message": "No Record",
                 }
-                return Response(result, status=404) 
+                return Response(result, status=200) 
         else:
-            serializer = SpotSerializer(Spot.objects.all(), many=True)
+            spots = Spot.objects.all()
+            spots = random.sample(list(spots), 500)
+            serializer = SpotSerializer(spots, many=True)
 
         result = {
             "status": 200,
@@ -471,12 +492,140 @@ class SpotDetailAPIView(APIView):
             result = {
                 "status": 404,
                 "message": "Not Found",
+                "data": {},
+            }
+            return Response(result, status=404) 
+
+
+# 유저-피쉬 점으로만
+class UserAllFishAPIView(APIView):
+    def get(self, request):
+        keyword = self.request.query_params.get('keyword', None)
+
+        if keyword:
+            try:
+                fish = get_object_or_404(Fish, name=keyword)
+                user_fishes = User_Fish.objects.filter(fish=fish.id)
+                serializer = UserFishSimpleSerializer(user_fishes, many=True)
+            except Http404:
+                result = {
+                    "status": 200,
+                    "message": "No Record",
+                    "data": {},
+                }
+                return Response(result, status=200) 
+        else:
+            serializer = UserFishSimpleSerializer(User_Fish.objects.all(), many=True)
+
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": { "userfishes" : serializer.data },
+        }
+        return Response(result, status=200)
+
+
+class UserAllFishDetail(APIView):
+    def get(self, request, pk):
+        try:
+            user_fish = get_object_or_404(User_Fish, pk=pk)
+            serializer = UserFishSerializer(user_fish)
+            result = {
+                "status": 200,
+                "message": "OK",
+                "data": { "userfish" : serializer.data },
+            }
+            return Response(result, status=200)
+
+        except Http404:
+            result = {
+                "status": 404,
+                "message": "Not Found",
             }
             return Response(result, status=404) 
 
 
 # 물고기 판별
 class FishDiscrimination(APIView):
-    def get(self, request):
-        pass
+    def post(self, request):
+        FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
+                    "redsnapper": 6,
+                    "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
+                    "ridgedeyflounder": 11, "bass": 12,
+                    "dottedgizzardshad": 13, "demoiselle": 14, "rockfish": 15, "붕장어": 16, "무늬오징어": 17,
+                    "embiotocidae": 18,
+                    "갑오징어": 19, "넙치": 20, "stripedbeakperch": 21, "northernwhiting": 22, "살오징어": 23, "쥐치": 24,
+                    "주꾸미": 25, "fluke": 26, "goby": 27, "한치(오징어류)": 28, "rabbitfish": 29, "bluespottedmudhopper": 30,
+                    "spanishmackerel": 31, "문어": 32, "쏨벵이": 33, "platycephalusindicus": 34, "백조기(보구치?)": 35,
+                    "parapristipoma": 36,
+                    "yellowtai": 37, "longtoothgrouper": 38, "croaker": 39, "redstingray": 40, "largeyellowcroaker": 41,
+                    "whitecroaker": 42, "쏨뱅이": 43}
+        
+        execution_path = os.getcwd() + '/api/fixtures/'
+        prediction = CustomImagePrediction()
+        prediction.setModelTypeAsResNet()
+        prediction.setModelPath(
+        os.path.join(execution_path, "model_ex-022_acc-0.995255.h5"))
+        prediction.setJsonPath(
+        os.path.join(execution_path, "model_class.json"))
+        prediction.loadModel(num_objects=4)
 
+        # img = request.FILES['img']
+        img = request.data['img']
+        image = Image.open(img)
+        image = image.resize((256, 256))
+        image.save(execution_path+'image.jpg')
+        predictions, probabilities = prediction.predictImage(execution_path+'image.jpg', result_count=5)
+        
+        data = []
+        for eachPrediction, eachProbability in zip(predictions, probabilities):
+            data_line = {}
+            fish_pk = FISH_MAP[eachPrediction]
+            # print(fish_pk.__class__)
+            # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
+            FDA = FishDetailAPIView()
+            fish = FDA.get_object(fish_pk)
+            fish_name = fish.name
+            data_line['id'] = fish_pk
+            data_line['name'] = fish_name
+            data_line['probability'] = eachProbability
+            data.append(data_line)
+            # print(fish_name, eachProbability)
+
+        result = {
+            "status": 200,
+            "message": "OK",
+            "data": {"predictions": data},
+        }
+
+        return Response(result, status=200)
+
+
+# 물고기 판별
+# class FishDiscrimination(APIView):
+#     def get(self, request):
+#         execution_path = os.getcwd() + '/api/fixtures/'
+#         # execution_path = 'http://k3c206.p.ssafy.io/s03p31c206/BackE/backend/api/fixtures/'
+#         prediction = CustomImagePrediction()
+#         prediction.setModelTypeAsResNet()
+#         prediction.setModelPath(
+#         os.path.join(execution_path, "model_ex-029_acc-0.609756.h5"))
+#         prediction.setJsonPath(
+#         os.path.join(execution_path, "model_class.json"))
+#         prediction.loadModel(num_objects=4)
+
+#         predictions, probabilities = prediction.predictImage(
+#         request.FILES['img'], result_count=4)
+
+#         data = {}
+#         for eachPrediction, eachProbability in zip(predictions, probabilities):
+#             data[eachPrediction] = eachProbability
+
+        
+#         # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
+#         result = {
+#             "status": 200,
+#             "message": "OK",
+#             "data": { "predictions" : data },
+#         }
+#         return Response(result, status=200)

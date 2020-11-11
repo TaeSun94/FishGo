@@ -10,6 +10,7 @@ from .models import User
 from .token import account_activation_token
 from .email_text import message
 from django.contrib import auth
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 # from .settings import SEC
 from my_settings import EMAIL, SECRET_KEY
@@ -17,7 +18,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -41,6 +42,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 
+
 # 이메일 인증부
 class Activate(View):
     def get(self, request, uidb64, token):
@@ -51,7 +53,7 @@ class Activate(View):
             if account_activation_token.check_token(user, token):
                 user.is_active = True
                 user.save()
-                return redirect(EMAIL['REDIRECT_PAGE'])
+                return render(request, 'accounts/auth.html')
 
             return Response({"message": "AUTH_FAIL"}, status=400)
 
@@ -67,7 +69,7 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 8 or len(request.data["password"]) < 4:
+        if len(request.data["username"]) < 8 or len(request.data["password"]) < 8:
             body = {
                 "status": 422,
                 "message": "Unprocessable Entity",
@@ -76,7 +78,7 @@ class RegistrationAPI(generics.GenericAPIView):
         
 
         # 아이디 중복이라면
-        if User.objects.filter(username=request.data["username"]).exists():
+        if User.objects.filter(username=request.data["username"].lower()).exists():
             return Response(
                 {
                     "status": 400,
@@ -249,6 +251,16 @@ def delete_user(request):
             "message": "Not Found",
         }
         return Response(result, status=404)         
+
+
+# 비밀번호 변경 
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+
+
+# 비밀번호 변경 후
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'accounts/password_reset_complete.html'
 
 
 
