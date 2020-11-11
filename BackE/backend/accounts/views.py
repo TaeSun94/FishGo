@@ -10,6 +10,7 @@ from .models import User
 from .token import account_activation_token
 from .email_text import message
 from django.contrib import auth
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 # from .settings import SEC
 from my_settings import EMAIL, SECRET_KEY
@@ -41,6 +42,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 
+
 # 이메일 인증부
 class Activate(View):
     def get(self, request, uidb64, token):
@@ -67,7 +69,7 @@ class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 8 or len(request.data["password"]) < 4:
+        if len(request.data["username"]) < 8 or len(request.data["password"]) < 8:
             body = {
                 "status": 422,
                 "message": "Unprocessable Entity",
@@ -249,6 +251,16 @@ def delete_user(request):
             "message": "Not Found",
         }
         return Response(result, status=404)         
+
+
+# 비밀번호 변경 
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+
+
+# 비밀번호 변경 후
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'accounts/password_reset_complete.html'
 
 
 

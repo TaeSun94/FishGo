@@ -7,9 +7,9 @@
             "habitat": "사질, 암초지 등",
             "feed": "게, 새우, 갯지렁이, 어류",
             "prohibition": "20cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/노래미.jpg",
-            "recipe": "True"
-
+            "image": "http://k3c206.p.ssafy.io/images/color/노래미.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/노래미.png"
         }
     },
     {
@@ -21,8 +21,9 @@
             "habitat": "바다",
             "feed": "요각류, 갑각류, 어류, 오징어류",
             "prohibition": "21cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/고등어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/고등어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/고등어.png"
         }
     },
     {
@@ -34,8 +35,9 @@
             "habitat": "연안의 해초가 무성한 곳",
             "feed": "해조류, 갯지렁이, 게, 새우",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/벵에돔.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/벵에돔.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/벵에돔.png"
         }
     },
     {
@@ -47,8 +49,9 @@
             "habitat": "연안",
             "feed": "저서생물, 단각류, 유기성 잔류물",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/숭어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/숭어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/숭어.png"
         }
     },
     {
@@ -60,8 +63,9 @@
             "habitat": "서, 남해 모래질, 암초로 된 수심 50m",
             "feed": "조개, 갯지렁이",
             "prohibition": "25cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/감성돔.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/감성돔.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/감성돔.png"
         }
     },
     {
@@ -73,8 +77,9 @@
             "habitat": "암반 해역 연안",
             "feed": "새우, 갯지렁이, 어류",
             "prohibition": "24cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/참돔.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/참돔.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/참돔.png"
         }
     },
     {
@@ -86,8 +91,9 @@
             "habitat": "연안의 수면 가까이",
             "feed": "작은 어류, 오징어, 새우",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/부시리.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/부시리.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/부시리.png"
         }
     },
     {
@@ -99,8 +105,9 @@
             "habitat": "수심 50m 이내의 내만",
             "feed": "동물성 플랑크톤, 새우, 게",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/학꽁치.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/학꽁치.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/학꽁치.png"
         }
     },
     {
@@ -112,8 +119,9 @@
             "habitat": "동, 남해, 암초가 많은 연안 해역",
             "feed": "갑각류, 다모류, 작은 어류",
             "prohibition": "15cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/볼락.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/볼락.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/볼락.png"
         }
     },
     {
@@ -125,8 +133,9 @@
             "habitat": "연안",
             "feed": "동물성 플랑크톤, 갑각류, 오징어",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/전갱이.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/전갱이.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/전갱이.png"
         }
     },
     {
@@ -138,8 +147,9 @@
             "habitat": "수심 200m의 해저",
             "feed": "갯지렁이, 조개, 단각류, 새우, 게",
             "prohibition": "15cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/도다리.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/도다리.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/도다리.png"
         }
     },
     {
@@ -151,8 +161,9 @@
             "habitat": "서,남해 연안",
             "feed": "작은 어류, 갑각류, 갯지렁이",
             "prohibition": "30cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/농어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/농어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/농어.png"
         }
     },
     {
@@ -164,8 +175,9 @@
             "habitat": "수심 30m 이내의 연안",
             "feed": "플랑크톤, 바닥의 유기물",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/전어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/전어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/전어.png"
         }
     },
     {
@@ -177,8 +189,9 @@
             "habitat": "산호초와 암초가 있는 연안",
             "feed": "동물성 플랑크톤",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/자리돔.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/자리돔.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/자리돔.png"
         }
     },
     {
@@ -190,8 +203,9 @@
             "habitat": "수심 10~100m 암초지",
             "feed": "게, 새우, 곤쟁이 및 갑각류 유생",
             "prohibition": "23cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/우럭.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/우럭.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/우럭.png"
         }
     },
     {
@@ -204,7 +218,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -217,7 +232,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -229,8 +245,9 @@
             "habitat": "수심 30m 정도의 얕은 바다",
             "feed": "동물성 플랑크톤, 갯지렁이, 새우, 조개",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/망상어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/망상어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/망상어.png"
         }
     },
     {
@@ -243,7 +260,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -256,7 +274,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -268,8 +287,9 @@
             "habitat": "연안 암초지역",
             "feed": "동물성 플랑크톤, 갑각류, 성게류",
             "prohibition": "24cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/돌돔.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/돌돔.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/돌돔.png"
         }
     },
     {
@@ -281,8 +301,9 @@
             "habitat": "연안 모래 바닥",
             "feed": "작은 어류, 새우, 게, 갯지렁이, 오징어",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/보리멸.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/보리멸.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/보리멸.png"
         }
     },
     {
@@ -295,7 +316,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -308,7 +330,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -321,7 +344,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -333,8 +357,9 @@
             "habitat": "바다 속 모래 바닥",
             "feed": "갑각류, 연체동물, 작은어류",
             "prohibition": "35cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/광어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/광어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/광어.png"
         }
     },
     {
@@ -346,8 +371,9 @@
             "habitat": "얕은 연안",
             "feed": "저서성 무척추동물, 플랑크톤",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/망둥어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/망둥어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/망둥어.png"
         }
     },
     {
@@ -360,7 +386,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -372,8 +399,9 @@
             "habitat": "연안의 얕은 암초 지역",
             "feed": "동물성 플랑크톤, 조류, 동물성 먹이",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/독가시치.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/독가시치.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/독가시치.png"
         }
     },
     {
@@ -385,8 +413,9 @@
             "habitat": "조간대",
             "feed": "플랑크톤, 돌말류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/짱뚱어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/짱뚱어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/짱뚱어.png"
         }
     },
     {
@@ -398,8 +427,9 @@
             "habitat": "연근해의 아표층",
             "feed": "갑각류, 멸치, 까나리",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/삼치.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/삼치.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/삼치.png"
         }
     },
     {
@@ -412,20 +442,22 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
         "model": "api.fish",
         "pk": 33,
         "fields": {
-            "name": "쏨벵이",
+            "name": "쏨뱅이",
             "fish_type": 1,
             "habitat": "",
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -437,8 +469,9 @@
             "habitat": "바닥이 모래와 진흙으로 된 연안",
             "feed": "갑각류, 오징어류, 낙지류, 작은 어류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/양태.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/양태.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/양태.png"
         }
     },
     {
@@ -451,7 +484,8 @@
             "feed": "",
             "prohibition": "",
             "image": "",
-            "recipe": "True"
+            "recipe": "True",
+            "image2": ""
         }
     },
     {
@@ -463,8 +497,9 @@
             "habitat": "연안 깊은 곳",
             "feed": "갑각류, 작은 어류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/벤자리.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/벤자리.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/벤자리.png"
         }
     },
     {
@@ -476,8 +511,9 @@
             "habitat": "연안의 중 하층",
             "feed": "작은 어류, 오징어",
             "prohibition": "30cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/방어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/방어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/방어.png"
         }
     },
     {
@@ -489,8 +525,9 @@
             "habitat": "수심 100~200m의 연안 암초지대",
             "feed": "오징어, 갑각류, 작은 어류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/다금바리.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/다금바리.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/다금바리.png"
         }
     },
     {
@@ -502,8 +539,9 @@
             "habitat": "육지 근처의 연안",
             "feed": "새우류, 게류, 작은 어류",
             "prohibition": "33cm 이하 금지",
-            "image": "http://k3c206.p.ssafy.io/images/민어.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/민어.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/민어.png"
         }
     },
     {
@@ -515,8 +553,9 @@
             "habitat": "얕은 바다",
             "feed": "갑각류, 갯지렁이, 작은 어류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/간재미.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/간재미.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/간재미.png"
         }
     },
     {
@@ -528,8 +567,9 @@
             "habitat": "바다",
             "feed": "요각류, 새우, 게",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/부세.jpg",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/부세.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/부세.png"
         }
     },
     {
@@ -541,21 +581,9 @@
             "habitat": "바닥이 모래나 뻘로 된 근해",
             "feed": "새우, 게, 갯가재, 오징어, 작은 어류",
             "prohibition": "",
-            "image": "http://k3c206.p.ssafy.io/images/보구치.jpg",
-            "recipe": "True"
-        }
-    },
-    {
-        "model": "api.fish",
-        "pk": 43,
-        "fields": {
-            "name": "쏨뱅이",
-            "fish_type": 1,
-            "habitat": "",
-            "feed": "",
-            "prohibition": "",
-            "image": "",
-            "recipe": "True"
+            "image": "http://k3c206.p.ssafy.io/images/color/보구치.png",
+            "recipe": "True",
+            "image2": "http://k3c206.p.ssafy.io/images/black/보구치.png"
         }
     }
 ]
