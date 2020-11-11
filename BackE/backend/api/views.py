@@ -406,7 +406,7 @@ class UserFishAPIView(APIView):
 
 # 유저가 낚시한 물고기(낚시 히스토리 아이콘 색칠 용)
 class UserFishHistory(APIView):
-    def get(self, request):
+    def post(self, request):
         # if request.user.is_anonymous:
         #     result = {
         #         "status": 401,
@@ -464,7 +464,9 @@ class SpotFishAPIView(APIView):
                 }
                 return Response(result, status=200) 
         else:
-            serializer = SpotSerializer(Spot.objects.all(), many=True)
+            spots = Spot.objects.all()
+            spots = random.sample(list(spots), 500)
+            serializer = SpotSerializer(spots, many=True)
 
         result = {
             "status": 200,
@@ -568,24 +570,28 @@ class FishDiscrimination(APIView):
         os.path.join(execution_path, "model_class.json"))
         prediction.loadModel(num_objects=4)
 
+        # img = request.FILES['img']
         img = request.data['img']
         image = Image.open(img)
         image = image.resize((256, 256))
         image.save(execution_path+'image.jpg')
         predictions, probabilities = prediction.predictImage(execution_path+'image.jpg', result_count=5)
         
-        data = {}
+        data = []
         for eachPrediction, eachProbability in zip(predictions, probabilities):
+            data_line = {}
             fish_pk = FISH_MAP[eachPrediction]
             # print(fish_pk.__class__)
             # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
             FDA = FishDetailAPIView()
             fish = FDA.get_object(fish_pk)
             fish_name = fish.name
-            data[fish_name] = eachProbability
+            data_line['id'] = fish_pk
+            data_line['name'] = fish_name
+            data_line['probability'] = eachProbability
+            data.append(data_line)
             # print(fish_name, eachProbability)
 
-        # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
         result = {
             "status": 200,
             "message": "OK",
