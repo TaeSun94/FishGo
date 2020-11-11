@@ -23,6 +23,8 @@ import glob
 # 테스트
 from PIL import Image
 
+import random
+
 
 # Create your views here.
 #이메일 인증 기능
@@ -452,6 +454,8 @@ class SpotFishAPIView(APIView):
             try:
                 fish = get_object_or_404(Fish, name=keyword)
                 spots = Spot.objects.filter(fishes__in=[fish.id])
+                if spots.count() >= 500:
+                    spots = random.sample(list(spots), 500)
                 serializer = SpotSerializer(spots, many=True)
             except Http404:
                 result = {
