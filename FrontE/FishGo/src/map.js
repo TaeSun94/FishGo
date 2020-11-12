@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 
 // let mode  = 0;
 
-// @inject('fishStore')
+
 @observer
 class map extends Component{
     state = {
