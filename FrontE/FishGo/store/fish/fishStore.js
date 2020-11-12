@@ -1,7 +1,6 @@
 import {decorate, observable, action, computed} from 'mobx';
 import {observer} from 'mobx-react';
 import http from "../../utils/http-common";
-import fish from "../../src/assets/img88.jpg"
 
 class FishStore {
     baseURL = "/api/";
