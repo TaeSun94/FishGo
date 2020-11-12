@@ -631,7 +631,7 @@ class FishDiscrimination(APIView):
 
         predictions, probabilities = prediction.predictImage(execution_path+'image.jpg', result_count=5)
         
-        data = {}
+        data = []
         for eachPrediction, eachProbability in zip(predictions, probabilities):
             fish_pk = self.FISH_MAP[eachPrediction]
             print(fish_pk.__class__)
@@ -639,6 +639,7 @@ class FishDiscrimination(APIView):
             FDA = FishDetailAPIView()
             fish = FDA.get_object(fish_pk)
             fish_name = fish.name
+            data_line = {}
             data_line['id'] = fish_pk
             data_line['name'] = fish_name
             data_line['probability'] = eachProbability
