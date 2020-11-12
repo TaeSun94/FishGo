@@ -570,8 +570,8 @@ class FishDiscrimination(APIView):
         os.path.join(execution_path, "model_class.json"))
         prediction.loadModel(num_objects=4)
 
-        # img = request.FILES['img']
-        img = request.data['img']
+        img = request.FILES.get('img')
+
         image = Image.open(img)
         image = image.resize((256, 256))
         image.save(execution_path+'image.jpg')
