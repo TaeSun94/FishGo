@@ -10,8 +10,12 @@ class Fish(models.Model):
     feed = models.CharField(max_length=50, null=True)
     prohibition = models.CharField(max_length=50, null=True)
     image = models.TextField() 
+    image2 = models.TextField() 
     recipe = models.BooleanField() 
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='User_Fish', related_name="fish_users", through_fields=('fish', 'user'))
+
+    def __str__ (self): 
+        return self.name
 
 
 class User_Fish(models.Model):
@@ -33,4 +37,5 @@ class Spot(models.Model):
     depth = models.CharField(max_length=20, null=True)
     fishes = models.ManyToManyField(Fish, related_name='spot_fishes')
 
-
+    def __str__ (self): 
+        return self.name

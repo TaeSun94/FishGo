@@ -4,39 +4,45 @@
 
 #### 인증 API
 
-| 리소스                | POST                                  | GET  | PUT  | DELETE      |
-| --------------------- | ------------------------------------- | ---- | ---- | ----------- |
-| auth/signup/          | 회원가입<br />& 이메일 인증           | X    | X    | X           |
-| auth/login/           | 로그인<br />반환: 토큰                | X    | X    | X           |
-| auth/logout/          | 로그아웃                              | X    | X    | X           |
-| auth/check/           | 아이디 중복체크<br />반환: True/False | X    | X    | X           |
-| auth/callback/        | 카카오 로그인                         | X    | X    | X           |
-| api/user/  (관리자용) | X                                     | X    | X    | 유저 지우기 |
+| 리소스                    | POST                                  | GET  | PUT  | DELETE      |
+| ------------------------- | ------------------------------------- | ---- | ---- | ----------- |
+| auth/signup/              | 회원가입<br />& 이메일 인증           | X    | X    | X           |
+| auth/login/               | 로그인<br />반환: 토큰                | X    | X    | X           |
+| auth/logout/              | 로그아웃                              | X    | X    | X           |
+| auth/check/               | 아이디 중복체크<br />반환: True/False | X    | X    | X           |
+| auth/callback/            | 카카오 로그인                         | X    | X    | X           |
+| api/user/  (관리자용)     | X                                     | X    | X    | 유저 지우기 |
+| rest-auth/password/reset/ | 이메일로 비밀번호 변경 url 보내기     | X    | X    | X           |
 
 
 
 #### 물고기 API
 
-| 리소스                   | POST                        | GET                                                          | PUT                      | DELETE                   |
-| ------------------------ | --------------------------- | ------------------------------------------------------------ | ------------------------ | ------------------------ |
-| api/fishes/              | 물고기 추가                 | 물고기 전체 목록                                             | 수정                     | 삭제                     |
-| api/fishes?keyword=      | X                           | 물고기 이름으로 검색                                         | X                        | X                        |
-| api/fishes/1/            | X                           | 1번 물고기 정보<br />& 로그인 한 유저가 1번 물고기 잡은적 있는지 | X                        | X                        |
-| api/fishes/1/catches/    | X                           | 로그인 한 유저의 1번 물고기 낚시 목록                        | X                        | X                        |
-| api/fishes/1/catch/      | 1번 물고기 낚시 목록에 등록 | 낚시 된 물고기 정보                                          | 낚시 된 물고기 정보 수정 | 낚시 된 물고기 정보 삭제 |
-| api/users/  (관리자용)   | X                           | 유저 전체 목록                                               | X                        | X                        |
-| api/users/1/  (관리자용) | X                           | 1번 유저 정보                                                | X                        | X                        |
-| api/users/catches/       | X                           | 유저가 낚시한 물고기 전체 목록                               | X                        | X                        |
+| 리소스                      | POST                                | GET                                                          | PUT                      | DELETE                   |
+| --------------------------- | ----------------------------------- | ------------------------------------------------------------ | ------------------------ | ------------------------ |
+| api/fishes/                 | 물고기 추가                         | 물고기 전체 목록                                             | 수정                     | 삭제                     |
+| api/fishes?keyword=         | X                                   | 물고기 이름으로 검색                                         | X                        | X                        |
+| api/fishes/1/               | X                                   | 1번 물고기 정보<br />& 로그인 한 유저가 1번 물고기 잡은적 있는지 | X                        | X                        |
+| api/fishes/1/catches/       | X                                   | 로그인 한 유저의 1번 물고기 낚시 목록                        | X                        | X                        |
+| api/fishes/1/catch/         | 1번 물고기 낚시 목록에 등록         | 낚시 된 물고기 정보                                          | 낚시 된 물고기 정보 수정 | 낚시 된 물고기 정보 삭제 |
+| api/users/  (관리자용)      | X                                   | 유저 전체 목록                                               | X                        | X                        |
+| api/users/1/  (관리자용)    | X                                   | 1번 유저 정보                                                | X                        | X                        |
+| api/users/catches/          | 유저가 낚시한 물고기 종류 전체 목록 | X                                                            | X                        | X                        |
+| api/users/catches/?keyword= | X                                   | 유저가 낚시한 물고기 종류 이름으로 검색                      | X                        | X                        |
+| api/fishdiscriminations/    | 물고기 판별                         | X                                                            | X                        | X                        |
 
 
 
 #### 지도 API
 
-| 리소스              | POST | GET                                                | PUT  | DELETE |
-| ------------------- | ---- | -------------------------------------------------- | ---- | ------ |
-| api/spots/          | X    | 전체 낚시터 위치 정보<br>(로딩 시간 너무 오래걸림) | X    | X      |
-| api/spots/?keyword= | X    | 물고기로 낚시터 검색                               | X    | X      |
-| api/spots/1/        | X    | 1번 낚시터 디테일                                  | X    | X      |
+| 리소스                   | POST | GET                                                | PUT  | DELETE |
+| ------------------------ | ---- | -------------------------------------------------- | ---- | ------ |
+| api/spots/               | X    | 전체 낚시터 위치 정보<br>(로딩 시간 너무 오래걸림) | X    | X      |
+| api/spots/?keyword=      | X    | 물고기로 낚시터 검색                               | X    | X      |
+| api/spots/1/             | X    | 1번 낚시터 디테일                                  | X    | X      |
+| api/userfishes/          | X    | 낚시된 전체 물고기 목록                            | X    | X      |
+| api/userfishes/?keyword= | X    | 물고기 이름으로 잡힌 물고기 목록 검색              | X    | X      |
+| api/userfishes/1/        | X    | 낚시된 물고기 디테일                               | X    | X      |
 
 
 
@@ -182,3 +188,23 @@
     - 성공:  로그인 필요하지 않음 - 잡았던 물고기 정보와 boolean 반환
 
     ![image-20201105114438978](REST%20API.assets/image-20201105114438978.png)
+
+
+
+12. api/fishdiscriminations/
+
+    - 성공: 라벨링 수정할것
+
+    ![image-20201109114417740](REST%20API.assets/image-20201109114417740.png)
+
+​	
+
+ 13. rest-auth/password/reset/
+
+     - 해당 이메일로 패스워드 초기화 링크 전송
+
+     ![image-20201111121446229](REST%20API.assets/image-20201111121446229.png)
+
+     - 디자인 수정 필요
+
+     ![image-20201111121623533](REST%20API.assets/image-20201111121623533.png)

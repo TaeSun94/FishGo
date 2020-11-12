@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
     'api',
     'accounts',
-
+    'bootstrap4',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -74,7 +74,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'accounts', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
