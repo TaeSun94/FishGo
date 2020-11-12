@@ -150,7 +150,7 @@ class LoginAPI(generics.GenericAPIView):
             status=200
         )
 
-
+# 로그아웃
 class LogoutAPIView(APIView):
     def post(self, request, format=None):
         if request.user.is_anonymous:
@@ -189,13 +189,16 @@ def get_token(request):
     kakao_response = json.loads(kakao_response.text)
     account = kakao_response['kakao_account']
     
-    user_email = account['email']
-    user_name = user_email.split('@')[0]
-    profile_image = kakao_response['properties']['profile_image']
+    try:
+        user_email = account['email']
+        profile_image = kakao_response['properties']['profile_image']
 
-    # 이메일 정보 없으면 에러 처리
-    if user_email is None:
-        return Response({'key': 'error'})
+    except: 
+        result = {
+            "status": 400,
+            "message": "Bad Request",
+        }
+        return Response(result, status=400)
 
 
     # 유저정보 저장 혹은 토큰 발행(배포전 수정 필요)
@@ -205,13 +208,32 @@ def get_token(request):
         update_last_login(None, user_now)
         
     else:
-        User(user_type='kakao', username=user_email, profile_img=profile_image).save()
-        user_now = User.objects.get(user_type='kakao', username=user_email) 
-        token = Token.objects.create(user=user_now)
-        update_last_login(None, user_now)
+        try:
+            User(user_type='kakao', username=user_email, profile_img=profile_image, email=user_email).save()
+            user_now = User.objects.get(user_type='kakao', username=user_email) 
+            token = Token.objects.create(user=user_now)
+            update_last_login(None, user_now)
+        except:
+            result = {
+                "status": 400,
+                "message": "Bad Request",
+            }
+            return Response(result, status=400)            
         
-    return Response({'key': token.key}) 
-
+    # return Response({'key': token.key}) 
+    return Response(
+        {
+            "status": 200,
+            "message": "OK",
+            "data": {
+                "token": str(token.key),
+                "user": UserSerializer(
+                    user_now
+                ).data,
+            }
+        },
+        status=200
+    )
 
 # 아이디 중복확인
 @api_view(['POST'])

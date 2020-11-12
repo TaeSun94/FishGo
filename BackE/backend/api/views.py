@@ -296,7 +296,7 @@ class UserFishAPIView(APIView):
     def get(self, request, pk):
         try:
             user = self.get_user(request)
-            fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
+            fish = get_object_or_404(User_Fish, pk=self.request.query_params.get('user_fish_id', None), user_id=user.id)
             serializer = UserFishSerializer(fish)
             result = {
                 "status": 200,
