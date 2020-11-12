@@ -20,6 +20,7 @@ class FishSerializer(serializers.ModelSerializer):
             "feed",
             "prohibition",
             "image",
+            "image2",
             "recipe",
         ]
 

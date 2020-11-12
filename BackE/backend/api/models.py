@@ -10,6 +10,7 @@ class Fish(models.Model):
     feed = models.CharField(max_length=50, null=True)
     prohibition = models.CharField(max_length=50, null=True)
     image = models.TextField() 
+    image2 = models.TextField() 
     recipe = models.BooleanField() 
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='User_Fish', related_name="fish_users", through_fields=('fish', 'user'))
 

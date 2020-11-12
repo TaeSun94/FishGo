@@ -23,6 +23,8 @@ import glob
 # 테스트
 from PIL import Image
 
+import random
+
 # object detection
 import numpy as np
 import os
@@ -428,9 +430,9 @@ class UserFishAPIView(APIView):
             return Response(result, status=404) 
 
 
-# 유저가 낚시한 물고기 번호만(낚시 히스토리 아이콘 색칠 용)
+# 유저가 낚시한 물고기(낚시 히스토리 아이콘 색칠 용)
 class UserFishHistory(APIView):
-    def get(self, request):
+    def post(self, request):
         # if request.user.is_anonymous:
         #     result = {
         #         "status": 401,
@@ -455,12 +457,11 @@ class UserFishHistory(APIView):
         else:
             all_fishes = Fish.objects.all()
 
-        # 이부분 사진 수정 필요
         for fish in all_fishes:
             if fish.id in fish_list:
                 fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image, "catched": True})
             else:
-                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": "", "catched": False})
+                fish_info.append({"id": fish.id, "name": fish.name, "fish_type": fish.fish_type, "img": fish.image2, "catched": False})
 
         result = {
             "status": 200,
@@ -479,15 +480,19 @@ class SpotFishAPIView(APIView):
             try:
                 fish = get_object_or_404(Fish, name=keyword)
                 spots = Spot.objects.filter(fishes__in=[fish.id])
+                if spots.count() >= 500:
+                    spots = random.sample(list(spots), 500)
                 serializer = SpotSerializer(spots, many=True)
             except Http404:
                 result = {
-                    "status": 404,
-                    "message": "Not Found",
+                    "status": 200,
+                    "message": "No Record",
                 }
-                return Response(result, status=404) 
+                return Response(result, status=200) 
         else:
-            serializer = SpotSerializer(Spot.objects.all(), many=True)
+            spots = Spot.objects.all()
+            spots = random.sample(list(spots), 500)
+            serializer = SpotSerializer(spots, many=True)
 
         result = {
             "status": 200,
@@ -513,6 +518,7 @@ class SpotDetailAPIView(APIView):
             result = {
                 "status": 404,
                 "message": "Not Found",
+                "data": {},
             }
             return Response(result, status=404) 
 
@@ -529,10 +535,11 @@ class UserAllFishAPIView(APIView):
                 serializer = UserFishSimpleSerializer(user_fishes, many=True)
             except Http404:
                 result = {
-                    "status": 404,
-                    "message": "Not Found",
+                    "status": 200,
+                    "message": "No Record",
+                    "data": {},
                 }
-                return Response(result, status=404) 
+                return Response(result, status=200) 
         else:
             serializer = UserFishSimpleSerializer(User_Fish.objects.all(), many=True)
 
@@ -632,10 +639,12 @@ class FishDiscrimination(APIView):
             FDA = FishDetailAPIView()
             fish = FDA.get_object(fish_pk)
             fish_name = fish.name
-            data[fish_name] = eachProbability
-            print(fish_name, eachProbability)
+            data_line['id'] = fish_pk
+            data_line['name'] = fish_name
+            data_line['probability'] = eachProbability
+            data.append(data_line)
+            # print(fish_name, eachProbability)
 
-        # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
         result = {
             "status": 200,
             "message": "OK",
