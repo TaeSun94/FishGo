@@ -159,7 +159,11 @@
 
     인풋
 
-    ![image-20201029133203982](REST%20API.assets/image-20201029133203982.png)
+    ![image-20201112173247037](REST%20API.assets/image-20201112173247037.png)
+
+    ![image-20201112173319172](REST%20API.assets/image-20201112173319172.png)
+
+    
 
     아웃풋
 
@@ -167,11 +171,13 @@
 
     
 
-    - Method = GET - 한 물고기도 여러 번 잡을 수 있으므로 user_fish_id로 구분해서 불러와야, 로그인 필수
+    - Method = GET - 한 물고기도 여러 번 잡을 수 있으므로 user_fish_id로 구분해서 불러와야, 로그인 필수(헤더에)
 
-      ![image-20201029121758357](REST%20API.assets/image-20201029121758357.png)
+      ![image-20201112174130247](REST%20API.assets/image-20201112174130247.png)
 
-      
+      ![image-20201112174208324](REST%20API.assets/image-20201112174208324.png)
+
+    
 
     - Method = PUT - user_fish_id로 구분,  일단 length만 수정 가능, 로그인 필수
 
