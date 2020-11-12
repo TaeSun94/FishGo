@@ -33,6 +33,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 @observer
 class HomeScreen extends Component {
   addImage = () => {
+    const { fishStore } = this.props;
     ImagePicker.showImagePicker({
       title: '',
       takePhotoButtonTitle: '사진 찍기',
@@ -43,31 +44,13 @@ class HomeScreen extends Component {
         console.log("돌아가기")
       }
       else {
-        // console.log
-        console.log(RNFS.DocumentDirectoryPath);
-        const imagePath = `${RNFS.DocumentDirectoryPath}/${new Date().toISOString()}.jpg`.replace(/:/g, '-');
-        console.log(imagePath);
-        console.log('---------------------------------------------------------')
-        if(Platform.OS === 'ios') {
-            RNFS.copyAssetsFileIOS(response.origURL, imagePath, 0, 0)
-                .then(res => {})
-                .catch(err => {
-                    console.log('ERROR: image file write failed!!!');
-                    console.log(err.message, err.code);
-                });
-        } else if(Platform.OS === 'android') {
-            RNFS.copyFile(response.uri, imagePath)
-                .then(res => {
-                  console.log(res)
-                })
-                .catch(err => {
-                  console.log('ERROR: image file write failed!!!');
-                  console.log(err.message, err.code);
-                });
-              }
-              // RNFS.appendFile()
-        console.log(response)
-        this.props.navigation.navigate('Descrimination', { source: response })
+        fishStore.sendDiscrimination(response).then((data)=>{
+          // console.log(data);
+          fishStore.setDiscriminateFish(data.data.data.predictions);
+          this.props.navigation.navigate('Descrimination', { source: response })
+        }).catch((res)=>{
+          console.log(res)
+        })
       }
     })
   }
@@ -77,7 +60,7 @@ class HomeScreen extends Component {
     console.log()
     return (
       <SafeAreaView>
-        <LinearGradient colors={['#736efe', '#5efce8']}>
+        {/* <LinearGradient colors={['#736efe', '#5efce8']}> */}
         <View style={styles.mainView}>
           <View style={{
             flexDirection: 'row',
@@ -108,7 +91,8 @@ class HomeScreen extends Component {
                 style={styles.btn}
                 onPress={() => {
                   fishStore.getUserFishes(userStore.userInfo.user.id).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
+                    fishStore.setUserFishes(res.data.data.fishes);
                     this.props.navigation.navigate('Collection')
                   }).catch(res=>console.log(res));
                 }}
@@ -161,7 +145,7 @@ class HomeScreen extends Component {
         </Text>
           <Text>ddd</Text>
         </View >
-        </LinearGradient>
+        {/* </LinearGradient> */}
       </SafeAreaView>
     )
   }
