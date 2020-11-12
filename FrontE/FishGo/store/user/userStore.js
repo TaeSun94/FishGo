@@ -2,6 +2,7 @@
 import {decorate, observable, action, computed} from 'mobx';
 import {observer} from 'mobx-react';
 import http from '../../utils/http-common'
+import { Alert } from 'react-native';
 
 class UserStore {
     baseURL = "/auth";
@@ -28,17 +29,9 @@ class UserStore {
     @action
     logInUser(params){
         const URL = this.baseURL+'/login/';
-        http.post(`${URL}`,{
+        return http.post(`${URL}`,{
             "username": params.id,
             "password": params.pw
-        }).then((res) =>{
-            console.log(res);
-            if(res.status === 200){
-                this.setUserInfo(res.data.data);
-            }
-        })
-        .catch(()=>{
-            alert('아이디 또는 비밀번호를 다시 확인해주세요.');
         });
     }
 
@@ -49,21 +42,6 @@ class UserStore {
             "username": params.id,
             "password": params.pw
         });
-        // .then((res) =>{
-        //     console.log(res);
-        //     if(res.status === 200){
-                // alert('이메일 인증 후 로그인 해주시기 바랍니다.');
-        //         return true;
-        //     }
-        // })
-        // .catch(()=>{
-            // alert('아이디 또는 비밀번호를 다시 확인해주세요.');
-        //     return false;
-        // });
-        // return http.post(`${URL}`,{
-        //     "username": params.id,
-        //     "password": params.pw
-        // });
     }
 
     @action
@@ -83,6 +61,15 @@ class UserStore {
     //     URL = this.baseURL+'/signup';
     //     return http.post(`${URL}`,params);
     // }
+
+    @action
+    resetPW(email){
+        const URL = '/rest-auth/password/reset/';
+        return http.post(`${URL}`,{
+            email: email
+        });
+    }
+
 }
 
 // const store = new UserStore();

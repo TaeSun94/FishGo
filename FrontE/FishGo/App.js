@@ -30,6 +30,7 @@ import Map from './src/map';
 import CollectionInsertScreen from './src/Collection/collection_insert';
 import DescriminationScreen from './src/Discrimination/discrimination';
 import SearchScreen from './src/Search/search';
+import ForgetPWScreen from './src/forgetPW';
 const Stack = createStackNavigator();
 
 class App extends Component{
@@ -38,7 +39,7 @@ class App extends Component{
       <Provider {...stores}>
         <NavigationContainer>
           <Stack.Navigator 
-            initialRouteName="Home"
+            initialRouteName="Login"
             screenOptions={{
               headerShown:false
             }}
@@ -52,6 +53,7 @@ class App extends Component{
             <Stack.Screen name="Collection_insert" component={CollectionInsertScreen}/>
             <Stack.Screen name="Descrimination" component={DescriminationScreen}/>
             <Stack.Screen name="Search" component={SearchScreen}/>
+            <Stack.Screen name="Forget" component={ForgetPWScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
