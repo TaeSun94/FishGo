@@ -57,7 +57,7 @@ class FishDetection(APIView):
         thumb = ImageChops.offset(thumb, int(offset_x), int(offset_y))
         thumb.save(execution_path+'image.jpg')
 
-        return Response(thumb,status=200)
+        return Response("ok",status=200)
 
     def load_model(self, model_name):
         model_dir = os.getcwd() + '/detect/files/' + model_name
