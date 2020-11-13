@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FishGo</string>
+    // 카카오 로그인 API
+    <string name="kakao_app_key">9d9e47b7810eb04b7138528799763fbd</string>
 </resources>
