@@ -38,6 +38,7 @@ class map extends Component{
           mode : 0,
           userfishes : [],
           points : [],
+          zoom : 5
         }
         this.updateIndex = this.updateIndex.bind(this)
         this.searchUserFish('')
@@ -98,7 +99,10 @@ class map extends Component{
         
         // console.log(this.state.records);
     }
-    
+    changeZoom(number){
+        this.setState({zoom : number});
+        alert("1")
+    }
     render(){
         const { search } = this.state;
         const buttons = ['물고기', '낚시포인트'];
@@ -127,7 +131,7 @@ class map extends Component{
                     value={search}
                 />
                 {/* <MapViewScreen test={this.state}/> */}
-                <MapViewScreen userfishes={this.state.userfishes} points={this.state.points} mode={this.state.mode}/>
+                <MapViewScreen userfishes={this.state.userfishes} points={this.state.points} mode={this.state.mode} zoom={this.state.zoom} changeZoom={this.changeZoom}/>
                 <ButtonGroup
                     onPress={this.updateIndex}
                     selectedIndex={selectedIndex}
@@ -137,16 +141,7 @@ class map extends Component{
             </View>     
         )
     }
-    // <Stack.Navigator>
-    //     <Stack.Screen name="home" component={HomeScreen}/>
-    //     <Stack.Screen name="stack" component={MapViewScreen}/>
-    // </Stack.Navigator>
 }
-// const map = () => {
-//     return <NavigationContainer>
-        
-//     </NavigationContainer>
-// }
 
 const HomeScreen = () =>
     
@@ -161,107 +156,44 @@ const TextScreen = () => {
 
 
 const p = {latitude: 0,longitude:0}
-
-// @inject('fishStore')
-// @observer
-// class Markers extends Component{
-//     check(){
-//         console.log("배열확인");
-//         console.log(this.props.fishStore.fishRecords);
-//     }
-//     render(){
-//         this.check();
-//         return(
-//             this.props.fishStore.fishRecords.map((item,idx) =>(
-//                 // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-//                 <Marker coordinate={P1} onClick={() => console.warn(idx)} caption={{text: "hello"}}/>
-//             ))
-//         )
-//     }
-// }
-
-// class MapViewScreen extends Component{
-//     state = {
-//         search: '',
-//     };
-//     updateSearch = (search) => {
-//         this.setState({ search });
-//     };
-//     render(){
-//         const { search } = this.state;
-        
-//         return(
-//             <>
-//             <SearchBar
-//                 placeholder="Type Here..."
-//                 onChangeText={this.updateSearch}
-//                 value={search}
-//             />
-//             <NaverMapView style={{width: '100%', height: '90%'}}
-//                         showsMyLocationButton={true}
-//                         center={{...P0, zoom: 5}}
-//                         //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-//                         //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-//                         //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
-//                         useTextureView>
-//                 <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-//                 <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
-//                 <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
-//                 <Marker coordinate={P4} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>
-//                 <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
-//                 <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
-//                 <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
-//                 <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
-//             </NaverMapView>
-//             {/* <TouchableOpacity style={{position: 'absolute', bottom: '10%', right: 8}} onPress={() => navigation.navigate('stack')}>
-//                 <View style={{backgroundColor: 'gray', padding: 4}}>
-//                     <Text style={{color: 'white'}}>open stack</Text>
-//                 </View>
-//             </TouchableOpacity> */}
-//             {/* <Text style={{position: 'absolute', top: '95%', width: '100%', textAlign: 'center'}}>Icon made by Pixel perfect from www.flaticon.com</Text> */}
-//         </>
-//         )
-//     }
-    
-// };
 let tmp = []
 const MapViewScreen = (props) => {
-    console.log(props)
     useEffect(() => {
         requestLocationPermission();
     }, []);
     //
-    return <>
+    return (<>
         <NaverMapView style={{width: '100%', height: '80%'}}
                       showsMyLocationButton={true}
                       setLocationTrackingMode={TrackingMode.Follow}
-                      center={{...P0, zoom: 5}}
+                      center={{...P0, zoom: props.zoom}}
                     //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
                     //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
                     //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
                       useTextureView>
                     {/* <Markers fishes={props}/> */}
-                    <Markers fishes={props.userfishes} points={props.points} mode={props.mode}/>
+                    <TouchableOpacity>
+                        <Markers fishes={props.userfishes} points={props.points} mode={props.mode} changeZoom={props.changeZoom}/>
+                    </TouchableOpacity>
             {/* <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
             <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
             <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>*/}
             {/* <Marker coordinate={{latitude: tmp.latitude,longitude: tmp.longitude}} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>  */}
         </NaverMapView>
-    </>
+    </>)
 };
 
 
 
 const Markers = (props) => {
-    console.log("마커")
-    console.log(props)
     if(props.fishes !== undefined){
         if(props.mode === 0){
             return(
                 // props.fishes.fishes.map((item,idx) =>(
                 props.fishes.map((item,idx) =>(
                         // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} onClick={() => console.warn(idx)} image={require("./assets/fish2.png")} width={48} height={48} />
+                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} image={require("./assets/fish2.png")} width={48} height={48} />
+                        // () => console.warn(idx)
                 ))
                 // <View>
                 //     {/* <Text>test</Text> */}
