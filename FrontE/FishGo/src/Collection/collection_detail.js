@@ -21,32 +21,22 @@ class CollectionDetailScreen extends Component {
     render() {
         const { params } = this.props.route;
         return (
-            <SafeAreaView>
-                <ScrollView horizontal = {true}
-                style={{flexWrap: 'wrap'}}>
-                    <CollectionDetailListScreen fishes={params.fishes} />
+            <SafeAreaView style={{
+                backgroundColor: 'rgba(172,209,233,0.4)',
+                width: '100%',
+                height: '100%'
+            }}>
+                <ScrollView
+                    horizontal={true}
+                    style={{ flexWrap: 'wrap' }}>
+                    <CollectionDetailListScreen fishes={params.fishes}
+                    />
                 </ScrollView>
-                <Button
-                    title="목록으로"
-                    onPress={() => {
-                        this.props.navigation.navigate('Collection')
-                    }}
-                />
             </SafeAreaView>
         )
 
     }
 }
-
-// else {
-//     return (
-//         <SafeAreaView>
-//             <View>
-//                 <Text>아직 잡지 못하였어요!</Text>
-//             </View>
-//         </SafeAreaView>
-//     )
-// }
 
 const styles = StyleSheet.create({
     mainView: {

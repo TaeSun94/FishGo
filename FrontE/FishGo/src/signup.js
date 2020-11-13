@@ -25,7 +25,7 @@ export default class LoginScreen extends Component {
   state = {
     id: '',
     pw: '',
-    isCorrect: '비밀번호와 다릅니다.',
+    isCorrect: '비밀번호와 다릅니다.'
   }
 
   setId = (id) => {
@@ -83,12 +83,14 @@ export default class LoginScreen extends Component {
   render() {
     const { userStore } = this.props;
     return (
-      <LinearGradient colors={['#736efe', '#5efce8']}>
+      
+      // <LinearGradient colors={['#736efe', '#5efce8']}>
         <KeyboardAvoidingView
           style={styles.mainView}
           behavior="position"
           enabled
         >
+          
           <View style={styles.logoView}>
             <Text style={styles.logoText}>FishGo</Text>
           </View>
@@ -96,7 +98,7 @@ export default class LoginScreen extends Component {
             <View style={styles.btnView}>
               <TextInput
                 style={styles.text}
-                placeholder=" 아이디"
+                placeholder=" 이메일"
                 onChangeText={this.setId}
               />
             </View>
@@ -125,6 +127,7 @@ export default class LoginScreen extends Component {
                 placeholder=" 비밀번호"
                 onChangeText={this.setPw}
               />
+              <AblePW data={this.state.pw}/>
             </View>
             <View style={styles.btnView}>
               <TextInput
@@ -154,7 +157,30 @@ export default class LoginScreen extends Component {
             </View>
           </View>
         </KeyboardAvoidingView>
-      </LinearGradient>
+      // </LinearGradient>
+    )
+  }
+}
+
+const AblePW = (data) =>{
+  if(data.data.length < 8){
+    return(
+      <Text style={{
+        fontFamily: 'Bazzi',
+        color:'red'
+      }}>
+        비밀번호는 8자 이상 대소문자, 숫자의 조합
+      </Text>
+    )
+  }
+  else{
+    return(
+      <Text style={{
+        fontFamily: 'Bazzi',
+        color:'black'
+      }}>
+        사용 가능한 비밀번호 입니다.
+      </Text>
     )
   }
 }
@@ -163,6 +189,7 @@ const styles = StyleSheet.create({
   mainView: {
     width: '100%',
     height: '100%',
+    backgroundColor: 'rgba(172,209,233,0.4)',
   },
   logoView: {
     margin: 30,
@@ -173,7 +200,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 80,
     fontFamily: "Bazzi",
-    color: 'white'
+    color:'rgba(0,0,0,0.7)'
   },
   text: {
     borderBottomColor: 'gray',

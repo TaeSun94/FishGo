@@ -9,7 +9,7 @@ import { inject, observer } from 'mobx-react';
 import React, { Component } from 'react';
 // 카카오로그인 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import KakaoLogins  from '@react-native-seoul/kakao-login';
+import KakaoLogins, { login }  from '@react-native-seoul/kakao-login';
 import http from '../utils/http-common';
 
 import {
@@ -19,7 +19,8 @@ import {
     Alert,
     TextInput,
     TouchableOpacity,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    StatusBar
 } from 'react-native';
 import { color } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
@@ -34,15 +35,17 @@ if (!KakaoLogins) {
 export default class LoginScreen extends Component {
     state = {
         id: '',
-        pw: ''
+        pw: '',
+        idCheck: false,
+        pwCheck: false
     }
 
     setId = (id) => {
-        this.setState({ id: id });
+        this.setState({ id: id});
     }
 
     setPw = (pw) => {
-        this.setState({ pw: pw });
+        this.setState({ pw: pw});
     }
     failAlert = () =>
     Alert.alert(
@@ -85,16 +88,28 @@ export default class LoginScreen extends Component {
     //     }
     // };
 
-
+    login = () => {
+        const {userStore} = this.props;
+        userStore.logInUser(this.state).then((res)=>{
+            userStore.setUserInfo(res.data.data);
+            this.props.navigation.navigate('Home');
+        }).catch((res)=>{
+            console.log(res);
+            this.failAlert();
+        });
+    }
     render() {
-        const { userStore } = this.props;
         return (
             // <LinearGradient colors={['#736efe', '#5efce8']}>
-                <KeyboardAvoidingView 
-                    style={styles.mainView}
-                    behavior="position"
-                    enabled    
-                >
+            <KeyboardAvoidingView 
+            style={styles.mainView}
+            behavior="position"
+            enabled    
+            >
+            <StatusBar 
+                backgroundColor="rgba(172,209,233,0.4)"
+                barStyle='dark-content'
+            />
                     <View style={styles.logoView}>
                         <Text style={styles.logoText}>FishGo</Text>
                     </View>
@@ -128,33 +143,16 @@ export default class LoginScreen extends Component {
                             <Text style={{color:'black',fontFamily:'Bazzi'}}>비밀번호를 까먹으셨나요?</Text>
                         </TouchableOpacity>
                         </View>
-                        <View style={styles.btnView}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    userStore.logInUser(this.state).then((res)=>{
-                                        userStore.setUserInfo(res.data.data);
-                                        this.props.navigation.navigate('Home');
-                                    }).catch((res)=>{
-                                        console.log(res);
-                                        this.failAlert();
-                                    });
-                                }}
-                                style={styles.btn}
-                            >
-                                <Text style={styles.btnText}>
-                                    로그인
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                        <BtnAble data={this.state} login={this.login}/>
                         <View style={styles.btnView}>
                             <TouchableOpacity
                                 // onPress={() => {
                                 //     this.props.navigation.navigate('Home')
                                 // }}
                                 onPress={this.kakaoLogin}
-                                style={styles.btn}
+                                style={styles.kakaobtn}
                             >
-                                <Text style={styles.btnText}>
+                                <Text style={styles.kakaobtnText}>
                                     카카오 로그인
                                 </Text>
                             </TouchableOpacity>
@@ -184,11 +182,44 @@ export default class LoginScreen extends Component {
     }
 }
 
+const BtnAble = (data) =>{
+    if(data.data.id !== "" && data.data.pw !== ""){
+        return(
+            <View style={styles.btnView}>
+            <TouchableOpacity
+                onPress={() => {
+                    data.login()
+                }}
+                style={styles.btn}
+            >
+                <Text style={styles.btnText}>
+                    로그인
+                </Text>
+            </TouchableOpacity>
+        </View>
+        )
+    }
+    else{
+        return(
+            <View style={styles.btnView}>
+            <TouchableOpacity
+                disabled
+                style={styles.btnNoAble}
+            >
+                <Text style={styles.btnNoAbleText}>
+                    로그인
+                </Text>
+            </TouchableOpacity>
+        </View>
+        )
+    }
+}
+
 const styles = StyleSheet.create({
     mainView: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(165,223,249,0.3)',
+        backgroundColor: 'rgba(172,209,233,0.4)',
     },
     logoView:{
         margin: 30,
@@ -199,7 +230,8 @@ const styles = StyleSheet.create({
     logoText:{
         fontSize: 80,
         fontFamily: "Bazzi",
-        color: 'white'
+        // color: 'rgba(183,175,163,0.9)'
+        color:'rgba(0,0,0,0.7)'
     },
     text: {
         borderBottomColor: 'gray',
@@ -217,6 +249,17 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 10,
     },
+    btnNoAble:{
+        alignItems: 'center',
+        padding: 15,
+        backgroundColor: 'white',
+        borderRadius: 20
+    },
+    btnNoAbleText:{
+        fontSize: 20,
+        color: 'rgba(183,175,163,1)',
+        fontFamily: "Bazzi",
+    },
     btn:{
         alignItems: 'center',
         padding: 15,
@@ -225,8 +268,18 @@ const styles = StyleSheet.create({
     },
     btnText:{
         fontSize: 20,
-        // fontWeight: 'bold',
         color: '#ffffff',
+        fontFamily: "Bazzi",
+    },
+    kakaobtn:{
+        alignItems: 'center',
+        padding: 15,
+        backgroundColor: 'yellow',
+        borderRadius: 20
+    },
+    kakaobtnText:{
+        fontSize: 20,
+        color: 'rgba(0,0,0,0.6)',
         fontFamily: "Bazzi",
     }
 });

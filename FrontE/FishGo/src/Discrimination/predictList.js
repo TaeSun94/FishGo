@@ -32,10 +32,10 @@ const PredictionList = (props) => {
                 alignItems: 'flex-start',
                 flexDirection: 'row'
             }} key={idx}>
-                <Text style={{ padding: 20, flex: 1 }}>
-                    {item.name}
+                <Text style={{ fontFamily: 'Bazzi', padding: 20, flex: 2, fontSize:20 }}>
+                    {idx+1}
                 </Text>
-                <Text style={{ padding: 20, flex: 3 }}>{item.probability}</Text>
+                <Text style={{ padding: 20, flex: 3, fontFamily: 'Bazzi', fontSize:20 }}>{item.name}</Text>
                 <TouchableOpacity
                     style={styles.btn}
                     onPress={() => {
@@ -46,7 +46,7 @@ const PredictionList = (props) => {
                         }).catch(res=>console.log(res));
                     }}
                 >
-                    <Text>등록</Text>
+                    <Text style={{fontFamily: 'Bazzi', fontSize:18}}>등록</Text>
                 </TouchableOpacity>
             </View>
         ))
@@ -70,7 +70,6 @@ async function requestLocationPermission() {
             console.log('You can use the location');
             Geolocation.getCurrentPosition(
                 (position) => {
-                    console.log(position.coords);
                     state.lat = position.coords.latitude;
                     state.lng = position.coords.longitude;
                 },
