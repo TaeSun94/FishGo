@@ -10,23 +10,23 @@ class FishStore {
     @observable
     allFishes = [];
 
-    @computed
-    searchFish = {};
+    @observable
+    selectedFishs = [];
 
     @computed
-    predictFish = [];
+    predictFishs = [];
     //vuex의 mutation 부분
     @action
     setUserFishes = (data) => { this.userFishes = data};
 
     @action
-    setSearchFish = (data) =>{
-        this.searchFish = data.data;
+    setSelectedFish = (data) =>{
+        this.selectedFishs = data.data;
     }
     
     @action
     setDiscriminateFish = (data) => {
-        this.predictFish= data;
+        this.predictFishs= data;
     }
 
     @action
@@ -41,8 +41,24 @@ class FishStore {
     }
 
     @action
+    getSelectedFishes = (data) =>{
+        const URL = this.baseURL+`fishes/${data.id.id}/catches/`;
+        return http.get(`${URL}`,{
+            headers:{
+                'Authorization': `Token ${data.info.token}`
+            }
+        });
+    }
+
+    @action
     getAllFishes = () =>{
         const URL = this.baseURL +'fishes/';
+        return http.get(`${URL}`);
+    }
+
+    @action
+    getSearchFish = (name) => {
+        const URL = this.baseURL+`fishes?keyword=${name}`;
         return http.get(`${URL}`);
     }
 
@@ -63,7 +79,6 @@ class FishStore {
             name: data.fileName,
             type: data.type
         })
-        console.log(fd)
         const URL = this.baseURL +'fishdiscriminations/';
         return http.post(`${URL}`,fd,{
             headers:{
@@ -72,16 +87,28 @@ class FishStore {
             }
         })
     }
-    
-    // @action
-    // getSearchFish(params){
-    //     const URL = this.baseURL + 'fishes/'
-    //     console.log(URL)
-    //     http.get(`${URL}`).then((data)=>{
-    //         console.log(data);
-            
-    //     })
-    // }
+
+    @action
+    registerUserFish = (data) =>{
+        const fd = new FormData();
+        fd.append('img',{
+            uri: data.data.data.img.uri,
+            name: data.data.data.img.fileName,
+            type: data.data.data.img.type
+        });
+        fd.append('lat',data.data.data.site.lat);
+        fd.append('lng',data.data.data.site.lng);
+        if(data.length.length > 0){
+            fd.append('length',data.length.length);
+        }
+        const URL = this.baseURL+`fishes/${data.data.data.fish.id}/catch/`;
+        return http.post(`${URL}`,fd,{
+            headers:{
+                'Content-Type':"multipart/form-data",
+                'Authorization': `Token ${data.info.token}`
+            }
+        });
+    }
 }
 
 export default FishStore;

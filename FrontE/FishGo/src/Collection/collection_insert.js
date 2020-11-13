@@ -5,6 +5,7 @@
  * @format
  * @flow
  */
+import { inject, observer } from 'mobx-react';
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -19,24 +20,19 @@ import {
 /*
 이름, 타입, 서식지, 먹이, 어획 금지 정보, 이미지, 먹을 수 있는지, 조리법
 */
+@inject('userStore','fishStore')
+@observer
 class CollectionInsertScreen extends Component {
-  renderRow(num) {
-    return (
-      <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-        
-        <View style={{ flex: 1, alignSelf: 'stretch' }}> { /* Edit these as they are your cells. You may even take parameters to display different data / react elements etc. */}
-        <Text>{num}</Text>
-        </View>
-        <View style={{ flex: 1, alignSelf: 'stretch' }} />
-        <View style={{ flex: 1, alignSelf: 'stretch' }} />
-        <View style={{ flex: 1, alignSelf: 'stretch' }} />
-        <View style={{ flex: 1, alignSelf: 'stretch' }} />
-      </View>
-    )
+  state = {
+    length: 0
+  }
+
+  setLen = (len) =>{
+    this.setState({length: len})
   }
   render() {
-    const state =[1,2,3,4,5];
     const {params} = this.props.route;
+    const {userStore,fishStore} = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.mainView}>
@@ -46,12 +42,13 @@ class CollectionInsertScreen extends Component {
           style={styles.scrollView}
         >
           <View style={styles.mainContentView}>
+          <Image
+            source={{ uri: params.data.img.uri }}
+            style={styles.avatar}
+          />
             <View style={styles.subcontentView}>
               <View>
-                <Text style={{ fontSize: 30 }}>{params.fish_name}</Text>
-              </View>
-              <View style={{ paddingTop: 20, paddingLeft: 40 }}>
-                <Text>{params.uf_date}</Text>
+                <Text style={{ fontSize: 30 }}>{params.data.fish.name}</Text>
               </View>
             </View>
             <View style={styles.subcontentView}>
@@ -60,7 +57,7 @@ class CollectionInsertScreen extends Component {
                 alignItems: 'center',
               }}>
                 <Text>어종 타입</Text>
-                <Text>{params.fish_type}</Text>
+                <Text>{params.data.fish.fish_type}</Text>
               </View>
               <View style={{
                 flexDirection: "column",
@@ -69,14 +66,7 @@ class CollectionInsertScreen extends Component {
                 paddingRight: 20
               }}>
                 <Text>서식지</Text>
-                <Text>{params.fish_home}</Text>
-              </View>
-              <View style={{
-                flexDirection: "column",
-                alignItems: 'center'
-              }}>
-                <Text>길이</Text>
-                <Text>{params.uf_length}</Text>
+                <Text>{params.data.fish.habitat}</Text>
               </View>
             </View>
             <View style={styles.sub2ContentView}>
@@ -85,26 +75,31 @@ class CollectionInsertScreen extends Component {
                 justifyContent: 'flex-start'
               }}>
                 <Text>먹이 : </Text>
-                <Text>{params.fish_feed}</Text>
+                <Text>{params.data.fish.feed}</Text>
               </View>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-start'
               }}>
                 <Text>포획 금지 조건 : </Text>
-                <Text>{params.fish_prohibition}</Text>
+                <Text>{params.data.fish.prohibition}</Text>
               </View>
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-start'
               }}>
                 <Text>조리법 : </Text>
-                <Text>{params.fish_receipe}</Text>
+                <Text>{params.data.fish.recipe}</Text>
               </View>
             </View>
           </View>
           <View style={styles.subView}>
             <Text>추가 정보</Text>
+            <View>
+            <Text>포획 장소</Text>
+            <Text>위도: {params.data.site.lat}</Text>
+            <Text>경도: {params.data.site.lng}</Text>
+            </View>
             <TextInput
               style={{
                 borderColor: 'gray',
@@ -116,14 +111,19 @@ class CollectionInsertScreen extends Component {
                 // width:"100%"
               }}
               placeholder="길이"
-              onChangeText={this.setText}
+              onChangeText={this.setLen}
             />
           </View>
           <View style={styles.subView}>
             <Button
               title="도감 등록"
               onPress={()=>{
-                this.props.navigation.navigate('Collection_detail')
+                console.log(this.state)
+                fishStore.registerUserFish({data: params, length: this.state, info: userStore.userInfo}).then(res => {
+                  console.log(res);
+                  this.props.navigation.navigate('Home');
+                }).catch(res=>console.log(res));
+                // this.props.navigation.navigate('Collection_detail')
               }}
             />  
           </View>
@@ -171,6 +171,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  avatar:{
+    width: "95%",
+    height: "50%",
+    margin: 10,
+    resizeMode: 'stretch',
+    borderRadius: 10
+  }
 });
 
 export default CollectionInsertScreen;

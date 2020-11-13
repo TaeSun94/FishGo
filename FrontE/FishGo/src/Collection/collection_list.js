@@ -13,7 +13,7 @@ import {
     View,
     Text
 } from 'react-native';
-
+import cs from '../assets/commingSoon.jpg'
 const CollectionComponent = (props) => {
     if (props.img !== "") {
         return (
@@ -29,7 +29,14 @@ const CollectionComponent = (props) => {
     }
     else{
         return(
-            <View></View>
+            <Image
+                style={{
+                    width: 180,
+                    height: 150,
+                    resizeMode: 'contain'
+                }}
+                source={cs}
+            />
         )
     }
 }
@@ -40,6 +47,9 @@ const CollectionList = (props) => {
             <View key={idx}>
                 <TouchableOpacity
                     style={styles.btn}
+                    onPress={()=>{
+                        props.sel({id: item.id});
+                    }}
                 >
                     <CollectionComponent img={item.img} />
                     <Text>
