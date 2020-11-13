@@ -26,7 +26,9 @@ import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import fishGoIcon from './assets/fishing.png';
 import searching from './assets/search.png';
-import fishing from './assets/fishgo.png';
+import fishing from './assets/collection.png';
+import discriminating from './assets/discriminate.png';
+import searchingMap from './assets/mapcon.png';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
 @inject('userStore', 'fishStore')
@@ -60,16 +62,15 @@ class HomeScreen extends Component {
     console.log()
     return (
       <SafeAreaView>
-        {/* <LinearGradient colors={['#736efe', '#5efce8']}> */}
         <View style={styles.mainView}>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
+            paddingTop: 5
           }}>
             <View style={styles.logoView}>
               <Text style={{ fontFamily: 'Bazzi', fontSize: 45, paddingLeft: 40 }}>Welcome to FishGo</Text>
-              <Text>we do our best for service</Text>
-              {/* <Text style={styles.logoText}>FishGo</Text> */}
+              <Text style={{ fontFamily: 'Bazzi', fontSize: 20, marginLeft: 18, paddingTop:10 }}>FishGo에 오신걸 환영합니다.</Text>
             </View>
             <View style={{
               flex: 1,
@@ -78,9 +79,10 @@ class HomeScreen extends Component {
             }}>
               <Image source={fishGoIcon}
                 style={{
-                  width: 180,
-                  height: 150,
+                  width: 190,
+                  height: 160,
                   resizeMode: 'contain',
+                  marginLeft: -36
                 }}
               />
             </View>
@@ -91,7 +93,6 @@ class HomeScreen extends Component {
                 style={styles.btn}
                 onPress={() => {
                   fishStore.getUserFishes(userStore.userInfo.user.id).then((res)=>{
-                    // console.log(res);
                     fishStore.setUserFishes(res.data.data.fishes);
                     this.props.navigation.navigate('Collection')
                   }).catch(res=>console.log(res));
@@ -99,8 +100,8 @@ class HomeScreen extends Component {
               >
                 <Image source={fishing}
                 style={{
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
                   resizeMode: 'contain',
                 }}/>
                 <Text style={styles.btnText}>내 도감 보러가기</Text>
@@ -109,6 +110,12 @@ class HomeScreen extends Component {
                 style={styles.btn}
                 onPress={() => this.addImage()}
               >
+                <Image source={discriminating}
+                style={{
+                  width: 120,
+                  height: 120,
+                  resizeMode: 'contain',
+                }}/>
                 <Text style={styles.btnText}>물고기 판별</Text>
               </TouchableOpacity>
             </View>
@@ -119,6 +126,12 @@ class HomeScreen extends Component {
                   this.props.navigation.navigate('Map')
                 }}
               >
+                <Image source={searchingMap}
+                style={{
+                  width: 120,
+                  height: 120,
+                  resizeMode: 'contain',
+                }}/>
                 <Text style={styles.btnText}>지도 검색</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -132,20 +145,19 @@ class HomeScreen extends Component {
               >
                 <Image source={searching}
                 style={{
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
                   resizeMode: 'contain',
                 }}/>
                 <Text style={styles.btnText}>물고기 정보 검색</Text>
               </TouchableOpacity>
             </View >
           </View>
-          <Text style={{ fontSize: 30 }}>
-            CopyRight
-        </Text>
-          <Text>ddd</Text>
-        </View >
-        {/* </LinearGradient> */}
+          <View style={{paddingLeft: 40, paddingTop: 20}}>
+              <Text style={{ fontFamily: 'Bazzi', fontSize: 25,  }}>Contact Us</Text>
+              <Text style={{ fontFamily: 'Bazzi', fontSize: 15, paddingTop:10 }}>Email : tyzlddy@naver.com, Phone: 010-5289-5619</Text>
+            </View>
+        </View>
       </SafeAreaView>
     )
   }
@@ -155,26 +167,13 @@ const styles = StyleSheet.create({
   mainView: {
     width: '100%',
     height: '100%',
-    padding: 5,
-    //a5dff9
-    backgroundColor: 'rgba(165,223,249,0.3)',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    // flexWrap:'wrap'
-    // backgroundColor: '(0,0,0,0.5)'
-    // alignItems: 'center',
-    // justifyContent: 'center'
+    // padding: 5,
+    backgroundColor: 'rgba(172,209,233,0.4)',
   },
   logoView: {
-    // margin: 30,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 2,
-  },
-  logoText: {
-    fontSize: 80,
-    fontFamily: "Bazzi",
-    color: 'white'
   },
   text: {
     borderBottomColor: 'gray',
@@ -183,10 +182,9 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   subView: {
-    // marginTop: 80,
     marginLeft: 10,
     marginRight: 10,
-    padding: 20,
+    paddingTop: 5,
   },
   btnView: {
     padding: 10,
@@ -194,8 +192,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   btn: {
-    width: 150,
-    height: 150,
+    width: 175,
+    height: 175,
     borderColor: 'rgba(165,223,249,0.3)',
     borderWidth: 2,
     alignItems: 'center',
@@ -212,8 +210,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 20,
-    // fontWeight: 'bold',
-    color: 'black',
+    color: 'rgba(0,0,0,0.6)',
     fontFamily: "Bazzi",
   }
 });
