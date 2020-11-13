@@ -91,7 +91,10 @@
 
 
 5. auth/callback/ 
-   - 프론트 부분과 함께 수정 필요
+   
+   - access_token 필요
+   
+   ![image-20201113101641461](REST%20API.assets/image-20201113101641461.png)
 
 
 
