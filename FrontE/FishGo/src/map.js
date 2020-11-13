@@ -46,14 +46,14 @@ class map extends Component{
     }
     // searchAddress(point){
     //     console.log("실행")
-    //     http_map.get('gc', { params : {
-    //         // request : 'coordsToaddr',
-    //         coords : '126.1861667,33.25702778',
-    //         output : 'json'
-    //     }})
-    //     .then((data) => {
-    //         console.log(data)
-    //     }).catch((err) => console.log(err.message))
+        // http_map.get('gc', { params : {
+        //     // request : 'coordsToaddr',
+        //     coords : '126.1861667,33.25702778',
+        //     output : 'json'
+        // }})
+        // .then((data) => {
+        //     console.log(data)
+        // }).catch((err) => console.log(err.message))
     // }
     searchPoint(name){
         http.get(('/api/spots/'),{params : {keyword : name}})
@@ -73,11 +73,6 @@ class map extends Component{
 
     updateIndex (selectedIndex) {
         this.setState({mode : selectedIndex})
-        // if(selectedIndex === 0){
-        //     this.setState({mode : selectedIndex})
-        // }else if(selectedIndex === 1){
-        //     mode = 1;
-        // }
         this.setState({selectedIndex})
     }
 
@@ -172,9 +167,9 @@ const MapViewScreen = (props) => {
                     //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
                       useTextureView>
                     {/* <Markers fishes={props}/> */}
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity> */}
                         <Markers fishes={props.userfishes} points={props.points} mode={props.mode} changeZoom={props.changeZoom}/>
-                    </TouchableOpacity>
+                    {/* </TouchableOpacity> */}
             {/* <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
             <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
             <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>*/}
@@ -192,7 +187,21 @@ const Markers = (props) => {
                 // props.fishes.fishes.map((item,idx) =>(
                 props.fishes.map((item,idx) =>(
                         // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} image={require("./assets/fish2.png")} width={48} height={48} />
+                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
+                        onClick={() => {
+                            console.log(`${item.lat},${item.lng}`)
+                            http_map.get('gc', { params : {
+                                // request : 'coordsToaddr',
+                                coords : `${item.lng},${item.lat}`,
+                                output : 'json',
+                                orders : 'legalcode'
+                            }})
+                            .then((data) => {
+                                console.log(data)
+                                alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                            }).catch((err) => console.log(err.message))
+                        }} 
+                        image={require("./assets/fish2.png")} width={48} height={48} />
                         // () => console.warn(idx)
                 ))
                 // <View>
@@ -203,7 +212,21 @@ const Markers = (props) => {
             return(
                 props.points.map((item,idx) =>(
                         // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
-                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} onClick={() => console.warn(idx)} image={require("./assets/fish2.png")} width={48} height={48} />
+                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
+                        onClick={() => {
+                            console.log(`${item.lat},${item.lng}`)
+                            http_map.get('gc', { params : {
+                                // request : 'coordsToaddr',
+                                coords : `${item.lng},${item.lat}`,
+                                output : 'json',
+                                orders : 'legalcode'
+                            }})
+                            .then((data) => {
+                                console.log(data)
+                                alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                            }).catch((err) => console.log(err.message))
+                        }} 
+                        image={require("./assets/fish2.png")} width={48} height={48} />
                 ))
                 // <View>
                 //     {/* <Text>test</Text> */}
