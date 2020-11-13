@@ -23,8 +23,19 @@ import CollectionList from './collection_list';
 @inject('userStore', 'fishStore')
 @observer
 class Collection extends Component {
+  select = (data) => {
+    const {userStore, fishStore} = this.props;
+    console.log(data);
+    fishStore.getSelectedFishes({id: data, info: userStore.userInfo})
+    .then(res=>{
+      console.log(res.data.data);
+      fishStore.setSelectedFish(res.data.data);
+      this.props.navigation.navigate('Collection_detail',res.data.data)
+    }).catch(res=>console.log(res));
+  }
+
   render() {
-    const {fishStore} = this.props;
+    const {userStore, fishStore} = this.props;
     return (
       <SafeAreaView style={{
         // backgroundColor: '#2fa9ff',
@@ -42,7 +53,7 @@ class Collection extends Component {
               flexWrap: 'wrap'
             }}
           >
-            <CollectionList fishes={fishStore.userFishes}/>
+            <CollectionList fishes={fishStore.userFishes} sel={this.select}/>
           </View>
         </ScrollView>
       </SafeAreaView>

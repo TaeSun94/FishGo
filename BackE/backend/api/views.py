@@ -25,6 +25,32 @@ from PIL import Image
 
 import random
 
+# object detection
+import numpy as np
+import os
+import pathlib
+# import six.moves.urlib as urllib
+import sys
+import tarfile
+import tensorflow as tf
+import zipfile
+
+from collections import defaultdict
+from io import StringIO
+from matplotlib import pyplot as plt
+from PIL import Image, ImageChops
+
+from object_detection.utils import ops as utils_ops
+from object_detection.utils import label_map_util
+from object_detection.utils import visualization_utils as vis_util
+
+tf.compat.v1.enable_eager_execution()
+
+# patch tf1 into `utils.ops`
+utils_ops.tf = tf.compat.v1
+
+# Patch the location of gfile
+tf.gfile = tf.io.gfile
 
 # Create your views here.
 #이메일 인증 기능
@@ -270,7 +296,7 @@ class UserFishAPIView(APIView):
     def get(self, request, pk):
         try:
             user = self.get_user(request)
-            fish = get_object_or_404(User_Fish, pk=request.data.get('user_fish_id'), user_id=user.id)
+            fish = get_object_or_404(User_Fish, pk=self.request.query_params.get('user_fish_id', None), user_id=user.id)
             serializer = UserFishSerializer(fish)
             result = {
                 "status": 200,
@@ -547,41 +573,68 @@ class UserAllFishDetail(APIView):
 
 # 물고기 판별
 class FishDiscrimination(APIView):
+    FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
+                "redsnapper": 6,
+                "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
+                "ridgedeyflounder": 11, "bass": 12,
+                "dottedgizzardshad": 13, "demoiselle": 14, "rockfish": 15, "붕장어": 16, "무늬오징어": 17,
+                "embiotocidae": 18,
+                "갑오징어": 19, "넙치": 20, "stripedbeakperch": 21, "northernwhiting": 22, "살오징어": 23, "쥐치": 24,
+                "주꾸미": 25, "fluke": 26, "goby": 27, "한치(오징어류)": 28, "rabbitfish": 29, "bluespottedmudhopper": 30,
+                "spanishmackerel": 31, "문어": 32, "쏨벵이": 33, "platycephalusindicus": 34, "백조기(보구치?)": 35,
+                "parapristipoma": 36,
+                "yellowtai": 37, "longtoothgrouper": 38, "croaker": 39, "redstingray": 40, "largeyellowcroaker": 41,
+                "whitecroaker": 42, "쏨뱅이": 43}
+    
+    PATH_TO_LABELS = os.getcwd() + '/api/files/fish_label_map.pbtxt'
+    category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
+    
     def post(self, request):
-        FISH_MAP = {"hexagrammidae": 1, "mackerel": 2, "girellapunctata": 3, "mugil": 4, "blackseabream": 5,
-                    "redsnapper": 6,
-                    "kingfish": 7, "japanesehalfbeak": 8, "darkbandedrockfish": 9, "horsemackerel": 10,
-                    "ridgedeyflounder": 11, "bass": 12,
-                    "dottedgizzardshad": 13, "demoiselle": 14, "rockfish": 15, "붕장어": 16, "무늬오징어": 17,
-                    "embiotocidae": 18,
-                    "갑오징어": 19, "넙치": 20, "stripedbeakperch": 21, "northernwhiting": 22, "살오징어": 23, "쥐치": 24,
-                    "주꾸미": 25, "fluke": 26, "goby": 27, "한치(오징어류)": 28, "rabbitfish": 29, "bluespottedmudhopper": 30,
-                    "spanishmackerel": 31, "문어": 32, "쏨벵이": 33, "platycephalusindicus": 34, "백조기(보구치?)": 35,
-                    "parapristipoma": 36,
-                    "yellowtai": 37, "longtoothgrouper": 38, "croaker": 39, "redstingray": 40, "largeyellowcroaker": 41,
-                    "whitecroaker": 42, "쏨뱅이": 43}
-        
         execution_path = os.getcwd() + '/api/fixtures/'
+        img = request.FILES['img']
+        image = Image.open(img)
+        image.save(execution_path+'image.jpg')
+
+        model_name = 'fish_inception_v2_graph'
+        detection_model = self.load_model(model_name)
+        image_path = execution_path+'image.jpg'
+        result_image = self.show_inference(detection_model, image_path)
+
+        size = (256,256)
+        if result_image.mode != 'RGB':
+            result_image = result_image.convert('RGB')
+        result_image.thumbnail(size, Image.ANTIALIAS)
+        image_size = result_image.size
+
+        if image_size[0] > image_size[1]:
+            change_size = int(256*image_size[1]/image_size[0])
+            result_image = result_image.resize((256, change_size))
+        else:
+            change_size = int(256*image_size[0]/image_size[1])
+            result_image = result_image.resize((change_size,256))
+
+        image_size = result_image.size
+        thumb = result_image.crop((0,0,size[0],size[1]))
+
+        offset_x = max((size[0]-image_size[0])/2,0)
+        offset_y = max((size[1]-image_size[1])/2,0)
+        thumb = ImageChops.offset(thumb, int(offset_x), int(offset_y))
+        thumb.save(execution_path+'image.jpg')
+
         prediction = CustomImagePrediction()
         prediction.setModelTypeAsResNet()
         prediction.setModelPath(
-        os.path.join(execution_path, "model_ex-022_acc-0.995255.h5"))
+        os.path.join(execution_path, "model_ex-030_acc-0.995920.h5"))
         prediction.setJsonPath(
         os.path.join(execution_path, "model_class.json"))
-        prediction.loadModel(num_objects=4)
+        prediction.loadModel(num_objects=32)
 
-        img = request.FILES.get('img')
-
-        image = Image.open(img)
-        image = image.resize((256, 256))
-        image.save(execution_path+'image.jpg')
         predictions, probabilities = prediction.predictImage(execution_path+'image.jpg', result_count=5)
         
-        data = []
+        data = {}
         for eachPrediction, eachProbability in zip(predictions, probabilities):
-            data_line = {}
-            fish_pk = FISH_MAP[eachPrediction]
-            # print(fish_pk.__class__)
+            fish_pk = self.FISH_MAP[eachPrediction]
+            print(fish_pk.__class__)
             # 여기서 fish_pk로 물고기 한글 이름 DB로 가져와야함
             FDA = FishDetailAPIView()
             fish = FDA.get_object(fish_pk)
@@ -598,34 +651,61 @@ class FishDiscrimination(APIView):
             "data": {"predictions": data},
         }
 
+
         return Response(result, status=200)
 
-
-# 물고기 판별
-# class FishDiscrimination(APIView):
-#     def get(self, request):
-#         execution_path = os.getcwd() + '/api/fixtures/'
-#         # execution_path = 'http://k3c206.p.ssafy.io/s03p31c206/BackE/backend/api/fixtures/'
-#         prediction = CustomImagePrediction()
-#         prediction.setModelTypeAsResNet()
-#         prediction.setModelPath(
-#         os.path.join(execution_path, "model_ex-029_acc-0.609756.h5"))
-#         prediction.setJsonPath(
-#         os.path.join(execution_path, "model_class.json"))
-#         prediction.loadModel(num_objects=4)
-
-#         predictions, probabilities = prediction.predictImage(
-#         request.FILES['img'], result_count=4)
-
-#         data = {}
-#         for eachPrediction, eachProbability in zip(predictions, probabilities):
-#             data[eachPrediction] = eachProbability
-
+    def load_model(self, model_name):
+        model_dir = os.getcwd() + '/api/files/' + model_name
+        model_dir = pathlib.Path(model_dir)/"saved_model"
+        model = tf.compat.v2.saved_model.load(str(model_dir),None)
+        return model
+    
+    def run_inference_for_single_image(self, model, image):
+        image = np.asarray(image)
+        input_tensor = tf.convert_to_tensor(image)
+        input_tensor = input_tensor[tf.newaxis,...]
         
-#         # (수정필요)물고기 pk랑 이름, 확률 같이 보내기
-#         result = {
-#             "status": 200,
-#             "message": "OK",
-#             "data": { "predictions" : data },
-#         }
-#         return Response(result, status=200)
+        model_fn = model.signatures['serving_default']
+        output_dict = model_fn(input_tensor)
+        
+        num_detections = int(output_dict.pop('num_detections'))
+        output_dict = {key:value[0, :num_detections].numpy()
+                    for key,value in output_dict.items()}
+        output_dict['num_detections'] = num_detections
+        
+        output_dict['detection_classes'] = output_dict['detection_classes'].astype(np.int64)
+        
+        if 'detection_masks' in output_dict:
+            detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
+                output_dict['detection_masks'], output_dict['detection_boxes'],
+                image.shape[0], image.shape[1])
+            detection_masks_reframed = tf.cast(detection_masks_reframed > 0.5,
+                                            tf.uint8)
+            ouput_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
+            
+        return output_dict
+    
+    def show_inference(self, model, image_path):
+        image_np = np.array(Image.open(image_path))
+        
+        output_dict = self.run_inference_for_single_image(model, image_np)
+        
+        vis_util.visualize_boxes_and_labels_on_image_array(
+            image_np,
+            output_dict['detection_boxes'],
+            output_dict['detection_classes'],
+            output_dict['detection_scores'],
+            self.category_index,
+            instance_masks=output_dict.get('detection_masks_reframed',None),
+            use_normalized_coordinates=True,
+            line_thickness=8
+        )
+        
+        boxes = output_dict['detection_boxes']
+        image = Image.open(image_path)
+        im_width, im_height = image.size
+        (left, right, top, bottom) = (boxes[0][1]*im_width, boxes[0][3]*im_width, boxes[0][0]*im_height,boxes[0][2]*im_height)
+        area = (left, top, right, bottom)
+        cropped_image = image.crop(area)
+        
+        return cropped_image
