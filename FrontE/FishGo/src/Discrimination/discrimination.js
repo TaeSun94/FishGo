@@ -19,59 +19,48 @@ import {
 import ImagePicker from 'react-native-image-picker';
 import Predictions from './predictList';
 
-@inject('fishStore')
+@inject('userStore','fishStore')
 @observer
 class discrimination extends Component {
 
   state = {
     avatar: null,
     check: false,
-    lat: '',
-    lng: '',
     image: null,
   }
 
   addImage = () => {
+    const { userStore, fishStore } = this.props;
     ImagePicker.showImagePicker({
       title: '',
       takePhotoButtonTitle: '사진 찍기',
       chooseFromLibraryButtonTitle: '사진첩에서 불러오기',
       cancelButtonTitle: '돌아가기'
     }, response => {
-      this.setState({
-        avatar: response.uri,
-        check: true
-      })
+      if (response.didCancel) {
+        console.log("돌아가기")
+      }
+      else {
+        fishStore.sendDiscrimination(response).then((data) => {
+          // console.log(data);
+          fishStore.setDiscriminateFish(data.data.data.predictions);
+          this.props.navigation.navigate('Descrimination', { source: response })
+        }).catch((res) => {
+          console.log(res)
+        })
+      }
+      this.setState({avatar: response.uri, check: true})
     })
   }
-  getCoord() {
-    useEffect = () => {
-      Geolocation.getCurrentPosition(
-        position => {
-          const { lat, lng } = position.coords;
-          this.setState({ lat: lat, lng: lng });
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    };
+
+  register = (params) => {
+    this.props.navigation.navigate('Collection_insert',{data: params});
   }
 
   render() {
-    // const setHook = this.useEffect = () => {
-      //   Geolocation.getCurrentPosition(
-        //     position => {
-          //       const { lat, lng } = position.coords;
-          //       this.setState({ lat: lat, lng: lng });
-          //     },
-          //     error => {
-            //       console.log(error);
-            //     }
-            //   )
-            // };
-            const { fishStore } = this.props;
-            const { params } = this.props.route;
+    const { fishStore } = this.props;
+    const { params } = this.props.route;
+    console.log(params.source)
     if (!this.state.check) {
       return (
         <View style={styles.container}>
@@ -92,7 +81,11 @@ class discrimination extends Component {
               }}
             >
               <Text style={{ fontSize: 20 }}>예측 정보 List</Text>
-              <Predictions predicts={fishStore.predictFish}/>
+              <Predictions 
+                predicts={fishStore.predictFishs}
+                img={params.source}
+                reg={this.register}
+              />
             </View>
             <View
               style={{ flexDirection: 'row', justifyContent: "space-around" }}
@@ -100,17 +93,6 @@ class discrimination extends Component {
               <Button
                 title="다시 찍기"
                 onPress={() => this.addImage()}
-              />
-              <Button
-                title="등록 하기"
-                onPress={() => {
-                  // convertURI(params.pic);
-                  fishStore.sendDiscrimination(params.source).then((data)=>{
-                    console.log(data);
-                  }).catch(res=>console.log(res))
-                  // this.props.navigation.navigate('Collection_insert')
-                  console.log(this.state)
-                }}
               />
             </View>
           </ScrollView>
@@ -136,10 +118,8 @@ class discrimination extends Component {
                 borderRadius: 10
               }}
             >
-              <Text style={{ fontSize: 20 }}>물고기 정보</Text>
-              <Text>이름 : 물고기이름</Text>
-              <Text>어종 타입 : 무슨타입일까</Text>
-              {/* <Text>{params.fish_type}</Text> */}
+              <Text style={{ fontSize: 20 }}>예측 정보 List</Text>
+              <Predictions predicts={fishStore.predictFish} />
             </View>
             <View
               style={{ flexDirection: 'row', justifyContent: "space-around" }}
@@ -148,12 +128,6 @@ class discrimination extends Component {
                 title="다시 찍기"
                 onPress={() => this.addImage()}
               />
-              <Button
-                title="등록 하기"
-                onPress={() => {
-                  // this.props.navigation.navigate('Collection_insert')
-                }}
-              />
             </View>
           </ScrollView>
         </View>
@@ -161,6 +135,7 @@ class discrimination extends Component {
     }
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
