@@ -25,7 +25,7 @@ class User_Fish(models.Model):
     length = models.FloatField(max_length=15, null=True) 
     lat = models.FloatField(max_length=15, null=False) 
     lng = models.FloatField(max_length=15, null=False) 
-    img = models.ImageField(upload_to="images")
+    img = models.ImageField()
     date = models.DateTimeField(auto_now_add=True)
 
 
