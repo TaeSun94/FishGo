@@ -13,7 +13,25 @@ import java.util.List;
 import com.BV.LinearGradient.LinearGradientPackage;
 // import com.rngrp.RNGRPPackage;
 import com.rnfs.RNFSPackage;
-public class MainApplication extends Application implements ReactApplication {
+import androidx.multidex.MultiDexApplication;
+//
+// import android.content.pm.PackageInfo;
+// import android.content.pm.PackageManager;
+// import android.content.pm.Signature;
+// import android.os.Bundle;
+// import android.util.Base64;
+// import android.util.Log;
+
+// import com.facebook.react.ReactActivity;
+// import com.facebook.react.ReactActivityDelegate;
+// import com.facebook.react.ReactRootView;
+// import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+
+// import java.security.MessageDigest;
+// import java.security.NoSuchAlgorithmException;
+
+
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -45,13 +63,34 @@ public class MainApplication extends Application implements ReactApplication {
     return mReactNativeHost;
   }
 
+
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    // getHashKey();
   }
+  // private void getHashKey(){
+  //   PackageInfo packageInfo = null;
+  //   try {
+  //     packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+  //   } catch (PackageManager.NameNotFoundException e) {
+  //     e.printStackTrace();
+  //   }
+  //   if (packageInfo == null)
+  //     Log.e("KeyHash", "KeyHash:null");
 
+  //   for (Signature signature : packageInfo.signatures) {
+  //     try {
+  //       MessageDigest md = MessageDigest.getInstance("SHA");
+  //       md.update(signature.toByteArray());
+  //       Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+  //     } catch (NoSuchAlgorithmException e) {
+  //       Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+  //     }
+  //   }
+  // }
   /**
    * Loads Flipper in React Native templates.
    *
