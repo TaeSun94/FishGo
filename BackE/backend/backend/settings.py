@@ -172,7 +172,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'http://k3c206.p.ssafy.io/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
