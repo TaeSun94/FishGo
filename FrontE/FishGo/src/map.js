@@ -1,11 +1,12 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState, Component} from 'react';
 import NaverMapView, {Circle, Marker, Path, Polyline, Polygon, Align, TrackingMode} from "../map";
-import {PermissionsAndroid, Platform, Text, TouchableOpacity, View, SafeAreaView} from "react-native";
+import {PermissionsAndroid, Platform, Text, TouchableOpacity, View, Alert, SafeAreaView} from "react-native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack";
-import { SearchBar,ButtonGroup } from 'react-native-elements';
+import { SearchBar,ButtonGroup, ThemeConsumer } from 'react-native-elements';
 import { inject, observer } from 'mobx-react';
+import {action, observable} from 'mobx';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { Tooltip } from 'react-native-elements';
 import http from "../utils/http-common";
@@ -26,6 +27,7 @@ const Stack = createStackNavigator();
 
 @observer
 class map extends Component{
+
     state = {
         search: '',
         // points : [],
@@ -80,7 +82,11 @@ class map extends Component{
         this.setState({ search , check: false});
         // alert("test");
     };
-    
+
+    updateZoom = (number) => {
+        this.setState({ zoom : number})
+    };
+
     handleBlur(event) {
         // alert(this.state.search);
         let name = ''
@@ -89,15 +95,12 @@ class map extends Component{
         }
         this.setState({search : name});
         // this.props.fishStore.getUs,erFishesByName(name);
-        this.searchUserFish(name)
-        this.searchPoint(name)
-        
+        this.searchUserFish(name);
+        this.searchPoint(name);
+        this.updateZoom(this.state.zoom+1);
         // console.log(this.state.records);
     }
-    changeZoom(number){
-        this.setState({zoom : number});
-        alert("1")
-    }
+    
     render(){
         const { search } = this.state;
         const buttons = ['물고기', '낚시포인트'];
@@ -126,7 +129,7 @@ class map extends Component{
                     value={search}
                 />
                 {/* <MapViewScreen test={this.state}/> */}
-                <MapViewScreen userfishes={this.state.userfishes} points={this.state.points} mode={this.state.mode} zoom={this.state.zoom} changeZoom={this.changeZoom}/>
+                <MapViewScreen userfishes={this.state.userfishes} points={this.state.points} mode={this.state.mode} zoom={this.state.zoom} updateZoom={this.updateZoom}/>
                 <ButtonGroup
                     onPress={this.updateIndex}
                     selectedIndex={selectedIndex}
@@ -150,32 +153,45 @@ const TextScreen = () => {
 }
 
 
-const p = {latitude: 0,longitude:0}
-let tmp = []
 const MapViewScreen = (props) => {
     useEffect(() => {
         requestLocationPermission();
-    }, []);
+        cameraChange(5,37.53815725,126.9307627);
+    }, [props.zoom]);
     //
-    return (<>
+
+    const [currentLocation, setCurrentLocation] = useState({latitude: 37.53815725, longitude: 126.9307627});
+    const [currentZoom, setCurrentZoom] = useState(props.zoom);
+    const [saveZoom, setSaveZoom] = useState(props.zoom);
+    const cameraChange = (zoom,lat,lng) => {
+        setCurrentLocation({latitude : lat, longitude : lng});
+        setCurrentZoom(zoom);
+        setSaveZoom(zoom);
+        // props.updateZoom(zoom);
+    };
+    const setZoom = (e) => {
+        setSaveZoom(e.zoom);
+    }
+    return <>
         <NaverMapView style={{width: '100%', height: '80%'}}
                       showsMyLocationButton={true}
-                      setLocationTrackingMode={TrackingMode.Follow}
-                      center={{...P0, zoom: props.zoom}}
+                    //   setLocationTrackingMode={TrackingMode.Follow}
+                      center={{...currentLocation, zoom: currentZoom}}
                     //   onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-                    //   onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
+                      onCameraChange={e => setZoom(e)}
                     //   onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}
+                    //   onMapClick={e => locationHandler(e)}
                       useTextureView>
                     {/* <Markers fishes={props}/> */}
                     {/* <TouchableOpacity> */}
-                        <Markers fishes={props.userfishes} points={props.points} mode={props.mode} changeZoom={props.changeZoom}/>
+                        <Markers fishes={props.userfishes} points={props.points} mode={props.mode} zoom={saveZoom} changeZoom={cameraChange}/>
                     {/* </TouchableOpacity> */}
             {/* <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
             <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
             <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>*/}
             {/* <Marker coordinate={{latitude: tmp.latitude,longitude: tmp.longitude}} onClick={() => console.warn('onClick! p4')} image={require("./assets/marker.png")} width={48} height={48}/>  */}
         </NaverMapView>
-    </>)
+    </>
 };
 
 
@@ -189,19 +205,22 @@ const Markers = (props) => {
                         // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
                         <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
                         onClick={() => {
-                            console.log(`${item.lat},${item.lng}`)
-                            http_map.get('gc', { params : {
-                                // request : 'coordsToaddr',
-                                coords : `${item.lng},${item.lat}`,
-                                output : 'json',
-                                orders : 'legalcode'
-                            }})
-                            .then((data) => {
-                                console.log(data)
-                                alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
-                            }).catch((err) => console.log(err.message))
-                        }} 
-                        image={require("./assets/fish2.png")} width={48} height={48} />
+                            if(props.zoom >= 15){
+                                http_map.get('gc', { params : {
+                                    // request : 'coordsToaddr',
+                                    coords : `${item.lng},${item.lat}`,
+                                    output : 'json',
+                                    orders : 'legalcode'
+                                }})
+                                .then((data) => {
+                                    console.log(data)
+                                    alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                                }).catch((err) => console.log(err.message))
+                            }else{
+                                props.changeZoom(15,item.lat,item.lng)
+                            }
+                        }}
+                        image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
                         // () => console.warn(idx)
                 ))
                 // <View>
@@ -214,19 +233,22 @@ const Markers = (props) => {
                         // <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} caption={{text: "test caption", align: Align.Left}}/>
                         <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
                         onClick={() => {
-                            console.log(`${item.lat},${item.lng}`)
-                            http_map.get('gc', { params : {
-                                // request : 'coordsToaddr',
-                                coords : `${item.lng},${item.lat}`,
-                                output : 'json',
-                                orders : 'legalcode'
-                            }})
-                            .then((data) => {
-                                console.log(data)
-                                alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
-                            }).catch((err) => console.log(err.message))
-                        }} 
-                        image={require("./assets/fish2.png")} width={48} height={48} />
+                            if(props.zoom >= 15){
+                                http_map.get('gc', { params : {
+                                    // request : 'coordsToaddr',
+                                    coords : `${item.lng},${item.lat}`,
+                                    output : 'json',
+                                    orders : 'legalcode'
+                                }})
+                                .then((data) => {
+                                    console.log(data)
+                                    alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                                }).catch((err) => console.log(err.message))
+                            }else{
+                                props.changeZoom(15,item.lat,item.lng)
+                            }
+                        }}
+                        image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
                 ))
                 // <View>
                 //     {/* <Text>test</Text> */}
@@ -240,7 +262,6 @@ const Markers = (props) => {
         )
     }
 };
-const location = []
 async function requestLocationPermission() {
     // const [location, setLocation] = useState();
     if (Platform.OS !== 'android') return;
