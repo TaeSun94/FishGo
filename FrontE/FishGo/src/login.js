@@ -7,6 +7,11 @@
  */
 import { inject, observer } from 'mobx-react';
 import React, { Component } from 'react';
+// 카카오로그인 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import KakaoLogins  from '@react-native-seoul/kakao-login';
+import http from '../utils/http-common';
+
 import {
     StyleSheet,
     View,
@@ -18,6 +23,11 @@ import {
 } from 'react-native';
 import { color } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
+import httpCommon from '../utils/http-common';
+
+if (!KakaoLogins) {
+    console.error("KakaoLogins Module is Not Linked");
+  }
 
 @inject('userStore')
 @observer
@@ -42,6 +52,40 @@ export default class LoginScreen extends Component {
         { text: "OK", onPress: () => console.log("OK Pressed") }
       ]
     );
+    
+    
+    kakaoLogin = async () => {
+        try {
+        let result = await KakaoLogins.login();
+        if (result) {
+            console.log(result.accessToken)
+            let data = { access_token : result.accessToken}
+            let resp = await http.post('auth/callback/', data)
+            this.props.userStore.setUserInfo(resp.data.data);
+            // await this.getProfile();
+            await AsyncStorage.setItem("userToken", result.accessToken);
+            console.log(`Login Finished:${JSON.stringify(result)}`);
+            this.props.navigation.navigate('Home');
+        }
+        } catch (err) {
+        if (err.code === "E_CANCELLED_OPERATION") {
+            console.log(`Login Cancelled:${err.message}`);
+        } else {
+            console.log(`Login Failed:${err.code} ${err.message}`);
+        }
+        }
+    };
+
+    // getProfile = async () => {
+    //     try {
+    //     let result = await KakaoLogins.getProfile();
+    //     await console.log(`Get Profile Finished:${JSON.stringify(result)}`);
+    //     } catch (err) {
+    //     console.log(`Get Profile Failed:${err.code} ${err.message}`);
+    //     }
+    // };
+
+
     render() {
         const { userStore } = this.props;
         return (
@@ -104,9 +148,10 @@ export default class LoginScreen extends Component {
                         </View>
                         <View style={styles.btnView}>
                             <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.navigate('Home')
-                                }}
+                                // onPress={() => {
+                                //     this.props.navigation.navigate('Home')
+                                // }}
+                                onPress={this.kakaoLogin}
                                 style={styles.btn}
                             >
                                 <Text style={styles.btnText}>
