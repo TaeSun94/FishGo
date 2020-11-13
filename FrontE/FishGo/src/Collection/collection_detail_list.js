@@ -48,11 +48,15 @@ const CollectionDetailList = (props) => {
         props.fishes.map((item, idx) => (
             <View style={styles.mainView} key={idx}>
                 <View style={styles.subcontentView}>
-                    <View>
+                    <View style={{
+                        flexDirection:'column',
+                        // justifyContent:'space-around'
+                    }}>
                         <Text style={{ fontSize: 50, fontFamily: 'Bazzi' }}>{item.fish.name}</Text>
-                    </View>
-                    <View style={{ marginTop: 20 }}>
                         <Text style={{ fontSize: 20, fontFamily: 'Bazzi' }}>{moment(item.date).format('llll')}</Text>
+                    </View>
+                    <View style={{ marginTop: 20, marginRight:25 }}>
+                        
                     </View>
                 </View>
                 <Image
@@ -61,7 +65,7 @@ const CollectionDetailList = (props) => {
                 />
                 <ScrollView>
                     <View style={{
-                        marginLeft: -10,
+                        marginLeft: -4,
                         paddingBottom: 5
                     }}>
                         <Text style={{ fontFamily: 'Bazzi', fontSize: 30, }}> 기본 정보</Text>
@@ -100,7 +104,7 @@ const CollectionDetailList = (props) => {
                         </View>
                     </View>
                     <View style={{
-                        marginLeft: -10,
+                        marginLeft: -4,
                         paddingTop: 5
                     }}>
                         <Text style={{ fontFamily: 'Bazzi', fontSize: 30, }}> 추가 정보</Text>

@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 import React, {useEffect, useState, Component} from 'react';
 import NaverMapView, {Marker, TrackingMode} from "../map";
 import {PermissionsAndroid, Platform, View} from "react-native";

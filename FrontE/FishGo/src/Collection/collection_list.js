@@ -13,7 +13,7 @@ import {
     View,
     Text
 } from 'react-native';
-import cs from '../assets/commingSoon.jpg'
+import cs from '../assets/commingSoon.png'
 const CollectionComponent = (props) => {
     if (props.img !== "") {
         return (
