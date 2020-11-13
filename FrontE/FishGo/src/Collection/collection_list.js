@@ -21,14 +21,15 @@ const CollectionComponent = (props) => {
                 style={{
                     width: 180,
                     height: 150,
-                    resizeMode: 'contain'
+                    resizeMode: 'contain',
+                    borderRadius: 1
                 }}
                 source={{ uri: props.img }}
             />
         )
     }
-    else{
-        return(
+    else {
+        return (
             <Image
                 style={{
                     width: 180,
@@ -47,8 +48,8 @@ const CollectionList = (props) => {
             <View key={idx}>
                 <TouchableOpacity
                     style={styles.btn}
-                    onPress={()=>{
-                        props.sel({id: item.id});
+                    onPress={() => {
+                        props.sel({ id: item.id });
                     }}
                 >
                     <CollectionComponent img={item.img} />
@@ -69,14 +70,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     btn: {
-        width: 180,
-        height: 180,
-        margin: 5,
-        borderColor: 'white',
+        width: 190,
+        height: 190,
+        borderColor: 'rgba(172,209,233,0.4)',
         borderWidth: 2,
-        marginRight: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 8,
+        shadowOffset: {
+            width: 1,
+            height: 2,
+        },
+        shadowOpacity: 1,
+        shadowColor: 'rgba(172,209,233,1)',
+        borderBottomEndRadius: 19,
+        borderBottomStartRadius: 20,
+        borderTopStartRadius: 19,
+        borderTopEndRadius: 20,
     }
 });
 

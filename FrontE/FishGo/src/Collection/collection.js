@@ -47,6 +47,7 @@ class Collection extends Component {
           <View
             style={{
               // width:'100%',
+              backgroundColor: 'rgba(172,209,233,0.4)',
               padding: 10,
               flexDirection: 'row',
               justifyContent: 'flex-start',

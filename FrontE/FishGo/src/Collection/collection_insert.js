@@ -6,7 +6,7 @@
  * @flow
  */
 import { inject, observer } from 'mobx-react';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
@@ -20,32 +20,32 @@ import {
 /*
 이름, 타입, 서식지, 먹이, 어획 금지 정보, 이미지, 먹을 수 있는지, 조리법
 */
-@inject('userStore','fishStore')
+@inject('userStore', 'fishStore')
 @observer
 class CollectionInsertScreen extends Component {
   state = {
     length: 0
   }
 
-  setLen = (len) =>{
-    this.setState({length: len})
+  setLen = (len) => {
+    this.setState({ length: len })
   }
   render() {
-    const {params} = this.props.route;
-    const {userStore,fishStore} = this.props;
+    const { params } = this.props.route;
+    const { userStore, fishStore } = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.mainView}>
-          <Text style={styles.mainText}>Fish~ Go!</Text>
+          <Text style={styles.mainText}>도감 등록</Text>
         </View>
-        <ScrollView
+        {/* <ScrollView
           style={styles.scrollView}
-        >
+        > */}
           <View style={styles.mainContentView}>
-          <Image
-            source={{ uri: params.data.img.uri }}
-            style={styles.avatar}
-          />
+            <Image
+              source={{ uri: params.data.img.uri }}
+              style={styles.avatar}
+            />
             <View style={styles.subcontentView}>
               <View>
                 <Text style={{ fontSize: 30 }}>{params.data.fish.name}</Text>
@@ -96,16 +96,16 @@ class CollectionInsertScreen extends Component {
           <View style={styles.subView}>
             <Text>추가 정보</Text>
             <View>
-            <Text>포획 장소</Text>
-            <Text>위도: {params.data.site.lat}</Text>
-            <Text>경도: {params.data.site.lng}</Text>
+              <Text>포획 장소</Text>
+              <Text>위도: {params.data.site.lat}</Text>
+              <Text>경도: {params.data.site.lng}</Text>
             </View>
             <TextInput
               style={{
                 borderColor: 'gray',
                 borderRadius: 15,
                 borderWidth: 1,
-                backgroundColor:'white',
+                backgroundColor: 'white',
                 padding: 10,
                 margin: 10,
                 // width:"100%"
@@ -117,61 +117,62 @@ class CollectionInsertScreen extends Component {
           <View style={styles.subView}>
             <Button
               title="도감 등록"
-              onPress={()=>{
+              onPress={() => {
                 console.log(this.state)
-                fishStore.registerUserFish({data: params, length: this.state, info: userStore.userInfo}).then(res => {
+                fishStore.registerUserFish({ data: params, length: this.state, info: userStore.userInfo }).then(res => {
                   console.log(res);
                   this.props.navigation.navigate('Home');
-                }).catch(res=>console.log(res));
+                }).catch(res => console.log(res));
                 // this.props.navigation.navigate('Collection_detail')
               }}
-            />  
+            />
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </SafeAreaView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor: "#ffffff",
-    flex:1,
+  container: {
+    backgroundColor: 'rgba(172,209,233,0.4)',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   mainView: {
     alignItems: 'center',
+    paddingTop: 25
   },
   mainText: {
-    fontWeight: 'bold',
-    fontSize:40,
+    fontSize: 60,
+    fontFamily: 'Bazzi'
   },
   scrollView: {
-    width:"100%",
+    width: "100%",
     margin: 10,
-    padding:10
+    padding: 10
   },
   subView: {
-    margin:10,
+    margin: 10,
   },
-  mainContentView:{
+  mainContentView: {
     elevation: 8,
     backgroundColor: '#fff',
     flex: 1,
     margin: 20,
-    padding:10,
-    width:'90%',
+    padding: 10,
+    width: '90%',
     height: '100%',
-    alignItems:'center',
+    alignItems: 'center',
     borderRadius: 15,
   },
-  subcontentView:{
+  subcontentView: {
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  avatar:{
+  avatar: {
     width: "95%",
     height: "50%",
     margin: 10,
