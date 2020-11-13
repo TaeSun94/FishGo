@@ -191,7 +191,6 @@ def get_token(request):
     
     try:
         user_email = account['email']
-        profile_image = kakao_response['properties']['profile_image']
 
     except: 
         result = {
@@ -209,7 +208,7 @@ def get_token(request):
         
     else:
         try:
-            User(user_type='kakao', username=user_email, profile_img=profile_image, email=user_email).save()
+            User(user_type='kakao', username=user_email, email=user_email).save()
             user_now = User.objects.get(user_type='kakao', username=user_email) 
             token = Token.objects.create(user=user_now)
             update_last_login(None, user_now)
