@@ -624,10 +624,10 @@ class FishDiscrimination(APIView):
         prediction = CustomImagePrediction()
         prediction.setModelTypeAsResNet()
         prediction.setModelPath(
-        os.path.join(execution_path, "model_ex-030_acc-0.995920.h5"))
+        os.path.join(execution_path, "model.h5"))
         prediction.setJsonPath(
         os.path.join(execution_path, "model_class.json"))
-        prediction.loadModel(num_objects=32)
+        prediction.loadModel(num_objects=31)
 
         predictions, probabilities = prediction.predictImage(execution_path+'image.jpg', result_count=5)
         
