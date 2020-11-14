@@ -14,8 +14,10 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView
 } from 'react-native';
+import { Header } from '@react-navigation/stack'
 import { color } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -83,101 +85,102 @@ export default class LoginScreen extends Component {
   render() {
     const { userStore } = this.props;
     return (
-      
-      // <LinearGradient colors={['#736efe', '#5efce8']}>
-        <KeyboardAvoidingView
-          style={styles.mainView}
-          behavior="position"
-          enabled
-        >
-          
-          <View style={styles.logoView}>
-            <Text style={styles.logoText}>FishGo</Text>
+      <KeyboardAvoidingView
+        style={styles.mainView}
+        behavior="height"
+        enabled
+      >
+        <View style={styles.logoView}>
+          <Text style={styles.logoText}>FishGo</Text>
+        </View>
+        <ScrollView>
+        <View style={styles.subView}>
+          <View style={styles.btnView}>
+            <TextInput
+              style={styles.text}
+              placeholder=" 이메일"
+              onChangeText={this.setId}
+            />
           </View>
-          <View style={styles.subView}>
-            <View style={styles.btnView}>
-              <TextInput
-                style={styles.text}
-                placeholder=" 이메일"
-                onChangeText={this.setId}
-              />
-            </View>
-            <View style={styles.btnView}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  userStore.checkUser(this.state.id).then((data) => {
-                    if (!data.data.check) {
-                      this.unuseAlert();
-                    }
-                    else {
-                      this.useAlert();
-                    }
+          <View style={styles.btnView}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                userStore.checkUser(this.state.id).then((data) => {
+                  if (!data.data.check) {
+                    this.unuseAlert();
+                  }
+                  else {
+                    this.useAlert();
+                  }
+                });
+              }}
+            >
+              <Text style={styles.btnText}>중복체크</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.btnView}>
+            <TextInput
+              style={styles.text}
+              visible-password
+              secureTextEntry
+              placeholder=" 비밀번호"
+              onChangeText={this.setPw}
+            />
+            <AblePW data={this.state.pw} />
+          </View>
+          <View style={styles.btnView}>
+            <TextInput
+              style={styles.text}
+              secureTextEntry
+              placeholder=" 비밀번호 확인"
+              onChangeText={this.setIsCorrectPW}
+            />
+            <Text style={{ fontFamily: 'Bazzi' }}>{this.state.isCorrect}</Text>
+          </View>
+          <View style={styles.btnView}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                userStore.
+                  signUpUser(this.state).then((res) => {
+                    this.successAlert();
+                    this.props.navigation.navigate('Login');
+                  })
+                  .catch((res) => {
+                    console.log(res);
+                    this.failAlert();
                   });
-                }}
-              >
-                <Text style={styles.btnText}>중복체크</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.btnView}>
-              <TextInput
-                style={styles.text}
-                visible-password
-                secureTextEntry
-                placeholder=" 비밀번호"
-                onChangeText={this.setPw}
-              />
-              <AblePW data={this.state.pw}/>
-            </View>
-            <View style={styles.btnView}>
-              <TextInput
-                style={styles.text}
-                secureTextEntry
-                placeholder=" 비밀번호 확인"
-                onChangeText={this.setIsCorrectPW}
-              />
-              <Text style={{fontFamily:'Bazzi'}}>{this.state.isCorrect}</Text>
-            </View>
-            <View style={styles.btnView}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  userStore.
-                    signUpUser(this.state).then((res) => {
-                      this.successAlert();
-                      this.props.navigation.navigate('Login');
-                    })
-                    .catch((res) => {
-                      console.log(res);
-                      this.failAlert();
-                    });
-                }}>
-                <Text style={styles.btnText}>가입하기</Text>
-              </TouchableOpacity>
-            </View>
+              }}>
+              <Text style={styles.btnText}>가입하기</Text>
+            </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      // </LinearGradient>
+        </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     )
   }
 }
 
-const AblePW = (data) =>{
-  if(data.data.length < 8){
-    return(
+// <LinearGradient colors={['#736efe', '#5efce8']}>
+// </LinearGradient>
+
+const AblePW = (data) => {
+  if (data.data.length < 8) {
+    return (
       <Text style={{
         fontFamily: 'Bazzi',
-        color:'red'
+        color: 'red'
       }}>
         비밀번호는 8자 이상 대소문자, 숫자의 조합
       </Text>
     )
   }
-  else{
-    return(
+  else {
+    return (
       <Text style={{
         fontFamily: 'Bazzi',
-        color:'black'
+        color: 'black'
       }}>
         사용 가능한 비밀번호 입니다.
       </Text>
@@ -190,17 +193,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(172,209,233,0.4)',
+    flex: 1
   },
   logoView: {
-    margin: 30,
-    paddingTop: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    flex:3,
   },
   logoText: {
     fontSize: 80,
     fontFamily: "Bazzi",
-    color:'rgba(0,0,0,0.7)'
+    color: 'rgba(0,0,0,0.7)'
   },
   text: {
     borderBottomColor: 'gray',
@@ -209,9 +212,11 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   subView: {
-    marginTop: 80,
-    marginLeft: 10,
-    marginRight: 10,
+    // marginLeft: 10,
+    // marginRight: 10,
+    padding:20,
+    flex:5,
+    justifyContent:'flex-end'
   },
   btnView: {
     width: "100%",
