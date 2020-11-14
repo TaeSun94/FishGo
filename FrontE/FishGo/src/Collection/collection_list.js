@@ -23,191 +23,191 @@ const state = {
 const getColorImg = (name) => {
     switch (name) {
         case "가물치": {
-            state.imgURL.push(require('../assets/가물치.png'));
+            state.imgURL.push(require('../assets/rkanfcl.png'));
             break;
         }
         case "가시고기": {
-            state.imgURL.push(require('../assets/가시고기.png'));
+            state.imgURL.push(require('../assets/rktlrhrl.png'));
             break;
         }
         case "간재미": {
-            state.imgURL.push(require('../assets/간재미.png'));
+            state.imgURL.push(require('../assets/rkswoal.png'));
             break;
         }
         case "감성돔": {
-            state.imgURL.push(require('../assets/감성돔.png'));
+            state.imgURL.push(require('../assets/rkatjdeha.png'));
             break;
         }
         case "강준치": {
-            state.imgURL.push(require('../assets/강준치.png'));
+            state.imgURL.push(require('../assets/rkdwnscl.png'));
             break;
         }
         case "고등어": {
-            state.imgURL.push(require('../assets/고등어.png'));
+            state.imgURL.push(require('../assets/rhemddj.png'));
             break;
         }
         case "광어": {
-            state.imgURL.push(require('../assets/광어.png'));
+            state.imgURL.push(require('../assets/rhkddj.png'));
             break;
         }
         case "꺽지": {
-            state.imgURL.push(require('../assets/꺽지.png'));
+            state.imgURL.push(require('../assets/Rjrwl.png'));
             break;
         }
         case "끄리": {
-            state.imgURL.push(require('../assets/끄리.png'));
+            state.imgURL.push(require('../assets/Rmfl.png'));
             break;
         }
         case "노래미": {
-            state.imgURL.push(require('../assets/노래미.png'));
+            state.imgURL.push(require('../assets/shfoal.png'));
             break;
         }
         case "농어": {
-            state.imgURL.push(require('../assets/농어.png'));
+            state.imgURL.push(require('../assets/shddj.png'));
             break;
         }
         case "다금바리": {
-            state.imgURL.push(require('../assets/다금바리.png'));
+            state.imgURL.push(require('../assets/ekrmaqkfl.png'));
             break;
         }
         case "도다리": {
-            state.imgURL.push(require('../assets/도다리.png'));
+            state.imgURL.push(require('../assets/ehekfl.png'));
             break;
         }
         case "독가시치": {
-            state.imgURL.push(require('../assets/독가시치.png'));
+            state.imgURL.push(require('../assets/ehrrktlcl.png'));
             break;
         }
         case "돌돔": {
-            state.imgURL.push(require('../assets/돌돔.png'));
+            state.imgURL.push(require('../assets/ehfeha.png'));
             break;
         }
         case "망둥어": {
-            state.imgURL.push(require('../assets/망둥어.png'));
+            state.imgURL.push(require('../assets/akdenddj.png'));
             break;
         }
         case "망상어": {
-            state.imgURL.push(require('../assets/망상어.png'));
+            state.imgURL.push(require('../assets/akdtkddj.png'));
             break;
         }
         case "메기": {
-            state.imgURL.push(require('../assets/메기.png'));
+            state.imgURL.push(require('../assets/aprl.png'));
             break;
         }
         case "미꾸라지": {
-            state.imgURL.push(require('../assets/미꾸라지.png'));
+            state.imgURL.push(require('../assets/alRnfkwl.png'));
             break;
         }
         case "민어": {
-            state.imgURL.push(require('../assets/민어.png'));
+            state.imgURL.push(require('../assets/alsdj.png'));
             break;
         }
         case "밀어": {
-            state.imgURL.push(require('../assets/밀어.png'));
+            state.imgURL.push(require('../assets/alfdj.png'));
             break;
         }
         case "방어": {
-            state.imgURL.push(require('../assets/방어.png'));
+            state.imgURL.push(require('../assets/qkddj.png'));
             break;
         }
         case "배스": {
-            state.imgURL.push(require('../assets/배스.png'));
+            state.imgURL.push(require('../assets/qotm.png'));
             break;
         }
         case "벤자리": {
-            state.imgURL.push(require('../assets/벤자리.png'));
+            state.imgURL.push(require('../assets/qpswkfl.png'));
             break;
         }
         case "벵에돔": {
-            state.imgURL.push(require('../assets/벵에돔.png'));
+            state.imgURL.push(require('../assets/qpddpeha.png'));
             break;
         }
         case "보구치": {
-            state.imgURL.push(require('../assets/보구치.png'));
+            state.imgURL.push(require('../assets/qhrncl.png'));
             break;
         }
         case "보리멸": {
-            state.imgURL.push(require('../assets/보리멸.png'));
+            state.imgURL.push(require('../assets/qhflauf.png'));
             break;
         }
         case "볼락": {
-            state.imgURL.push(require('../assets/볼락.png'));
+            state.imgURL.push(require('../assets/qhffkr.png'));
             break;
         }
         case "부세": {
-            state.imgURL.push(require('../assets/부세.png'));
+            state.imgURL.push(require('../assets/qntp.png'));
             break;
         }
         case "부시리": {
-            state.imgURL.push(require('../assets/부시리.png'));
+            state.imgURL.push(require('../assets/qntlfl.png'));
             break;
         }
         case "붕어": {
-            state.imgURL.push(require('../assets/붕어.png'));
+            state.imgURL.push(require('../assets/qnddj.png'));
             break;
         }
         case "블루길": {
-            state.imgURL.push(require('../assets/블루길.png'));
+            state.imgURL.push(require('../assets/qmffnrlf.png'));
             break;
         }
         case "산천어": {
-            state.imgURL.push(require('../assets/산천어.png'));
+            state.imgURL.push(require('../assets/tkscjsdj.png'));
             break;
         }
         case "삼치": {
-            state.imgURL.push(require('../assets/삼치.png'));
+            state.imgURL.push(require('../assets/tkacl.png'));
             break;
         }
         case "송어": {
-            state.imgURL.push(require('../assets/송어.png'));
+            state.imgURL.push(require('../assets/thddj.png'));
             break;
         }
         case "숭어": {
-            state.imgURL.push(require('../assets/숭어.png'));
+            state.imgURL.push(require('../assets/tnddj.png'));
             break;
         }
         case "쏘가리": {
-            state.imgURL.push(require('../assets/쏘가리.png'));
+            state.imgURL.push(require('../assets/Thrkfl.png'));
             break;
         }
         case "양태": {
-            state.imgURL.push(require('../assets/양태.png'));
+            state.imgURL.push(require('../assets/didxo.png'));
             break;
         }
         case "우럭": {
-            state.imgURL.push(require('../assets/우럭.png'));
+            state.imgURL.push(require('../assets/dnfjr.png'));
             break;
         }
         case "잉어": {
-            state.imgURL.push(require('../assets/잉어.png'));
+            state.imgURL.push(require('../assets/dlddj.png'));
             break;
         }
         case "자리돔": {
-            state.imgURL.push(require('../assets/자리돔.png'));
+            state.imgURL.push(require('../assets/wkfleha.png'));
             break;
         }
         case "전갱이": {
-            state.imgURL.push(require('../assets/전갱이.png'));
+            state.imgURL.push(require('../assets/wjsroddl.png'));
             break;
         }
         case "전어": {
-            state.imgURL.push(require('../assets/전어.png'));
+            state.imgURL.push(require('../assets/wjsdj.png'));
             break;
         }
         case "짱뚱어": {
-            state.imgURL.push(require('../assets/짱뚱어.png'));
+            state.imgURL.push(require('../assets/WkdEnddj.png'));
             break;
         }
         case "참돔": {
-            state.imgURL.push(require('../assets/참돔.png'));
+            state.imgURL.push(require('../assets/ckaeha.png'));
             break;
         }
         case "피라미": {
-            state.imgURL.push(require('../assets/피라미.png'));
+            state.imgURL.push(require('../assets/vlfkal.png'));
             break;
         }
         case "학꽁치": {
-            state.imgURL.push(require('../assets/학꽁치.png'));
+            state.imgURL.push(require('../assets/gkrRhdcl.png'));
             break;
         }
         default:
@@ -218,191 +218,191 @@ const getColorImg = (name) => {
 const getDarkImg = (name) => {
     switch (name) {
         case "가물치": {
-            state.imgURL.push(require('../assets/가물치b.png'));
+            state.imgURL.push(require('../assets/rkanfclb.png'));
             break;
         }
         case "가시고기": {
-            state.imgURL.push(require('../assets/가시고기b.png'));
+            state.imgURL.push(require('../assets/rktlrhrlb.png'));
             break;
         }
         case "간재미": {
-            state.imgURL.push(require('../assets/간재미b.png'));
+            state.imgURL.push(require('../assets/rkswoalb.png'));
             break;
         }
         case "감성돔": {
-            state.imgURL.push(require('../assets/감성돔b.png'));
+            state.imgURL.push(require('../assets/rkatjdehab.png'));
             break;
         }
         case "강준치": {
-            state.imgURL.push(require('../assets/강준치b.png'));
+            state.imgURL.push(require('../assets/rkdwnsclb.png'));
             break;
         }
         case "고등어": {
-            state.imgURL.push(require('../assets/고등어b.png'));
+            state.imgURL.push(require('../assets/rhemddjb.png'));
             break;
         }
         case "광어": {
-            state.imgURL.push(require('../assets/광어b.png'));
+            state.imgURL.push(require('../assets/rhkddjb.png'));
             break;
         }
         case "꺽지": {
-            state.imgURL.push(require('../assets/꺽지b.png'));
+            state.imgURL.push(require('../assets/Rjrwlb.png'));
             break;
         }
         case "끄리": {
-            state.imgURL.push(require('../assets/끄리b.png'));
+            state.imgURL.push(require('../assets/Rmflb.png'));
             break;
         }
         case "노래미": {
-            state.imgURL.push(require('../assets/노래미b.png'));
+            state.imgURL.push(require('../assets/shfoalb.png'));
             break;
         }
         case "농어": {
-            state.imgURL.push(require('../assets/농어b.png'));
+            state.imgURL.push(require('../assets/shddjb.png'));
             break;
         }
         case "다금바리": {
-            state.imgURL.push(require('../assets/다금바리b.png'));
+            state.imgURL.push(require('../assets/ekrmaqkflb.png'));
             break;
         }
         case "도다리": {
-            state.imgURL.push(require('../assets/도다리b.png'));
+            state.imgURL.push(require('../assets/ehekflb.png'));
             break;
         }
         case "독가시치": {
-            state.imgURL.push(require('../assets/독가시치b.png'));
+            state.imgURL.push(require('../assets/ehrrktlclb.png'));
             break;
         }
         case "돌돔": {
-            state.imgURL.push(require('../assets/돌돔b.png'))
+            state.imgURL.push(require('../assets/ehfehab.png'))
             break;
         }
         case "망둥어": {
-            state.imgURL.push(require('../assets/망둥어b.png'));
+            state.imgURL.push(require('../assets/akdenddjb.png'));
             break;
         }
         case "망상어": {
-            state.imgURL.push(require('../assets/망상어b.png'));
+            state.imgURL.push(require('../assets/akdtkddjb.png'));
             break;
         }
         case "메기": {
-            state.imgURL.push(require('../assets/메기b.png'));
+            state.imgURL.push(require('../assets/aprlb.png'));
             break;
         }
         case "미꾸라지": {
-            state.imgURL.push(require('../assets/미꾸라지b.png'));
+            state.imgURL.push(require('../assets/alRnfkwlb.png'));
             break;
         }
         case "민어": {
-            state.imgURL.push(require('../assets/민어b.png'));
+            state.imgURL.push(require('../assets/alsdjb.png'));
             break;
         }
         case "밀어": {
-            state.imgURL.push(require('../assets/밀어b.png'));
+            state.imgURL.push(require('../assets/alfdjb.png'));
             break;
         }
         case "방어": {
-            state.imgURL.push(require('../assets/방어b.png'));
+            state.imgURL.push(require('../assets/qkddjb.png'));
             break;
         }
         case "배스": {
-            state.imgURL.push(require('../assets/배스b.png'));
+            state.imgURL.push(require('../assets/qotmb.png'));
             break;
         }
         case "벤자리": {
-            state.imgURL.push(require('../assets/벤자리b.png'));
+            state.imgURL.push(require('../assets/qpswkflb.png'));
             break;
         }
         case "벵에돔": {
-            state.imgURL.push(require('../assets/벵에돔b.png'));
+            state.imgURL.push(require('../assets/qpddpehab.png'));
             break;
         }
         case "보구치": {
-            state.imgURL.push(require('../assets/보구치b.png'));
+            state.imgURL.push(require('../assets/qhrnclb.png'));
             break;
         }
         case "보리멸": {
-            state.imgURL.push(require('../assets/보리멸b.png'));
+            state.imgURL.push(require('../assets/qhflaufb.png'));
             break;
         }
         case "볼락": {
-            state.imgURL.push(require('../assets/볼락b.png'));
+            state.imgURL.push(require('../assets/qhffkrb.png'));
             break;
         }
         case "부세": {
-            state.imgURL.push(require('../assets/부세b.png'));
+            state.imgURL.push(require('../assets/qntpb.png'));
             break;
         }
         case "부시리": {
-            state.imgURL.push(require('../assets/부시리b.png'));
+            state.imgURL.push(require('../assets/qntlflb.png'));
             break;
         }
         case "붕어": {
-            state.imgURL.push(require('../assets/붕어b.png'));
+            state.imgURL.push(require('../assets/qnddjb.png'));
             break;
         }
         case "블루길": {
-            state.imgURL.push(require('../assets/블루길b.png'));
+            state.imgURL.push(require('../assets/qmffnrlfb.png'));
             break;
         }
         case "산천어": {
-            state.imgURL.push(require('../assets/산천어b.png'));
+            state.imgURL.push(require('../assets/tkscjsdjb.png'));
             break;
         }
         case "삼치": {
-            state.imgURL.push(require('../assets/삼치b.png'));
+            state.imgURL.push(require('../assets/tkaclb.png'));
             break;
         }
         case "송어": {
-            state.imgURL.push(require('../assets/송어b.png'));
+            state.imgURL.push(require('../assets/thddjb.png'));
             break;
         }
         case "숭어": {
-            state.imgURL.push(require('../assets/숭어b.png'));
+            state.imgURL.push(require('../assets/tnddjb.png'));
             break;
         }
         case "쏘가리": {
-            state.imgURL.push(require('../assets/쏘가리b.png'));
+            state.imgURL.push(require('../assets/Thrkflb.png'));
             break;
         }
         case "양태": {
-            state.imgURL.push(require('../assets/양태b.png'));
+            state.imgURL.push(require('../assets/didxob.png'));
             break;
         }
         case "우럭": {
-            state.imgURL.push(require('../assets/우럭b.png'));
+            state.imgURL.push(require('../assets/dnfjrb.png'));
             break;
         }
         case "잉어": {
-            state.imgURL.push(require('../assets/잉어b.png'));
+            state.imgURL.push(require('../assets/dlddjb.png'));
             break;
         }
         case "자리돔": {
-            state.imgURL.push(require('../assets/자리돔b.png'));
+            state.imgURL.push(require('../assets/wkflehab.png'));
             break;
         }
         case "전갱이": {
-            state.imgURL.push(require('../assets/전갱이b.png'));
+            state.imgURL.push(require('../assets/wjsroddlb.png'));
             break;
         }
         case "전어": {
-            state.imgURL.push(require('../assets/전어b.png'));
+            state.imgURL.push(require('../assets/wjsdjb.png'));
             break;
         }
         case "짱뚱어": {
-            state.imgURL.push(require('../assets/짱뚱어b.png'));
+            state.imgURL.push(require('../assets/WkdEnddjb.png'));
             break;
         }
         case "참돔": {
-            state.imgURL.push(require('../assets/참돔b.png'));
+            state.imgURL.push(require('../assets/ckaehab.png'));
             break;
         }
         case "피라미": {
-            state.imgURL.push(require('../assets/피라미b.png'));
+            state.imgURL.push(require('../assets/vlfkalb.png'));
             break;
         }
         case "학꽁치": {
-            state.imgURL.push(require('../assets/학꽁치b.png'));
+            state.imgURL.push(require('../assets/gkrRhdclb.png'));
             break;
         }
         default:
