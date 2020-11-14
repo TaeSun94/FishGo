@@ -11,12 +11,8 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
-  TextInput,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Image
 } from 'react-native';
 import CollectionList from './collection_list';
 
