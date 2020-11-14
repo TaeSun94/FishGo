@@ -144,7 +144,6 @@ class CollectionInsertScreen extends Component {
             <TouchableOpacity
                 style={styles.btn}
                 onPress={() => {
-                  console.log(this.state)
                   fishStore.registerUserFish({ data: params, length: this.state, info: userStore.userInfo }).then(res => {
                     this.props.navigation.navigate('Home');
                   }).catch(res => console.log(res));

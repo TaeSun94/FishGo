@@ -4,7 +4,7 @@ import http from "../../utils/http-common";
 
 class FishStore {
     baseURL = "/api/";
-    @computed
+    @observable
     userFishes = [];
 
     @observable

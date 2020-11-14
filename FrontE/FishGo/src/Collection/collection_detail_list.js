@@ -5,14 +5,12 @@
  * @format
  * @flow
  */
-import React, { Component, useEffect } from 'react';
+import React from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
     Image,
     View,
     Text,
-    PermissionsAndroid,
     ScrollView
 } from 'react-native';
 import moment from "moment";
@@ -44,19 +42,15 @@ const checkLen = (data) => {
 const CollectionDetailList = (props) => {
     console.log(props.fishes)
     return (
-        // <View></View>
         props.fishes.map((item, idx) => (
             <View style={styles.mainView} key={idx}>
                 <View style={styles.subcontentView}>
                     <View style={{
-                        flexDirection:'column',
+                        flexDirection: 'column',
                         // justifyContent:'space-around'
                     }}>
                         <Text style={{ fontSize: 50, fontFamily: 'Bazzi' }}>{item.fish.name}</Text>
                         <Text style={{ fontSize: 20, fontFamily: 'Bazzi' }}>{moment(item.date).format('llll')}</Text>
-                    </View>
-                    <View style={{ marginTop: 20, marginRight:25 }}>
-                        
                     </View>
                 </View>
                 <Image
@@ -128,22 +122,23 @@ const CollectionDetailList = (props) => {
                     </View>
                 </ScrollView>
             </View>
-        )
-        )
+        ))
     )
 }
 
 const styles = StyleSheet.create({
     mainView: {
-        paddingLeft: 30,
-        paddingTop: 10
+        width: 420,
+        height:'100%',
+        alignItems:'center',
+        justifyContent:'center'
     },
     mainContentView: {
         elevation: 8,
         backgroundColor: '#fff',
         flex: 1,
-        margin: 20,
-        padding: 10,
+        // margin: 20,
+        // padding: 10,
         width: '90%',
         height: '100%',
         alignItems: 'center',

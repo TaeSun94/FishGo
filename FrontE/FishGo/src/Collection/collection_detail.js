@@ -28,7 +28,8 @@ class CollectionDetailScreen extends Component {
             }}>
                 <ScrollView
                     horizontal={true}
-                    style={{ flexWrap: 'wrap' }}>
+                    style={{ flexWrap: 'wrap',
+                    flex:1 }}>
                     <CollectionDetailListScreen fishes={params.fishes}
                     />
                 </ScrollView>

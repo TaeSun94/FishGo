@@ -21,6 +21,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,11 +30,13 @@ import searching from './assets/search.png';
 import fishing from './assets/collection.png';
 import discriminating from './assets/discriminate.png';
 import searchingMap from './assets/mapcon.png';
-import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
 @inject('userStore', 'fishStore')
 @observer
 class HomeScreen extends Component {
+  state = {
+    getData: true
+  }
   addImage = () => {
     const { fishStore } = this.props;
     ImagePicker.showImagePicker({
@@ -42,17 +45,25 @@ class HomeScreen extends Component {
       chooseFromLibraryButtonTitle: '사진첩에서 불러오기',
       cancelButtonTitle: '돌아가기'
     }, response => {
+      this.setState({ getData: false })
       if (response.didCancel) {
+        this.setState({ getData: true })
         console.log("돌아가기")
       }
       else {
-        fishStore.sendDiscrimination(response).then((data)=>{
+        fishStore.sendDiscrimination(response).then((data) => {
           // console.log(data);
+          this.setState({ getData: true })
           fishStore.setDiscriminateFish(data.data.data.predictions);
           this.props.navigation.navigate('Descrimination', { source: response })
-        }).catch((res)=>{
+        }).catch((res) => {
           console.log(res)
         })
+        return (
+          <View>
+            <ActivityIndicator size="large" />
+          </View>
+        )
       }
     })
   }
@@ -60,106 +71,113 @@ class HomeScreen extends Component {
   render() {
     const { userStore, fishStore } = this.props;
     console.log()
-    return (
-      <SafeAreaView>
-        <View style={styles.mainView}>
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            paddingTop: 5
-          }}>
-            <View style={styles.logoView}>
-              <Text style={{ fontFamily: 'Bazzi', fontSize: 45, paddingLeft: 40 }}>Welcome to FishGo</Text>
-              <Text style={{ fontFamily: 'Bazzi', fontSize: 20, marginLeft: 18, paddingTop:10 }}>FishGo에 오신걸 환영합니다.</Text>
-            </View>
+    if (this.state.getData) {
+      return (
+        <SafeAreaView>
+          {/* <LinearGradient colors={['#736efe', '#5efce8']}> */}
+          <View style={styles.mainView}>
             <View style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              paddingTop: 5,
+              flex: 2,
             }}>
-              <Image source={fishGoIcon}
-                style={{
-                  width: 190,
-                  height: 160,
-                  resizeMode: 'contain',
-                  marginLeft: -36
-                }}
-              />
+              <View style={styles.logoView}>
+                <Text style={{ fontFamily: 'Bazzi', fontSize: 45, paddingLeft: 30 }}>Welcome to FishGo</Text>
+                <Text style={{ fontFamily: 'Bazzi', fontSize: 20 }}>FishGo에 오신걸 환영합니다.</Text>
+              </View>
+              <View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingRight:20
+              }}>
+                <Image source={fishGoIcon}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    resizeMode: 'contain'
+                  }}
+                />
+              </View>
+            </View>
+            <View style={styles.subView}>
+              <View style={styles.btnView}>
+                <View style={styles.btnGrid}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                      fishStore.getUserFishes(userStore.userInfo.user.id).then((res) => {
+                        console.log(res.data.data)
+                        fishStore.setUserFishes(res.data.data.fishes);
+                        this.props.navigation.navigate('Collection')
+                      }).catch(res => console.log(res));
+                    }}
+                  >
+                    <Image source={fishing}
+                      style={styles.iconImg} />
+                    <Text style={styles.btnText}>내 도감 보러가기</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.btnGrid}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => this.addImage()}
+                  >
+                    <Image source={discriminating}
+                      style={styles.iconImg} />
+                    <Text style={styles.btnText}>물고기 판별</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.btnView}>
+                <View style={styles.btnGrid}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                      this.props.navigation.navigate('Map')
+                    }}
+                  >
+                    <Image source={searchingMap}
+                      style={styles.iconImg} />
+                    <Text style={styles.btnText}>지도 검색</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.btnGrid}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                      fishStore.getAllFishes().then((data) => {
+                        fishStore.setAllFishesInfo(data.data.data);
+                        this.props.navigation.navigate('Search')
+                      });
+                    }}
+                  >
+                    <Image source={searching}
+                      style={styles.iconImg} />
+                    <Text style={styles.btnText}>물고기 정보 검색</Text>
+                  </TouchableOpacity>
+                </View>
+              </View >
+            </View>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontFamily: 'Bazzi', fontSize: 25, }}>Contact Us</Text>
+              <Text style={{ fontFamily: 'Bazzi', fontSize: 15, paddingTop: 10 }}>Email : tyzlddy@naver.com, Phone: 010-5289-5619</Text>
             </View>
           </View>
-          <View style={styles.subView}>
-            <View style={styles.btnView}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  fishStore.getUserFishes(userStore.userInfo.user.id).then((res)=>{
-                    fishStore.setUserFishes(res.data.data.fishes);
-                    this.props.navigation.navigate('Collection')
-                  }).catch(res=>console.log(res));
-                }}
-              >
-                <Image source={fishing}
-                style={{
-                  width: 120,
-                  height: 120,
-                  resizeMode: 'contain',
-                }}/>
-                <Text style={styles.btnText}>내 도감 보러가기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => this.addImage()}
-              >
-                <Image source={discriminating}
-                style={{
-                  width: 120,
-                  height: 120,
-                  resizeMode: 'contain',
-                }}/>
-                <Text style={styles.btnText}>물고기 판별</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.btnView}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  this.props.navigation.navigate('Map')
-                }}
-              >
-                <Image source={searchingMap}
-                style={{
-                  width: 120,
-                  height: 120,
-                  resizeMode: 'contain',
-                }}/>
-                <Text style={styles.btnText}>지도 검색</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  fishStore.getAllFishes().then((data) => {
-                    fishStore.setAllFishesInfo(data.data.data);
-                    this.props.navigation.navigate('Search')
-                  });
-                }}
-              >
-                <Image source={searching}
-                style={{
-                  width: 120,
-                  height: 120,
-                  resizeMode: 'contain',
-                }}/>
-                <Text style={styles.btnText}>물고기 정보 검색</Text>
-              </TouchableOpacity>
-            </View >
+          {/* </LinearGradient> */}
+        </SafeAreaView>
+      )
+    }
+    else {
+      return (
+        <SafeAreaView>
+          <View>
+            <ActivityIndicator size='large' />
           </View>
-          <View style={{paddingLeft: 40, paddingTop: 20}}>
-              <Text style={{ fontFamily: 'Bazzi', fontSize: 25,  }}>Contact Us</Text>
-              <Text style={{ fontFamily: 'Bazzi', fontSize: 15, paddingTop:10 }}>Email : tyzlddy@naver.com, Phone: 010-5289-5619</Text>
-            </View>
-        </View>
-      </SafeAreaView>
-    )
+        </SafeAreaView>
+      )
+    }
   }
 }
 
@@ -182,18 +200,18 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   subView: {
-    marginLeft: 10,
-    marginRight: 10,
-    paddingTop: 5,
+    flex: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   btnView: {
-    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flex:1
   },
   btn: {
-    width: 175,
-    height: 175,
+    width: "90%",
+    height: "90%",
     borderColor: 'rgba(165,223,249,0.3)',
     borderWidth: 2,
     alignItems: 'center',
@@ -212,7 +230,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'rgba(0,0,0,0.6)',
     fontFamily: "Bazzi",
-  }
+  },
+  iconImg: {
+    width: "90%",
+    height: "80%",
+    resizeMode: 'contain',
+  },
+  btnGrid: { alignItems: 'center', justifyContent: 'center', flex: 1 }
 });
 
 
