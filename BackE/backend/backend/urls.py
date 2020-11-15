@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts.views import LoginAPI, RegistrationAPI, LogoutAPIView, UserPasswordResetConfirmView, UserPasswordResetCompleteView, PasswordResetDoneView, PasswordResetView
 from accounts import views
+from accounts.forms import MySetPasswordForm
 
 # 이메일 인증
 from allauth.account.views import confirm_email as allauthemailconfirmation
@@ -19,7 +20,7 @@ urlpatterns = [
     
     # 비밀번호 재설정
     path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/password/reset/confirm/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('rest-auth/password/reset/confirm/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(form_class=MySetPasswordForm), name="password_reset_confirm"),
     path('rest-auth/password/change_complete/', UserPasswordResetCompleteView.as_view(), name="password_reset_complete"),
     # path('rest-auth/password/reset_done/', PasswordResetDoneView.as_view(), name="password_reset_done"),
     # path('password_reset/', PasswordResetView.as_view(), name="password_reset"),
