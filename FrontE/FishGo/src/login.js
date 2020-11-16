@@ -59,7 +59,7 @@ export default class LoginScreen extends Component {
 
     kakaoLogin = async () => {
         try {
-            let result = await KakaoLogins.login();
+            let result = await KakaoLogins.login([2]);
             if (result) {
                 console.log(result.accessToken)
                 let data = { access_token: result.accessToken }

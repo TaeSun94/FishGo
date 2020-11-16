@@ -19,6 +19,8 @@ import {
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import SearchDetailScreen from './search_detail';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+
 
 @inject('fishStore')
 @observer
@@ -46,6 +48,24 @@ class SearchScreen extends Component {
     }
 
     render() {
+        let iconName = 'search-outline';
+        let iconSize = 30;
+        const Icons = () => {
+            return(
+                <Ionicons
+                    name={iconName}
+                    size= {iconSize}
+                />
+            )
+        }
+        const Close = () => {
+            return(
+                <Ionicons
+                    name={'close-outline'}
+                    size= {iconSize}
+                />
+            )
+        }
         const { fishStore } = this.props;
         return (
             <SafeAreaView style={styles.mainView}>
@@ -54,6 +74,8 @@ class SearchScreen extends Component {
                     onChangeText={this.updateTxt}
                     value={this.state.keyword}
                     style={{ width: '80%',fontFamily:'Bazzi'}}
+                    searchIcon={Icons}
+                    clearIcon={Close}
                     // onSubmitEditing={this.search}
                     onEndEditing={this.search}
                 />

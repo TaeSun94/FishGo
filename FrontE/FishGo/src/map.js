@@ -35,7 +35,10 @@ class map extends Component{
     searchPoint(name){
         http.get(('/api/spots/'),{params : {keyword : name}})
         .then((data => {
-            this.setState({points : data.data.data.spots})
+            if(data.data.data !== undefined){
+                this.setState({points : data.data.data.spots})
+                console.log(this.state.points);
+            }
         }))
     }
 
@@ -86,7 +89,14 @@ class map extends Component{
                 />
             )
         }
-
+        const Close = () => {
+            return(
+                <Ionicons
+                    name={'close-outline'}
+                    size= {iconSize}
+                />
+            )
+        }
         return(
             <View>    
                 <SearchBar
@@ -94,6 +104,8 @@ class map extends Component{
                     onChangeText={this.updateSearch}
                     platform="android"                    
                     searchIcon={Icons}
+                    cancelIcon={Icons}
+                    clearIcon={null}
                     onBlur={this.handleBlur.bind(this)}
                     value={search}
                 />
@@ -144,48 +156,60 @@ const MapViewScreen = (props) => {
 const Markers = (props) => {
     if(props.fishes !== undefined){
         if(props.mode === 0){
-            return(
-                props.fishes.map((item,idx) =>(
-                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
-                        onClick={() => {
-                            if(props.zoom >= 15){
-                                http_map.get('gc', { params : {
-                                    coords : `${item.lng},${item.lat}`,
-                                    output : 'json',
-                                    orders : 'legalcode'
-                                }})
-                                .then((data) => {
-                                    alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
-                                }).catch((err) => console.log(err.message))
-                            }else{
-                                props.changeZoom(15,item.lat,item.lng)
-                            }
-                        }}
-                        image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
-                ))
-            )
+            if(props.fishes.length !== 0){
+                return(
+                    props.fishes.map((item,idx) =>(
+                            <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
+                            onClick={() => {
+                                if(props.zoom >= 15){
+                                    http_map.get('gc', { params : {
+                                        coords : `${item.lng},${item.lat}`,
+                                        output : 'json',
+                                        orders : 'legalcode'
+                                    }})
+                                    .then((data) => {
+                                        alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                                    }).catch((err) => console.log(err.message))
+                                }else{
+                                    props.changeZoom(15,item.lat,item.lng)
+                                }
+                            }}
+                            image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
+                    ))
+                )
+            }else{
+                return(
+                    <View></View>
+                ) 
+            }
         }else if(props.mode === 1){
-            return(
-                props.points.map((item,idx) =>(
-                        <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
-                        onClick={() => {
-                            if(props.zoom >= 15){
-                                http_map.get('gc', { params : {
-                                    // request : 'coordsToaddr',
-                                    coords : `${item.lng},${item.lat}`,
-                                    output : 'json',
-                                    orders : 'legalcode'
-                                }})
-                                .then((data) => {
-                                    alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
-                                }).catch((err) => console.log(err.message))
-                            }else{
-                                props.changeZoom(15,item.lat,item.lng)
-                            }
-                        }}
-                        image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
-                ))
-            )
+            if(props.points !== undefined){
+                return(
+                    props.points.map((item,idx) =>(
+                            <Marker key={idx} coordinate={{latitude:item.lat,longitude:item.lng}} 
+                            onClick={() => {
+                                if(props.zoom >= 15){
+                                    http_map.get('gc', { params : {
+                                        // request : 'coordsToaddr',
+                                        coords : `${item.lng},${item.lat}`,
+                                        output : 'json',
+                                        orders : 'legalcode'
+                                    }})
+                                    .then((data) => {
+                                        alert(data.data.results[0].region.area1.name+" "+data.data.results[0].region.area2.name+" "+data.data.results[0].region.area3.name+" "+data.data.results[0].region.area4.name)
+                                    }).catch((err) => console.log(err.message))
+                                }else{
+                                    props.changeZoom(15,item.lat,item.lng)
+                                }
+                            }}
+                            image={require("./assets/fish2.png")} width={48*props.zoom*0.1} height={48*props.zoom*0.15} />
+                    ))
+                )
+            }else{
+                return(
+                    <View></View>
+                )
+            }
         }
     }else
     {
@@ -223,7 +247,7 @@ async function requestLocationPermission() {
             console.log('Location permission denied');
         }
     } catch (err) {
-        console.warn(err);
+        // console.warn(err);
     }
 }
 
