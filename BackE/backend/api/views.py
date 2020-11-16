@@ -427,9 +427,9 @@ class UserFishHistory(APIView):
                 fish_list.append(record.fish_id)
 
         if keyword:
-            all_fishes = Fish.objects.filter(name__contains=keyword)
+            all_fishes = Fish.objects.filter(name__contains=keyword).exclude(image='')
         else:
-            all_fishes = Fish.objects.all()
+            all_fishes = Fish.objects.all().exclude(image='')
 
         for fish in all_fishes:
             if fish.id in fish_list:
